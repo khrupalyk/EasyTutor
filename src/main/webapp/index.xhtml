@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<head>
+    <link href="http://www.phonatetech.com/demo/boxlogin/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="http://www.phonatetech.com/demo/boxlogin/css/material.min.css" rel="stylesheet"/>
+    <link href="http://www.phonatetech.com/demo/boxlogin/css/Boxes.css" rel="stylesheet"/>
+</head>
+<body style="background: white">
+<center>
+    <div class="box" style="width:500px;">
+
+        <div class="info">
+
+            <h4 class="text-center text-warning">Login</h4>
+
+            <h:form id="loginform" onsubmit="return false;" styleClass="form-signin">
+
+                <div class="form-group has-warning">
+                    <div class="form-control-wrapper">
+                        <h:inputText styleClass="form-control empty" id="userid"/>
+
+                        <div class="floating-label">
+                            ENTER YOUR USER ID
+                        </div>
+                        <span class="material-input"/>
+
+                    </div>
+                </div>
+                <div class="form-group has-warning">
+                    <div class="form-control-wrapper">
+                        <h:inputSecret styleClass="form-control empty" id="password"/>
+
+                        <div class="floating-label">
+                            ENTER PASSWORD
+                        </div>
+                        <span class="material-input"/>
+
+                    </div>
+                </div>
+
+                <h:commandButton action="/index" value="Sign in" styleClass="btn btn-warning" id="loginbtn">
+                    <div class="ripple-wrapper"></div>
+                </h:commandButton>
+
+            </h:form>
+        </div>
+    </div>
+</center>
+
+</body>
+
+</html>
