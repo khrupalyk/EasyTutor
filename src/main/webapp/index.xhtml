@@ -18,11 +18,11 @@
 
             <h4 class="text-center text-warning">Login</h4>
 
-            <h:form id="loginform" onsubmit="return false;" styleClass="form-signin">
+            <form id="loginform" onsubmit="return false;" class="form-signin" action="/a">
 
                 <div class="form-group has-warning">
                     <div class="form-control-wrapper">
-                        <h:inputText styleClass="form-control empty" id="userid"/>
+                        <input type="text" class="form-control empty" id="userid" />
 
                         <div class="floating-label">
                             ENTER YOUR USER ID
@@ -33,7 +33,7 @@
                 </div>
                 <div class="form-group has-warning">
                     <div class="form-control-wrapper">
-                        <h:inputSecret styleClass="form-control empty" id="password"/>
+                        <input type="password" class="form-control empty" id="password"/>
 
                         <div class="floating-label">
                             ENTER PASSWORD
@@ -43,11 +43,9 @@
                     </div>
                 </div>
 
-                <h:commandButton action="/index" value="Sign in" styleClass="btn btn-warning" id="loginbtn">
-                    <div class="ripple-wrapper"></div>
-                </h:commandButton>
+                <button class="btn btn-warning " id="loginbtn">Sign in<div class="ripple-wrapper"><div class="ripple ripple-on" style="left: 21.125px; top: 24px; -webkit-transform: scale(14); transform: scale(14); background-color: rgba(255, 255, 255, 0.843137);"></div></div></button>
 
-            </h:form>
+            </form>
         </div>
     </div>
 </center>

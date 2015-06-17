@@ -4,6 +4,7 @@ import com.sun.net.httpserver.HttpServer;
 import com.sun.jersey.api.container.httpserver.HttpServerFactory;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 import javax.ws.rs.*;
@@ -19,12 +20,13 @@ public class AtutorService {
     @POST
     @Path("objects")
     @Produces(MediaType.APPLICATION_JSON)
-    public void storeObjects(List<QuestionInfo> questionInfoList){
+    public Response storeObjects(List<QuestionInfo> questionInfoList){
         Logger.getLogger(AtutorService.class.getName()).severe("Count element in list: " + questionInfoList.size());
 
         for (QuestionInfo questionInfo : questionInfoList) {
             Logger.getLogger(AtutorService.class.getName()).severe(questionInfo.toString());
         }
+        return Response.ok(UUID.randomUUID()).build();
     }
 
     @OPTIONS
