@@ -10,13 +10,9 @@ import javax.xml.bind.annotation.*;
 public class QuestionInfo implements Serializable {
 
     private String answer;
-    private String user;
     private String scoreOnQuestion;
     private String questionHeader;
     private String question;
-    private String moduleName;
-    private String group;
-    private String discipline;
     private List<String> answers;
 
     public List<String> getAnswers() {
@@ -25,30 +21,6 @@ public class QuestionInfo implements Serializable {
 
     public void setAnswers(List<String> answers) {
         this.answers = answers;
-    }
-
-    public String getDiscipline() {
-        return discipline;
-    }
-
-    public void setDiscipline(String discipline) {
-        this.discipline = discipline;
-    }
-
-    public String getGroup() {
-        return group;
-    }
-
-    public void setGroup(String group) {
-        this.group = group;
-    }
-
-    public String getModuleName() {
-        return moduleName;
-    }
-
-    public void setModuleName(String moduleName) {
-        this.moduleName = moduleName;
     }
 
     public String getQuestion() {
@@ -75,13 +47,6 @@ public class QuestionInfo implements Serializable {
         this.scoreOnQuestion = scoreOnQuestion;
     }
 
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
 
     public String getAnswer() {
         return answer;
@@ -95,13 +60,9 @@ public class QuestionInfo implements Serializable {
     public String toString() {
         return "QuestionInfo{" +
                 "answer='" + answer + '\'' +
-                ", user='" + user + '\'' +
                 ", scoreOnQuestion='" + scoreOnQuestion + '\'' +
                 ", questionHeader='" + questionHeader + '\'' +
                 ", question='" + question + '\'' +
-                ", moduleName='" + moduleName + '\'' +
-                ", group='" + group + '\'' +
-                ", discipline='" + discipline + '\'' +
                 ", answers=" + answers +
                 '}';
     }

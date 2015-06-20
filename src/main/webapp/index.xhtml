@@ -18,11 +18,11 @@
 
             <h4 class="text-center text-warning">Login</h4>
 
-            <form id="loginform" onsubmit="return false;" class="form-signin" action="/a">
+            <form id="loginform" class="form-signin" action="login" method="post">
 
                 <div class="form-group has-warning">
                     <div class="form-control-wrapper">
-                        <input type="text" class="form-control empty" id="userid" />
+                        <input type="text" class="form-control empty" id="login" name="login" />
 
                         <div class="floating-label">
                             ENTER YOUR USER ID
@@ -33,7 +33,7 @@
                 </div>
                 <div class="form-group has-warning">
                     <div class="form-control-wrapper">
-                        <input type="password" class="form-control empty" id="password"/>
+                        <input type="password" class="form-control empty" id="password" name="password"/>
 
                         <div class="floating-label">
                             ENTER PASSWORD
@@ -43,6 +43,7 @@
                     </div>
                 </div>
 
+                <input type="submit" class="btn btn-warning " id="loginbtn2" value="send"/>
                 <button class="btn btn-warning " id="loginbtn">Sign in<div class="ripple-wrapper"><div class="ripple ripple-on" style="left: 21.125px; top: 24px; -webkit-transform: scale(14); transform: scale(14); background-color: rgba(255, 255, 255, 0.843137);"></div></div></button>
 
             </form>
