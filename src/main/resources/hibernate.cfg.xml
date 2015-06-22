@@ -9,7 +9,10 @@
         <property name="connection.username">root</property>
         <property name="connection.password">111111</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="show_sql">true</property>
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hbm2ddl.auto">update</property> -->
+        <mapping class="com.easytutor.orm.entities.Test"/>
+        <mapping class="com.easytutor.orm.entities.Question"/>
     </session-factory>
 </hibernate-configuration>

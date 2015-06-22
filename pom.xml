@@ -45,6 +45,24 @@
       <version>6.0</version>
       <scope>provided</scope>
     </dependency>
+
+    <dependency>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+      <version>6.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.main.extras</groupId>
+      <artifactId>glassfish-embedded-all</artifactId>
+      <version>3.1.2.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <version>1.0.0.GA</version>
+    </dependency>
     <dependency>
       <groupId>com.sun.faces</groupId>
       <artifactId>jsf-api</artifactId>
