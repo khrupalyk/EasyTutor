@@ -1,55 +1,64 @@
 package com.easytutor.orm.entities;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
-/**
- * Created by root on 22.06.15.
- */
 
 @Entity
-@Table(name = "questions")
-public class Question implements Serializable {
+@Table(name = "questions", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "name")})
+public class Question implements java.io.Serializable {
 
-
-    private int questionId;
-
+    private Integer questionId;
     private String name;
+    private List<Test> tests = new ArrayList<Test>(0);
 
-    private List<Test> tests = new ArrayList<>();
+    public Question() {
+    }
 
+    public Question( String name) {
+        this.name = name;
+    }
+
+    public Question(String name, List<Test> tests) {
+        this.name = name;
+        this.tests = tests;
+    }
+
+    @Id
+//    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "question_id", unique = true, nullable = false)
+    public Integer getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(Integer questionId) {
+        this.questionId = questionId;
+    }
+
+
+    @Column(name = "name", unique = true, nullable = false, length = 20)
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "questions")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "tests_questions", joinColumns = {
+            @JoinColumn(name = "question_id", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "test_id",
+                    nullable = false, updatable = false)})
     public List<Test> getTests() {
         return tests;
     }
 
     public void setTests(List<Test> tests) {
+
         this.tests = tests;
     }
 
-    @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    @Column(name = "question_id")
-    public int getQuestionId() {
-        return questionId;
-    }
 
-    public void setQuestionId(int questionId) {
-        this.questionId = questionId;
-    }
 }

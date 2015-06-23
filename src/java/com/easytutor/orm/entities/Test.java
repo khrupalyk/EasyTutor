@@ -1,56 +1,56 @@
 package com.easytutor.orm.entities;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-import static javax.persistence.GenerationType.IDENTITY;
-/**
- * Created by root on 20.06.15.
- */
+
 @Entity
 @Table(name = "tests")
-public class Test implements Serializable {
+public class Test implements java.io.Serializable {
+
+	private Integer testId;
+	private String name;
+	private List<Question> questions = new ArrayList<Question>(0);
+
+	public Test() {
+	}
+
+	public Test(String name) {
+		this.name = name;
+	}
+
+	public Test(String name, List<Question> stocks) {
+		this.name = name;
+		this.questions = stocks;
+	}
+
+	@Id
+//	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "test_id", unique = true, nullable = false)
+	public Integer getTestId() {
+		return this.testId;
+	}
+
+	public void setTestId(Integer categoryId) {
+		this.testId = categoryId;
+	}
+
+	@Column(name = "name", nullable = false, length = 10)
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 
-    private String id;
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "tests")
+	public List<Question> getQuestions() {
+		return questions;
+	}
 
-
-    private String name;
-
-    private List<Question> questions = new ArrayList<>();
-
-    @Id
-    @Column(name = "test_id")
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-    @Column(name = "name")
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "tests_questions", joinColumns = {
-            @JoinColumn(name = "test_id") },
-            inverseJoinColumns = { @JoinColumn(name = "question_id") })
-    public List<Question> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
-    }
+	public void setQuestions(List<Question> questions) {
+		this.questions = questions;
+	}
 }

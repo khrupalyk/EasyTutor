@@ -27,19 +27,18 @@ public class LoginController {
         session.beginTransaction();
         Test test = new Test();
         test.setName("test name");
-        test.setId(UUID.randomUUID().toString());
+        test.setTestId(44);
 
         Question question = new Question();
         question.setName("Questin");
+        question.setQuestionId(44);
 
-        List<Question> categories = new ArrayList<>();
-        categories.add(question);
+        List<Question> questions = new ArrayList<>();
+        questions.add(question);
 
-
-//        question.getTests().add(test);
-        test.setQuestions(categories);
-//        session.save(question);
-        session.save(test);
+        test.setQuestions(questions);
+        question.getTests().add(test);
+        session.save(question);
         session.getTransaction().commit();
         return "index";
     }
