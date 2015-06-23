@@ -14,5 +14,7 @@
         <!-- <property name="hbm2ddl.auto">update</property> -->
         <mapping class="com.easytutor.orm.entities.Test"/>
         <mapping class="com.easytutor.orm.entities.Question"/>
+        <mapping class="com.easytutor.orm.entities.Answer"/>
+        <mapping class="com.easytutor.orm.entities.UserAtutor"/>
     </session-factory>
 </hibernate-configuration>

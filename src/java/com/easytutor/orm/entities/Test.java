@@ -3,36 +3,27 @@ package com.easytutor.orm.entities;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "tests")
 public class Test implements java.io.Serializable {
 
-	private Integer testId;
+	private UUID testId;
 	private String name;
-	private List<Question> questions = new ArrayList<Question>(0);
+	private List<Question> questions = new ArrayList<>(0);
 
 	public Test() {
 	}
 
-	public Test(String name) {
-		this.name = name;
-	}
-
-	public Test(String name, List<Question> stocks) {
-		this.name = name;
-		this.questions = stocks;
-	}
-
 	@Id
-//	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "test_id", unique = true, nullable = false)
-	public Integer getTestId() {
+	@Column(name = "test_id", columnDefinition = "BINARY(16)", unique = true, nullable = false)
+	public UUID getTestId() {
 		return this.testId;
 	}
 
-	public void setTestId(Integer categoryId) {
-		this.testId = categoryId;
+	public void setTestId(UUID testId) {
+		this.testId = testId;
 	}
 
 	@Column(name = "name", nullable = false, length = 10)
