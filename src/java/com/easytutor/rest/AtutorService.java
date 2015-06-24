@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-import javax.inject.Inject;
 import javax.naming.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

@@ -3,7 +3,6 @@ package com.easytutor.utils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.*;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;

@@ -41,11 +41,11 @@ public class LoginController {
 
         //--------------------------------------------
 
-        Question question = (Question)session.get(Question.class, 2);
-
-        question.getAnswers().forEach(e ->{
-            Logger.getLogger("wadawdawd").info(e.toString());
-        });
+//        Question question = (Question)session.get(Question.class, 2);
+//
+//        question.getAnswers().forEach(e ->{
+//            Logger.getLogger("wadawdawd").info(e.toString());
+//        });
 
 //        question.getQuestionsAnswers()
 //
