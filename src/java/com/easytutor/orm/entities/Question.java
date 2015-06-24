@@ -1,5 +1,7 @@
 package com.easytutor.orm.entities;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +13,13 @@ public class Question implements java.io.Serializable {
 
     private Integer questionId;
     private String name;
-    private List<Test> tests = new ArrayList<>(0);
     private String header;
     private List<Answer> answers = new ArrayList<>();
+    private List<TestsQuestions> testsQuestions = new ArrayList<>();
 
     @Id
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
     @Column(name = "question_id", unique = true, nullable = false)
     public Integer getQuestionId() {
         return questionId;
@@ -43,21 +47,6 @@ public class Question implements java.io.Serializable {
         this.name = name;
     }
 
-    @JoinTable(name = "tests_questions",
-            joinColumns = {
-                    @JoinColumn(name = "question_id", nullable = false, updatable = false)
-            },
-            inverseJoinColumns = {@JoinColumn(name = "test_id", nullable = false, updatable = false)
-            })
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    public List<Test> getTests() {
-        return tests;
-    }
-
-    public void setTests(List<Test> tests) {
-        this.tests = tests;
-    }
-
     @JoinTable(name = "questions_answers",
             joinColumns = {
                     @JoinColumn(name = "question_id", nullable = false, updatable = false)
@@ -72,5 +61,23 @@ public class Question implements java.io.Serializable {
 
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.question")
+    public List<TestsQuestions> getTestsQuestions() {
+        return testsQuestions;
+    }
+
+    public void setTestsQuestions(List<TestsQuestions> testsQuestions) {
+        this.testsQuestions = testsQuestions;
+    }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "questionId=" + questionId +
+                ", name='" + name + '\'' +
+                ", header='" + header + '\'' +
+                '}';
     }
 }

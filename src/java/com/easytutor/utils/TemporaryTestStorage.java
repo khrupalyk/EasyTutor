@@ -12,7 +12,6 @@ import java.util.logging.Logger;
  * Created by root on 20.06.15.
  */
 
-@Component
 public class TemporaryTestStorage {
 
     private Set<String> tempTestIds;
@@ -22,7 +21,6 @@ public class TemporaryTestStorage {
     }
 
     public void putTestId(UUID uuid) {
-        Logger.getLogger("").info("Count: " + tempTestIds.size());
         tempTestIds.add(uuid.toString());
     }
 

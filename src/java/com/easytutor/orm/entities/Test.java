@@ -11,7 +11,7 @@ public class Test implements java.io.Serializable {
 
 	private UUID testId;
 	private String name;
-	private List<Question> questions = new ArrayList<>(0);
+	private List<TestsQuestions> testsQuestions = new ArrayList<>();
 
 	public Test() {
 	}
@@ -35,13 +35,13 @@ public class Test implements java.io.Serializable {
 		this.name = name;
 	}
 
-
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "tests")
-	public List<Question> getQuestions() {
-		return questions;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.question", cascade=CascadeType.ALL)
+	public List<TestsQuestions> getTestsQuestions() {
+		return testsQuestions;
 	}
 
-	public void setQuestions(List<Question> questions) {
-		this.questions = questions;
+	public void setTestsQuestions(List<TestsQuestions> testsQuestions) {
+		this.testsQuestions = testsQuestions;
 	}
+
 }

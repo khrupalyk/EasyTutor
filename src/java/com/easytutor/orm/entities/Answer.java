@@ -1,5 +1,7 @@
 package com.easytutor.orm.entities;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,6 +20,8 @@ public class Answer implements Serializable {
     private List<Question> questions = new ArrayList<>();
 
     @Id
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
     @Column(name = "answer_id")
     public int getAnswerId() {
         return answerId;

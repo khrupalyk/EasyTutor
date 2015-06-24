@@ -1,9 +1,8 @@
 package com.easytutor.orm.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -12,12 +11,14 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "users_atutor")
-public class UserAtutor implements Serializable{
+public class UserATutor implements Serializable{
 
     private int userId;
     private String name;
 
     @Id
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
     @Column(name = "user_atutor_id")
     public int getUserId() {
         return userId;
