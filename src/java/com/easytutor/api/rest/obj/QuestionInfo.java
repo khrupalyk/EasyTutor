@@ -1,8 +1,7 @@
-package com.easytutor.rest.obj;
+package com.easytutor.api.rest.obj;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.xml.bind.annotation.*;
 
 /**
  * Created by root on 12.06.15.

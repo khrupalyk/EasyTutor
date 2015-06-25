@@ -1,20 +1,13 @@
-package com.easytutor.rest;
-import com.easytutor.rest.obj.QuestionInfo;
-import com.easytutor.rest.obj.TestInfo;
-import com.easytutor.rest.obj.TestScores;
+package com.easytutor.api.rest;
+import com.easytutor.api.rest.obj.QuestionInfo;
+import com.easytutor.api.rest.obj.TestInfo;
+import com.easytutor.api.rest.obj.TestScores;
 import com.easytutor.utils.ApplicationContextProvider;
 import com.easytutor.utils.TemporaryTestStorage;
-import com.sun.net.httpserver.HttpServer;
-import com.sun.jersey.api.container.httpserver.HttpServerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 
-import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-import javax.naming.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -22,7 +15,7 @@ import javax.ws.rs.core.Response;
 /**
  * Created by root on 12.06.15.
  */
-@Path("atutor")
+@Path("/")
 public class ATutorService {
 
     private TemporaryTestStorage tempTestIds = (TemporaryTestStorage) ApplicationContextProvider.getBean("TemporaryTestStorage");
@@ -55,7 +48,7 @@ public class ATutorService {
     }
 
     @OPTIONS
-    @Path("/")
+    @Path("/*")
     public Response getOptions() {
         return Response.ok()
                 .header("Access-Control-Allow-Origin", "*")

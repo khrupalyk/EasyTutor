@@ -1,8 +1,7 @@
-package com.easytutor.rest.obj;
+package com.easytutor.api.rest.obj;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by root on 20.06.15.

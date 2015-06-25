@@ -1,4 +1,4 @@
-package com.easytutor.rest.obj;
+package com.easytutor.api.rest.obj;
 
 import java.io.Serializable;
 
