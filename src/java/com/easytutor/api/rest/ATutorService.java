@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
 @Path("/")
 public class ATutorService {
 
-    private TemporaryTestStorage tempTestIds = (TemporaryTestStorage) ApplicationContextProvider.getBean("TemporaryTestStorage");
+    private TemporaryTestStorage tempTestIds = (TemporaryTestStorage) ApplicationContextProvider.getApplicationContext().getBean("temporaryTestStorage");
 
     @POST
     @Path("test/questions")

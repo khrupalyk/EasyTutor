@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContextAware;
 public class ApplicationContextProvider implements ApplicationContextAware {
     private static ApplicationContext context;
 
-    public ApplicationContext getApplicationContext() {
+    public static ApplicationContext getApplicationContext() {
         return context;
     }
 
@@ -17,7 +17,4 @@ public class ApplicationContextProvider implements ApplicationContextAware {
         context = ctx;
     }
 
-    public static Object getBean(String beanName) {
-        return context.getBean(beanName);
-    }
 }

@@ -1,8 +1,9 @@
 package com.easytutor.controllers;
 
-import com.easytutor.orm.entities.*;
+import com.easytutor.utils.ApplicationContextProvider;
 import com.easytutor.utils.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,7 +23,9 @@ public class LoginController {
 
     @RequestMapping({"/"})
     public String goHome() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        SessionFactory sessionFactory = (SessionFactory) ApplicationContextProvider.getApplicationContext().getBean("sessionFactory");
+
+        Session session = sessionFactory.openSession();
         session.beginTransaction();
 //        Test test = new Test();
 //        test.setName("test name");

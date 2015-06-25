@@ -4,6 +4,7 @@ import com.easytutor.models.Answer;
 import com.easytutor.models.Question;
 import com.easytutor.models.TestsQuestions;
 import com.easytutor.models.UserATutor;
+import com.easytutor.utils.ApplicationContextProvider;
 import com.easytutor.utils.HibernateUtil;
 import org.hibernate.Session;
 
@@ -28,7 +29,8 @@ public class TestsMappingTest {
 
     @Before
     public void beforeAll() throws IOException {
-        String text = new String(Files.readAllBytes(Paths.get("db/scheme.sql")), StandardCharsets.UTF_8);
+
+                String text = new String(Files.readAllBytes(Paths.get("db/scheme.sql")), StandardCharsets.UTF_8);
         String queries[] = text.split(";");
         for (String query : queries) {
             if (!query.trim().isEmpty())
