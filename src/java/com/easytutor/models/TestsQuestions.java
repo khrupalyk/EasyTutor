@@ -1,4 +1,4 @@
-package com.easytutor.orm.entities;
+package com.easytutor.models;
 
 import javax.persistence.*;
 import java.io.Serializable;

@@ -1,4 +1,4 @@
-package com.easytutor.orm.entities;
+package com.easytutor.models;
 
 import org.hibernate.annotations.GenericGenerator;
 

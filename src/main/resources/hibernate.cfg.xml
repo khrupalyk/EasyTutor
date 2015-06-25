@@ -12,11 +12,11 @@
         <property name="show_sql">true</property>
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hbm2ddl.auto">update</property> -->
-        <mapping class="com.easytutor.orm.entities.Test"/>
-        <mapping class="com.easytutor.orm.entities.Question"/>
-        <mapping class="com.easytutor.orm.entities.Answer"/>
-        <mapping class="com.easytutor.orm.entities.UserATutor"/>
-        <mapping class="com.easytutor.orm.entities.TestsQuestions"/>
-        <mapping class="com.easytutor.orm.entities.TestsQuestionsId"/>
+        <mapping class="com.easytutor.models.Test"/>
+        <mapping class="com.easytutor.models.Question"/>
+        <mapping class="com.easytutor.models.Answer"/>
+        <mapping class="com.easytutor.models.UserATutor"/>
+        <mapping class="com.easytutor.models.TestsQuestions"/>
+        <mapping class="com.easytutor.models.TestsQuestionsId"/>
     </session-factory>
 </hibernate-configuration>

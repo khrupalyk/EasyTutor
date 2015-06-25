@@ -1,25 +1,21 @@
 package com.easytutor.orm;
 
-import com.easytutor.orm.entities.Answer;
-import com.easytutor.orm.entities.Question;
-import com.easytutor.orm.entities.TestsQuestions;
-import com.easytutor.orm.entities.UserATutor;
+import com.easytutor.models.Answer;
+import com.easytutor.models.Question;
+import com.easytutor.models.TestsQuestions;
+import com.easytutor.models.UserATutor;
 import com.easytutor.utils.HibernateUtil;
 import org.hibernate.Session;
-import org.junit.Assert;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 //import
 
@@ -45,7 +41,7 @@ public class TestsMappingTest {
 
         session.beginTransaction();
 
-        com.easytutor.orm.entities.Test test = new com.easytutor.orm.entities.Test();
+        com.easytutor.models.Test test = new com.easytutor.models.Test();
 
         test.setName("test name");
         test.setTestId(UUID.randomUUID());
@@ -86,7 +82,7 @@ public class TestsMappingTest {
 
         assertEquals("ATutor user name not equals!", userATutorFromDB.getName(), userAtutor.getName());
 
-        com.easytutor.orm.entities.Test testFromDB = (com.easytutor.orm.entities.Test) session.get(com.easytutor.orm.entities.Test.class, test.getTestId());
+        com.easytutor.models.Test testFromDB = (com.easytutor.models.Test) session.get(com.easytutor.models.Test.class, test.getTestId());
 
         assertEquals("Test name not equals!", test.getName(), testFromDB.getName());
 
@@ -108,7 +104,7 @@ public class TestsMappingTest {
 
     }
 
-    public TestsQuestions createTestQuestions(com.easytutor.orm.entities.Test test, Question question, UserATutor userAtutor, Answer answer) {
+    public TestsQuestions createTestQuestions(com.easytutor.models.Test test, Question question, UserATutor userAtutor, Answer answer) {
         TestsQuestions testsQuestions = new TestsQuestions();
         testsQuestions.setTest(test);
         testsQuestions.setQuestion(question);

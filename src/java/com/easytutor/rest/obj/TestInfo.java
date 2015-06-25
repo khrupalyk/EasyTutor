@@ -12,6 +12,7 @@ public class TestInfo implements Serializable {
     private String group;
     private String discipline;
     private String moduleName;
+    private String testId;
     private ArrayList<QuestionInfo> body;
 
     public String getUser() {
@@ -54,6 +55,13 @@ public class TestInfo implements Serializable {
         this.body = body;
     }
 
+    public String getTestId() {
+        return testId;
+    }
+
+    public void setTestId(String testId) {
+        this.testId = testId;
+    }
 
     @Override
     public String toString() {
@@ -62,6 +70,7 @@ public class TestInfo implements Serializable {
                 ", group='" + group + '\'' +
                 ", discipline='" + discipline + '\'' +
                 ", moduleName='" + moduleName + '\'' +
+                ", testId='" + testId + '\'' +
                 ", body=" + body +
                 '}';
     }

@@ -23,7 +23,7 @@ import javax.ws.rs.core.Response;
  * Created by root on 12.06.15.
  */
 @Path("atutor")
-public class AtutorService {
+public class ATutorService {
 
     private TemporaryTestStorage tempTestIds = (TemporaryTestStorage) ApplicationContextProvider.getBean("TemporaryTestStorage");
 
@@ -31,10 +31,10 @@ public class AtutorService {
     @Path("test/questions")
     @Produces(MediaType.APPLICATION_JSON)
     public Response storeObjects(TestInfo testInfo){
-        Logger.getLogger(AtutorService.class.getName()).info("Count element in list: " + testInfo.getBody().size());
+        Logger.getLogger(ATutorService.class.getName()).info("Count element in list: " + testInfo.getBody().size());
 
         for (QuestionInfo questionInfo : testInfo.getBody()) {
-            Logger.getLogger(AtutorService.class.getName()).severe(questionInfo.toString());
+            Logger.getLogger(ATutorService.class.getName()).severe(questionInfo.toString());
         }
         return Response.ok(UUID.randomUUID()).build();
     }
@@ -43,16 +43,14 @@ public class AtutorService {
     @Path("test/scores")
     @Produces(MediaType.APPLICATION_JSON)
     public void storeTestResult(TestScores testScores){
-        Logger.getLogger(AtutorService.class.getName()).info("Test scores: " + testScores);
+        Logger.getLogger(ATutorService.class.getName()).info("Test scores: " + testScores);
     }
 
     @GET
-    @Path("test/temp-test/{discipline}/{group}")
-    public String generateTempTestId(@PathParam("discipline") String discipline,
-                                     @PathParam("group") String group) {
+    @Path("test/temp-test")
+    public String generateTempTestId() {
         UUID testId = UUID.randomUUID();
         tempTestIds.putTestId(testId);
-        // TODO: If text exist return test id, else return temp id.
         return testId.toString();
     }
 
