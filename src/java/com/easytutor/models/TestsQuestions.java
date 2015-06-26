@@ -11,8 +11,8 @@ import java.io.Serializable;
 @Table(name = "tests_questions")
 @AssociationOverrides(
         {
-                @AssociationOverride(name = "pk.selectedAnswer", joinColumns = @JoinColumn(name = "answer_id")),
-                @AssociationOverride(name = "pk.question", joinColumns = @JoinColumn(name = "question_id")),
+                @AssociationOverride(name = "pk.selectedAnswer", joinColumns = @JoinColumn(name = "answer_content")),
+                @AssociationOverride(name = "pk.question", joinColumns = @JoinColumn(name = "question_name")),
                 @AssociationOverride(name = "pk.test", joinColumns = @JoinColumn(name = "test_id")),
                 @AssociationOverride(name = "pk.userATutor", joinColumns = @JoinColumn(name = "user_atutor_id"))
 

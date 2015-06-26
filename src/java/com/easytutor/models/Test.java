@@ -16,6 +16,17 @@ public class Test implements java.io.Serializable {
 	public Test() {
 	}
 
+	public Test(UUID testId, String name) {
+		this.testId = testId;
+		this.name = name;
+	}
+
+	public Test(UUID testId, String name, List<TestsQuestions> testsQuestions) {
+		this.testId = testId;
+		this.name = name;
+		this.testsQuestions = testsQuestions;
+	}
+
 	@Id
 	@Column(name = "test_id", columnDefinition = "BINARY(16)", unique = true, nullable = false)
 	public UUID getTestId() {

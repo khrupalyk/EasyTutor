@@ -35,4 +35,20 @@
         </property>
     </bean>
 
+    <bean id="testDAO" class="com.easytutor.dao.impl.TestDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="questionDAO" class="com.easytutor.dao.impl.QuestionDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="answerDAO" class="com.easytutor.dao.impl.AnswerDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="atutorUserDAO" class="com.easytutor.dao.impl.ATutorUserDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
 </beans>

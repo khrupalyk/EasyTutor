@@ -7,27 +7,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "questions", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "name")})
+@Table(name = "questions")
 public class Question implements java.io.Serializable {
 
-    private Integer questionId;
+//    private Integer questionId;
     private String name;
     private String header;
     private List<Answer> answers = new ArrayList<>();
     private List<TestsQuestions> testsQuestions = new ArrayList<>();
 
-    @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    @Column(name = "question_id", unique = true, nullable = false)
-    public Integer getQuestionId() {
-        return questionId;
+    public Question() {
     }
 
-    public void setQuestionId(Integer questionId) {
-        this.questionId = questionId;
+    public Question(String name, String header) {
+        this.name = name;
+        this.header = header;
     }
+
+    public Question(String name, String header, List<Answer> answers, List<TestsQuestions> testsQuestions) {
+        this.name = name;
+        this.header = header;
+        this.answers = answers;
+        this.testsQuestions = testsQuestions;
+    }
+
+    //    @Id
+//    @GeneratedValue(generator = "increment")
+//    @GenericGenerator(name = "increment", strategy = "increment")
+//    @Column(name = "question_id", unique = true, nullable = false)
+//    public Integer getQuestionId() {
+//        return questionId;
+//    }
+//
+//    public void setQuestionId(Integer questionId) {
+//        this.questionId = questionId;
+//    }
 
     @Column(name = "header")
     public String getHeader() {
@@ -38,6 +52,7 @@ public class Question implements java.io.Serializable {
         this.header = header;
     }
 
+    @Id
     @Column(name = "name", unique = true, nullable = false, length = 20)
     public String getName() {
         return this.name;
@@ -75,7 +90,7 @@ public class Question implements java.io.Serializable {
     @Override
     public String toString() {
         return "Question{" +
-                "questionId=" + questionId +
+//                "questionId=" + questionId +
                 ", name='" + name + '\'' +
                 ", header='" + header + '\'' +
                 '}';

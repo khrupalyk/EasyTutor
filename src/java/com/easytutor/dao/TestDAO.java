@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface TestDAO {
 
-    Test getOrStore(Test test);
+    void saveOrUpdate(Test test);
 
     void storeTest(Test test);
 

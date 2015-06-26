@@ -15,22 +15,35 @@ import java.util.List;
 @Table(name = "answers")
 public class Answer implements Serializable {
 
-    private int answerId;
+//    private int answerId;
     private String content;
     private List<Question> questions = new ArrayList<>();
 
+    public Answer() {
+    }
+
+    public Answer(String content) {
+        this.content = content;
+    }
+
+    public Answer(String content, List<Question> questions) {
+        this.content = content;
+        this.questions = questions;
+    }
+    //    @Id
+//    @GeneratedValue(generator = "increment")
+//    @GenericGenerator(name = "increment", strategy = "increment")
+//    @Column(name = "answer_id")
+//    public int getAnswerId() {
+//        return answerId;
+//    }
+//
+//    public void setAnswerId(int answerId) {
+//        this.answerId = answerId;
+//    }
+
+
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    @Column(name = "answer_id")
-    public int getAnswerId() {
-        return answerId;
-    }
-
-    public void setAnswerId(int answerId) {
-        this.answerId = answerId;
-    }
-
     @Column(name = "content")
     public String getContent() {
         return content;
@@ -52,7 +65,7 @@ public class Answer implements Serializable {
     @Override
     public String toString() {
         return "Answer{" +
-                "answerId=" + answerId +
+//                "answerId=" + answerId +
                 ", content='" + content + '\'' +
                 ", questions=" + questions +
                 '}';
