@@ -2,6 +2,7 @@ package com.easytutor.dao;
 
 import com.easytutor.models.Question;
 import com.easytutor.models.UserATutor;
+import org.hibernate.Session;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface UserATutorDAO {
     void deleteUserATutor(UserATutor userATutor);
 
     List<UserATutor> getAllATutorUsers();
+
+    UserATutor getUserOrSaveByName(String name);
 }

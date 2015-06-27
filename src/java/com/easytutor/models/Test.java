@@ -11,6 +11,9 @@ public class Test implements java.io.Serializable {
 
 	private UUID testId;
 	private String name;
+	private String discipline;
+	private String group;
+	private Integer course;
 	private List<TestsQuestions> testsQuestions = new ArrayList<>();
 
 	public Test() {
@@ -25,6 +28,33 @@ public class Test implements java.io.Serializable {
 		this.testId = testId;
 		this.name = name;
 		this.testsQuestions = testsQuestions;
+	}
+
+	@Column(name = "discipline_name")
+	public String getDiscipline() {
+		return discipline;
+	}
+
+	public void setDiscipline(String discipline) {
+		this.discipline = discipline;
+	}
+
+	@Column(name = "groups")
+	public String getGroup() {
+		return group;
+	}
+
+	public void setGroup(String group) {
+		this.group = group;
+	}
+
+	@Column(name = "course")
+	public Integer getCourse() {
+		return course;
+	}
+
+	public void setCourse(Integer course) {
+		this.course = course;
 	}
 
 	@Id
@@ -46,7 +76,7 @@ public class Test implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.question", cascade=CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.test", cascade=CascadeType.ALL)
 	public List<TestsQuestions> getTestsQuestions() {
 		return testsQuestions;
 	}

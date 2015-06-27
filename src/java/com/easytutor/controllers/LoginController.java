@@ -23,78 +23,14 @@ public class LoginController {
 
     @RequestMapping({"/"})
     public String goHome() {
-        SessionFactory sessionFactory = (SessionFactory) ApplicationContextProvider.getApplicationContext().getBean("sessionFactory");
-
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-//        Test test = new Test();
-//        test.setName("test name");
-//        test.setTestId(UUID.randomUUID());
-//
-//        Question question = new Question();
-//        question.setName("Questin");
-//        question.setQuestionId(44);
-//
-//        List<Question> questions = new ArrayList<>();
-//        questions.add(question);
-//
-//        test.setQuestions(questions);
-//        question.getTests().add(test);
-//        session.save(question);
-
-        //--------------------------------------------
-
-//        Question question = (Question)session.get(Question.class, 2);
-//
-//        question.getAnswers().forEach(e ->{
-//            Logger.getLogger("wadawdawd").info(e.toString());
-//        });
-
-//        question.getQuestionsAnswers()
-//
-//        UserAtutor userAtutor = new UserAtutor();
-//        userAtutor.setUserId(1);
-////        session.save(userAtutor);
-//
-//        Question question1 = new Question();
-//        question1.setName("name");
-//        question1.setHeader("header");
-//        question1.setQuestionId(2);
-//
-//        Answer answer = new Answer();
-//        answer.setContent("answer content");
-//        answer.setAnswerId(3);
-//
-//        Answer selectedAnswer = new Answer();
-//        selectedAnswer.setContent("selected answer content");
-//        selectedAnswer.setAnswerId(4);
-//        selectedAnswer.getQuestions().add(question1);
-//
-//        question1.getAnswers().add(selectedAnswer);
-//        question1.getAnswers().add(answer);
-//
-//        session.save(question1);
-//        session.save(selectedAnswer);
-//        session.save(question1);
-//        session.save(userAtutor);
-
-//        QuestionsAnswers questionsAnswers = new QuestionsAnswers();
-//        questionsAnswers.setQuestion(question1);
-//        questionsAnswers.setAnswer(answer);
-//        questionsAnswers.setUserAtutor(userAtutor);
-//        questionsAnswers.setSelectedAnswer(selectedAnswer);
-//
-//        answer.getQuestionsAnswers().add(questionsAnswers);
-
-//        session.save(answer);
-
-        session.getTransaction().commit();
         return "index";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "login")
     public String login(@RequestParam("login") String login, @RequestParam("password") String pass) {
         Logger.getLogger(LoginController.class.getName()).info("Login and pass: " + login + " pass " + pass);
+//        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.a
         return "index";
     }
 }

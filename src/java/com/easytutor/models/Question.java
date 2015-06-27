@@ -64,10 +64,10 @@ public class Question implements java.io.Serializable {
 
     @JoinTable(name = "questions_answers",
             joinColumns = {
-                    @JoinColumn(name = "question_id", nullable = false, updatable = false)
+                    @JoinColumn(name = "question_name", nullable = false, updatable = false)
             },
             inverseJoinColumns = {
-                    @JoinColumn(name = "answer_id", nullable = false, updatable = false)
+                    @JoinColumn(name = "answer_content", nullable = false, updatable = false)
             })
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     public List<Answer> getAnswers() {

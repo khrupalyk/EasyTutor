@@ -13,21 +13,22 @@ import java.io.Serializable;
 @Table(name = "users_atutor")
 public class UserATutor implements Serializable{
 
-    private int userId;
+//    private int userId;
     private String name;
 
+//    @Id
+//    @GeneratedValue(generator = "increment")
+//    @GenericGenerator(name = "increment", strategy = "increment")
+//    @Column(name = "user_atutor_id")
+//    public int getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(int userId) {
+//        this.userId = userId;
+//    }
+
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    @Column(name = "user_atutor_id")
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     @Column(name = "name")
     public String getName() {
         return name;

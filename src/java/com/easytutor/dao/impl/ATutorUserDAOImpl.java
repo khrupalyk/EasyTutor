@@ -2,6 +2,7 @@ package com.easytutor.dao.impl;
 
 import com.easytutor.dao.UserATutorDAO;
 import com.easytutor.models.UserATutor;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -64,5 +65,21 @@ public class ATutorUserDAOImpl implements UserATutorDAO {
         List<UserATutor> users = session.createQuery("from UserATutor ").list();
         session.close();
         return users;
+    }
+
+    @Override
+    public UserATutor getUserOrSaveByName(String name) {
+        Session session = sessionFactory.openSession();
+        Query query = session.createQuery("from UserATutor as user where user.name = :name");
+        query.setParameter("name", name);
+        UserATutor userATutor = (UserATutor) query.uniqueResult();
+        if (userATutor != null) {
+            return userATutor;
+        } else {
+            UserATutor user = new UserATutor();
+            user.setName(name);
+            session.save(user);
+            return user;
+        }
     }
 }

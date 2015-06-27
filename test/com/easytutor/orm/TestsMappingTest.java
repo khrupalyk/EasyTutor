@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 //import
 
@@ -30,7 +31,7 @@ public class TestsMappingTest {
     @Before
     public void beforeAll() throws IOException {
 
-                String text = new String(Files.readAllBytes(Paths.get("db/scheme.sql")), StandardCharsets.UTF_8);
+        String text = new String(Files.readAllBytes(Paths.get("db/scheme.sql")), StandardCharsets.UTF_8);
         String queries[] = text.split(";");
         for (String query : queries) {
             if (!query.trim().isEmpty())
@@ -80,7 +81,7 @@ public class TestsMappingTest {
 
         session.save(test);
 
-        UserATutor userATutorFromDB = (UserATutor) session.get(UserATutor.class, userAtutor.getUserId());
+        UserATutor userATutorFromDB = (UserATutor) session.get(UserATutor.class, userAtutor.getName());
 
         assertEquals("ATutor user name not equals!", userATutorFromDB.getName(), userAtutor.getName());
 
@@ -103,6 +104,22 @@ public class TestsMappingTest {
         );
 
         session.getTransaction().commit();
+
+    }
+
+    @Test
+    public void getAllTests() {
+        List<com.easytutor.models.Test> tests = session.createQuery("from Test").list();
+        tests.forEach( test -> {
+
+            System.out.println("Test name: " + test.getName() + " " + test.getTestsQuestions().size());
+            test.getTestsQuestions().forEach(
+                    question -> {
+                        System.out.println("    Question: " + question.getQuestion().getName());
+                        System.out.println("    Selected answer: " + question.getSelectedAnswer().getContent());
+                    }
+            );
+        });
 
     }
 
