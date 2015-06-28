@@ -1,17 +1,15 @@
 package com.easytutor.controllers;
 
+import com.easytutor.dao.TestDAO;
+import com.easytutor.models.Test;
 import com.easytutor.utils.ApplicationContextProvider;
-import com.easytutor.utils.HibernateUtil;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -21,9 +19,29 @@ import java.util.logging.Logger;
 @Controller
 public class LoginController {
 
+    TestDAO testDAO = (TestDAO) ApplicationContextProvider.getApplicationContext().getBean(TestDAO.class);
+
     @RequestMapping({"/"})
     public String goHome() {
         return "index";
+    }
+
+    @RequestMapping({"tests"})
+    public ModelAndView getTests() {
+        ModelAndView modelAndView = new ModelAndView("pages/tests");
+        modelAndView.addObject("tests", testDAO.getAllTests());
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "test/questions/{testId}")
+    public ModelAndView getQuestions(@PathVariable("testId") String testId) {
+
+        Test test = testDAO.getTest(UUID.fromString(testId));
+
+        ModelAndView modelAndView = new ModelAndView("pages/testQuestions");
+        modelAndView.addObject("test", test);
+
+        return modelAndView;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "login")
@@ -31,6 +49,6 @@ public class LoginController {
         Logger.getLogger(LoginController.class.getName()).info("Login and pass: " + login + " pass " + pass);
 //        ModelAndView modelAndView = new ModelAndView();
 //        modelAndView.a
-        return "index";
+        return "pages/tests";
     }
 }

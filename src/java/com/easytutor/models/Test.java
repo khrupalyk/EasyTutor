@@ -76,7 +76,7 @@ public class Test implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.test", cascade=CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "pk.test", cascade=CascadeType.ALL)
 	public List<TestsQuestions> getTestsQuestions() {
 		return testsQuestions;
 	}

@@ -69,7 +69,7 @@ public class Question implements java.io.Serializable {
             inverseJoinColumns = {
                     @JoinColumn(name = "answer_content", nullable = false, updatable = false)
             })
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     public List<Answer> getAnswers() {
         return answers;
     }

@@ -16,8 +16,11 @@
     <bean class=
                   "org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/"/>
-        <property name="suffix" value=".xhtml"/>
+        <property name="suffix" value=".jsp"/>
     </bean>
     <mvc:annotation-driven/>
     <mvc:default-servlet-handler />
+
+    <mvc:resources mapping="/resources/**" location="/resources/"
+                   cache-period="31556926"/>
 </beans>

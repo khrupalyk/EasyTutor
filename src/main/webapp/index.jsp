@@ -11,6 +11,7 @@
     <link href="http://www.phonatetech.com/demo/boxlogin/css/Boxes.css" rel="stylesheet"/>
 </head>
 <body style="background: white">
+<%@include file="pages/template/header.jsp"%>
 <center>
     <div class="box" style="width:500px;">
 

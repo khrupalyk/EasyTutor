@@ -10,6 +10,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by root on 26.06.15.
@@ -68,5 +69,14 @@ public class TestDAOImpl implements TestDAO {
         List<Test> testList = session.createQuery("from Test").list();
         session.close();
         return testList;
+    }
+
+    @Override
+    public Test getTest(UUID testId) {
+        Session session = sessionFactory.openSession();
+        Test test = (Test)session.get(Test.class, testId);
+        session.close();
+
+        return test;
     }
 }

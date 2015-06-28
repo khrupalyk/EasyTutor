@@ -75,11 +75,15 @@ public class ATutorService {
 
             questionDAO.saveOrUpdate(questionObj);
 
+            List<Answer> answersList = new ArrayList<>();
             for (String answer : answers) {
                 Answer answerObj = new Answer(answer);
                 answerObj.getQuestions().add(questionObj);
-                answerDAO.saveOrUpdate(answerObj);
+//                answerDAO.saveOrUpdate(answerObj);
+                answersList.add(answerObj);
             }
+            questionObj.setAnswers(answersList);
+            questionDAO.saveOrUpdate(questionObj);
 
             TestsQuestions testsQuestions1 = createTestQuestions(test, questionObj, userATutor, selectedAnswer);
             testsQuestions.add(testsQuestions1);
@@ -96,18 +100,18 @@ public class ATutorService {
     }
 
     public int getCourse(String str) {
-        try{
+        try {
             String strNumber = str.split("-")[1];
-            return (int) strNumber.charAt(0);
-        }catch (Exception e){
+            return Integer.valueOf(strNumber.charAt(0) + "");
+        } catch (Exception e) {
             return 0;
         }
     }
 
-    public String extractGroup(String string){
-        try{
+    public String extractGroup(String string) {
+        try {
             return string.split("-")[0];
-        }catch (Exception e){
+        } catch (Exception e) {
             return "";
         }
     }
