@@ -52,9 +52,10 @@ public class ATutorService {
 //
 //        Logger.getLogger(ATutorService.class.getName()).info("Count element in list: " + testInfo.getBody().size());
 
+        UUID testId = UUID.fromString(testInfo.getTestId());
         Test test = new Test();
         test.setName(testInfo.getModuleName());
-        test.setTestId(UUID.fromString(testInfo.getTestId()));
+        test.setTestId(testId);
         test.setDiscipline(testInfo.getDiscipline());
         test.setGroup(extractGroup(testInfo.getGroup()));
         test.setCourse(getCourse(testInfo.getGroup()));
@@ -75,14 +76,16 @@ public class ATutorService {
 
             questionDAO.saveOrUpdate(questionObj);
 
-            List<Answer> answersList = new ArrayList<>();
+            List<QuestionsAnswers> answersList = new ArrayList<>();
             for (String answer : answers) {
                 Answer answerObj = new Answer(answer);
-                answerObj.getQuestions().add(questionObj);
-//                answerDAO.saveOrUpdate(answerObj);
-                answersList.add(answerObj);
+//                answerObj.getQuestions().add(questionObj);
+                answerDAO.saveOrUpdate(answerObj);
+                answersList.add(createQuestionsAnswers(questionObj, answerObj, testId));
             }
-            questionObj.setAnswers(answersList);
+
+            questionObj.setQuestionsAnswers(answersList);
+//            questionObj.setQuestionsAnswers(answersList);
             questionDAO.saveOrUpdate(questionObj);
 
             TestsQuestions testsQuestions1 = createTestQuestions(test, questionObj, userATutor, selectedAnswer);
@@ -114,6 +117,14 @@ public class ATutorService {
         } catch (Exception e) {
             return "";
         }
+    }
+
+    public QuestionsAnswers createQuestionsAnswers(Question question, Answer answer, UUID testId) {
+        QuestionsAnswers questionsAnswers = new QuestionsAnswers();
+        questionsAnswers.setQuestion(question);
+        questionsAnswers.setTestId(testId);
+        questionsAnswers.setAnswer(answer);
+        return questionsAnswers;
     }
 
     public TestsQuestions createTestQuestions(Test test, Question question, UserATutor userAtutor, Answer answer) {

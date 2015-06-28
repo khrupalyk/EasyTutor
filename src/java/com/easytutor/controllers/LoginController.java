@@ -33,7 +33,7 @@ public class LoginController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "test/questions/{testId}")
+    @RequestMapping(value = "test/{testId}/questions")
     public ModelAndView getQuestions(@PathVariable("testId") String testId) {
 
         Test test = testDAO.getTest(UUID.fromString(testId));
@@ -42,6 +42,11 @@ public class LoginController {
         modelAndView.addObject("test", test);
 
         return modelAndView;
+    }
+
+    @RequestMapping(value = "contact")
+    public String goToContactView() {
+        return "pages/contact";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "login")

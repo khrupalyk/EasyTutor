@@ -77,10 +77,10 @@ public class ATutorDAO {
 
             session.saveOrUpdate(questionObj);
 
-            for (String answer : answers) {
-                Answer answerObj = getAnswerOrSave(new Answer(answer), session);
-                answerObj.getQuestions().add(questionObj);
-            }
+//            for (String answer : answers) {
+//                Answer answerObj = getAnswerOrSave(new Answer(answer), session);
+//                answerObj.getQuestions().add(questionObj);
+//            }
 
             TestsQuestions testsQuestions1 = createTestQuestions(test, questionObj, user, selectedAnswer);
             testsQuestions.add(testsQuestions1);

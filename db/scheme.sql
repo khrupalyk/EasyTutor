@@ -34,6 +34,15 @@ CREATE TABLE users_atutor (
   PRIMARY KEY (name)
 );
 
+CREATE TABLE questions_answers (
+  question_name  VARCHAR(100),
+  answer_content VARCHAR(200),
+  test_id BINARY(16),
+  PRIMARY KEY (question_name, answer_content, test_id),
+  CONSTRAINT FK_QUESTIONS_ANSWERS_QUESTION_ID FOREIGN KEY (question_name) REFERENCES questions (name),
+  CONSTRAINT FK_QUESTIONS_ANSWERS_ANSWER_ID FOREIGN KEY (answer_content) REFERENCES answers (content)
+);
+
 CREATE TABLE tests_questions (
   test_id        BINARY(16),
   question_name  VARCHAR(100),
@@ -46,12 +55,5 @@ CREATE TABLE tests_questions (
   CONSTRAINT FK_TESTS_QUESTIONS_QUESTION_ID FOREIGN KEY (question_name) REFERENCES questions (name)
 );
 
-CREATE TABLE questions_answers (
-  question_name  VARCHAR(100),
-  answer_content VARCHAR(200),
-  PRIMARY KEY (question_name, answer_content),
-  CONSTRAINT FK_QUESTIONS_ANSWERS_QUESTION_ID FOREIGN KEY (question_name) REFERENCES questions (name),
-  CONSTRAINT FK_QUESTIONS_ANSWERS_ANSWER_ID FOREIGN KEY (answer_content) REFERENCES answers (content)
-);
 
 

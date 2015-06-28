@@ -18,5 +18,7 @@
         <mapping class="com.easytutor.models.UserATutor"/>
         <mapping class="com.easytutor.models.TestsQuestions"/>
         <mapping class="com.easytutor.models.TestsQuestionsId"/>
+        <mapping class="com.easytutor.models.QuestionsAnswers"/>
+        <mapping class="com.easytutor.models.QuestionsAnswersId"/>
     </session-factory>
 </hibernate-configuration>

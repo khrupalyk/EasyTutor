@@ -30,9 +30,9 @@
         <div>
             <div class="question_header choices active_choice"><c:out value="${testsQuestion.question.name}"/></div>
             <ul class="choices">
-                <c:forEach items="${testsQuestion.question.answers}" var="question">
-                    <li class="${question.content.equals(testsQuestion.selectedAnswer.content) ? "correct_answer" : "active_choice active"}">
-                        <div class="lastUnit"><c:out value="${question.content}"/></div>
+                <c:forEach items="${testsQuestion.question.answers}" var="answer">
+                    <li class="${answer.content.equals(testsQuestion.selectedAnswer.content) ? "correct_answer" : "active_choice active"}">
+                        <div class="lastUnit"><c:out value="${answer.content}"/></div>
                     </li>
                 </c:forEach>
             </ul>

@@ -17,7 +17,7 @@ public class Answer implements Serializable {
 
 //    private int answerId;
     private String content;
-    private List<Question> questions = new ArrayList<>();
+    private List<QuestionsAnswers> questionsAnswers = new ArrayList<>();
 
     public Answer() {
     }
@@ -26,10 +26,7 @@ public class Answer implements Serializable {
         this.content = content;
     }
 
-    public Answer(String content, List<Question> questions) {
-        this.content = content;
-        this.questions = questions;
-    }
+
     //    @Id
 //    @GeneratedValue(generator = "increment")
 //    @GenericGenerator(name = "increment", strategy = "increment")
@@ -53,13 +50,13 @@ public class Answer implements Serializable {
         this.content = content;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "answers")
-    public List<Question> getQuestions() {
-        return questions;
+    @OneToMany(mappedBy = "pk.answer", fetch = FetchType.EAGER)
+    public List<QuestionsAnswers> getQuestionsAnswers() {
+        return questionsAnswers;
     }
 
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
+    public void setQuestionsAnswers(List<QuestionsAnswers> questionsAnswers) {
+        this.questionsAnswers = questionsAnswers;
     }
 
     @Override
@@ -67,7 +64,6 @@ public class Answer implements Serializable {
         return "Answer{" +
 //                "answerId=" + answerId +
                 ", content='" + content + '\'' +
-                ", questions=" + questions +
                 '}';
     }
 }

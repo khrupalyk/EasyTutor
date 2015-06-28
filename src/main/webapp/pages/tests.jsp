@@ -27,7 +27,7 @@
   <tbody>
   <c:forEach items="${tests}" var="i">
     <tr>
-      <td><strong><a href="test/questions/${i.testId}">${i.name}</a></strong></td>
+      <td><strong><a href="test/${i.testId}/questions">${i.name}</a></strong></td>
       <td>${i.discipline}</td>
       <td>${i.group}</td>
       <td>${i.course}</td>

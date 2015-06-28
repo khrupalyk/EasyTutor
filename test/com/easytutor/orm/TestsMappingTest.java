@@ -1,9 +1,6 @@
 package com.easytutor.orm;
 
-import com.easytutor.models.Answer;
-import com.easytutor.models.Question;
-import com.easytutor.models.TestsQuestions;
-import com.easytutor.models.UserATutor;
+import com.easytutor.models.*;
 import com.easytutor.utils.ApplicationContextProvider;
 import com.easytutor.utils.HibernateUtil;
 import org.hibernate.Session;
@@ -46,29 +43,44 @@ public class TestsMappingTest {
 
         com.easytutor.models.Test test = new com.easytutor.models.Test();
 
+        UUID testId = UUID.randomUUID();
         test.setName("test name");
-        test.setTestId(UUID.randomUUID());
-
-        Question question = new Question();
-        question.setName("Question1");
-        Question questionNext = new Question();
-        questionNext.setName("Question2");
-        session.save(question);
-        session.save(questionNext);
+        test.setTestId(testId);
 
         UserATutor userAtutor = new UserATutor();
         userAtutor.setName("Khrupalik");
         session.save(userAtutor);
 
+        Question question = new Question();
+        question.setName("Question1");
+
+        Question questionNext = new Question();
+        questionNext.setName("Question2");
+//        session.save(question);
+//        session.save(questionNext);
+
+
         Answer answer = new Answer();
         answer.setContent("answer");
-        answer.getQuestions().add(question);
         session.save(answer);
 
         Answer answerNext = new Answer();
         answerNext.setContent("answer next");
-        answerNext.getQuestions().add(questionNext);
         session.save(answerNext);
+
+        QuestionsAnswers questionsAnswers = createQuestionsAnswers(question, answer, testId);
+        QuestionsAnswers questionsAnswers1 = createQuestionsAnswers(questionNext, answerNext, testId);
+
+        question.getQuestionsAnswers().add(questionsAnswers);
+        questionNext.getQuestionsAnswers().add(questionsAnswers1);
+
+        answer.getQuestionsAnswers().add(questionsAnswers);
+        answerNext.getQuestionsAnswers().add(questionsAnswers1);
+
+        session.save(question);
+        session.save(questionNext);
+
+//        session.getTransaction().commit();
 
         TestsQuestions testsQuestions = createTestQuestions(test, question, userAtutor, answer);
         TestsQuestions testsQuestionsNext = createTestQuestions(test, questionNext, userAtutor, answerNext);
@@ -107,7 +119,7 @@ public class TestsMappingTest {
 
     }
 
-    @Test
+//    @Test
     public void getAllTests() {
         List<com.easytutor.models.Test> tests = session.createQuery("from Test").list();
         tests.forEach( test -> {
@@ -130,5 +142,13 @@ public class TestsMappingTest {
         testsQuestions.setUserATutor(userAtutor);
         testsQuestions.setSelectedAnswer(answer);
         return testsQuestions;
+    }
+
+    public QuestionsAnswers createQuestionsAnswers(Question question, Answer answer, UUID testId) {
+        QuestionsAnswers questionsAnswers = new QuestionsAnswers();
+        questionsAnswers.setQuestion(question);
+        questionsAnswers.setTestId(testId);
+        questionsAnswers.setAnswer(answer);
+        return questionsAnswers;
     }
 }

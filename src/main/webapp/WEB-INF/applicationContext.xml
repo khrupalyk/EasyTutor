@@ -23,6 +23,8 @@
                 <value>com.easytutor.models.Test</value>
                 <value>com.easytutor.models.TestsQuestions</value>
                 <value>com.easytutor.models.TestsQuestionsId</value>
+                <value>com.easytutor.models.QuestionsAnswersId</value>
+                <value>com.easytutor.models.QuestionsAnswers</value>
                 <value>com.easytutor.models.UserATutor</value>
             </list>
         </property>

@@ -10,11 +10,12 @@ import java.util.List;
 @Table(name = "questions")
 public class Question implements java.io.Serializable {
 
-//    private Integer questionId;
+    //    private Integer questionId;
     private String name;
     private String header;
-    private List<Answer> answers = new ArrayList<>();
+    private List<QuestionsAnswers> questionsAnswers = new ArrayList<>();
     private List<TestsQuestions> testsQuestions = new ArrayList<>();
+    private List<Answer> answers = new ArrayList<>();
 
     public Question() {
     }
@@ -24,11 +25,13 @@ public class Question implements java.io.Serializable {
         this.header = header;
     }
 
-    public Question(String name, String header, List<Answer> answers, List<TestsQuestions> testsQuestions) {
-        this.name = name;
-        this.header = header;
+    @Transient
+    public List<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<Answer> answers) {
         this.answers = answers;
-        this.testsQuestions = testsQuestions;
     }
 
     //    @Id
@@ -62,20 +65,21 @@ public class Question implements java.io.Serializable {
         this.name = name;
     }
 
-    @JoinTable(name = "questions_answers",
-            joinColumns = {
-                    @JoinColumn(name = "question_name", nullable = false, updatable = false)
-            },
-            inverseJoinColumns = {
-                    @JoinColumn(name = "answer_content", nullable = false, updatable = false)
-            })
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    public List<Answer> getAnswers() {
-        return answers;
+    //    @JoinTable(name = "questions_answers",
+//            joinColumns = {
+//                    @JoinColumn(name = "question_name", nullable = false, updatable = false)
+//            },
+//            inverseJoinColumns = {
+//                    @JoinColumn(name = "answer_content", nullable = false, updatable = false)
+//            })
+//    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "pk.question", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    public List<QuestionsAnswers> getQuestionsAnswers() {
+        return questionsAnswers;
     }
 
-    public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
+    public void setQuestionsAnswers(List<QuestionsAnswers> answers) {
+        this.questionsAnswers = answers;
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.question")
