@@ -1,0 +1,12 @@
+.test_info {
+    float: left;
+    width: 300px;
+    padding: 5px;
+}
+
+.test_questions {
+    margin-top: 17px;
+    float: left;
+    padding: 5px;
+    width: 700px;
+}

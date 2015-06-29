@@ -2,6 +2,7 @@ package com.easytutor.models;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,6 +16,8 @@ public class Test implements java.io.Serializable {
 	private String group;
 	private Integer course;
 	private List<TestsQuestions> testsQuestions = new ArrayList<>();
+	private Date submissionTime;
+	private TestResult testResult;
 
 	public Test() {
 	}
@@ -28,6 +31,24 @@ public class Test implements java.io.Serializable {
 		this.testId = testId;
 		this.name = name;
 		this.testsQuestions = testsQuestions;
+	}
+
+	@OneToOne(fetch = FetchType.EAGER, mappedBy = "test", cascade = CascadeType.ALL)
+	public TestResult getTestResult() {
+		return testResult;
+	}
+
+	public void setTestResult(TestResult testResult) {
+		this.testResult = testResult;
+	}
+
+	@Column(name = "submission_time")
+	public Date getSubmissionTime() {
+		return submissionTime;
+	}
+
+	public void setSubmissionTime(Date submissionTime) {
+		this.submissionTime = submissionTime;
 	}
 
 	@Column(name = "discipline_name")

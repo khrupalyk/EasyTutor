@@ -8,8 +8,8 @@ import java.io.Serializable;
 public class TestScores implements Serializable{
 
     private String id;
-    private String scores;
-    private String maxScores;
+    private int scores;
+    private int maxScores;
 
     public String getId() {
         return id;
@@ -19,19 +19,19 @@ public class TestScores implements Serializable{
         this.id = id;
     }
 
-    public String getScores() {
+    public int getScores() {
         return scores;
     }
 
-    public void setScores(String scores) {
+    public void setScores(int scores) {
         this.scores = scores;
     }
 
-    public String getMaxScores() {
+    public int getMaxScores() {
         return maxScores;
     }
 
-    public void setMaxScores(String maxScores) {
+    public void setMaxScores(int maxScores) {
         this.maxScores = maxScores;
     }
 

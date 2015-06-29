@@ -78,21 +78,15 @@ public class TestDAOImpl implements TestDAO {
     public Test getTest(UUID testId) {
         Session session = sessionFactory.openSession();
         Test test = (Test)session.get(Test.class, testId);
-//        session.createQuery("from Question as q inner join q.id = ");
         Iterator<TestsQuestions> l = test.getTestsQuestions().iterator();
         while (l.hasNext()) {
             Question nextElement =  l.next().getQuestion();
             Query query = session.createQuery("" +
                 "from Answer as answ where answ.id IN (select q.pk.answer.id from QuestionsAnswers as q where q.pk.testId = :testId AND q.pk.question.id = :questionId)");
-//                    "from Answer as answ join QuestionsAnswers as qa WHERE qa.pk.testId = :testId AND qa.pk.question.id = :questionId AND answ.content = qa.pk.answer.id");
             query.setParameter("testId", testId);
             query.setParameter("questionId", nextElement.getName());
             nextElement.setAnswers(query.list());
-//            test.setQuestions(query);
         }
-
-
-
 
         session.close();
 

@@ -26,6 +26,7 @@
                 <value>com.easytutor.models.QuestionsAnswersId</value>
                 <value>com.easytutor.models.QuestionsAnswers</value>
                 <value>com.easytutor.models.UserATutor</value>
+                <value>com.easytutor.models.TestResult</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -53,6 +54,10 @@
     </bean>
 
     <bean id="atutorUserDAO" class="com.easytutor.dao.impl.ATutorUserDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="testResult" class="com.easytutor.dao.impl.TestResultDAOImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 

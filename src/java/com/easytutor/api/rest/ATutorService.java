@@ -11,6 +11,7 @@ import com.easytutor.utils.TemporaryTestStorage;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -31,6 +32,7 @@ public class ATutorService {
     private QuestionDAO questionDAO = ApplicationContextProvider.getApplicationContext().getBean(QuestionDAO.class);
     private AnswerDAO answerDAO = ApplicationContextProvider.getApplicationContext().getBean(AnswerDAO.class);
     private UserATutorDAO userATutorDAO = ApplicationContextProvider.getApplicationContext().getBean(UserATutorDAO.class);
+    private TestResultDAO testResultDAO = ApplicationContextProvider.getApplicationContext().getBean(TestResultDAO.class);
 
     @POST
     @Path("test/questions")
@@ -54,6 +56,7 @@ public class ATutorService {
 
         UUID testId = UUID.fromString(testInfo.getTestId());
         Test test = new Test();
+        test.setSubmissionTime(new Date());
         test.setName(testInfo.getModuleName());
         test.setTestId(testId);
         test.setDiscipline(testInfo.getDiscipline());
@@ -140,6 +143,11 @@ public class ATutorService {
     @Path("test/scores")
     @Produces(MediaType.APPLICATION_JSON)
     public void storeTestResult(TestScores testScores) {
+        TestResult testResult = new TestResult();
+        testResult.setTestId(UUID.fromString(testScores.getId()));
+        testResult.setMax(testScores.getMaxScores());
+        testResult.setCurrent(testScores.getScores());
+        testResultDAO.storeTestResult(testResult);
         Logger.getLogger(ATutorService.class.getName()).info("Test scores: " + testScores);
     }
 

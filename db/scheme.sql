@@ -15,6 +15,7 @@ CREATE TABLE tests (
   discipline_name VARCHAR(300),
   groups VARCHAR(10),
   course INT,
+  submission_time DATETIME,
   PRIMARY KEY (test_id)
 );
 
@@ -53,6 +54,14 @@ CREATE TABLE tests_questions (
   CONSTRAINT FK_TESTS_QUESTIONS_ANSWER_ID FOREIGN KEY (answer_content) REFERENCES answers (content),
   CONSTRAINT FK_TESTS_QUESTIONS_USER_ATUTOR_ID FOREIGN KEY (user_atutor_id) REFERENCES users_atutor (name),
   CONSTRAINT FK_TESTS_QUESTIONS_QUESTION_ID FOREIGN KEY (question_name) REFERENCES questions (name)
+);
+
+CREATE TABLE tests_results(
+  test_id BINARY(16),
+  max INT,
+  current DOUBLE,
+  PRIMARY KEY (test_id),
+  CONSTRAINT FK_TESTS_RESULTS_TEST_ID FOREIGN KEY (test_id) REFERENCES tests(test_id)
 );
 
 

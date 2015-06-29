@@ -20,5 +20,6 @@
         <mapping class="com.easytutor.models.TestsQuestionsId"/>
         <mapping class="com.easytutor.models.QuestionsAnswers"/>
         <mapping class="com.easytutor.models.QuestionsAnswersId"/>
+        <mapping class="com.easytutor.models.TestResult"/>
     </session-factory>
 </hibernate-configuration>

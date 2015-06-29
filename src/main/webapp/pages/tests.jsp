@@ -22,6 +22,7 @@
     <th>Discipline</th>
     <th>Group</th>
     <th>Course</th>
+    <th>Result</th>
   </tr>
   </thead>
   <tbody>
@@ -31,6 +32,7 @@
       <td>${i.discipline}</td>
       <td>${i.group}</td>
       <td>${i.course}</td>
+      <td>${i.testResult == null ? "NaN" : i.testResult.current.toString().concat("/").concat(i.testResult.max)}</td>
     </tr>
   </c:forEach>
 
