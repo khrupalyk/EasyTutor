@@ -4,6 +4,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by root on 22.06.15.
@@ -15,6 +17,7 @@ public class UserATutor implements Serializable{
 
 //    private int userId;
     private String name;
+    private List<Test> tests = new ArrayList<>();
 
 //    @Id
 //    @GeneratedValue(generator = "increment")
@@ -36,5 +39,14 @@ public class UserATutor implements Serializable{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @OneToMany(mappedBy = "userATutor")
+    public List<Test> getTests() {
+        return tests;
+    }
+
+    public void setTests(List<Test> tests) {
+        this.tests = tests;
     }
 }

@@ -53,7 +53,8 @@ public class ATutorService {
 //        }
 //
 //        Logger.getLogger(ATutorService.class.getName()).info("Count element in list: " + testInfo.getBody().size());
-
+        Logger.getLogger(ATutorService.class.getName()).info("Count element in list: " + testInfo.getTestId());
+//        System.out.println("Test id: " + testInfo.getTestId());
         UUID testId = UUID.fromString(testInfo.getTestId());
         Test test = new Test();
         test.setSubmissionTime(new Date());
@@ -67,7 +68,6 @@ public class ATutorService {
 
         UserATutor userATutor = new UserATutor();
         userATutor.setName(testInfo.getUser());
-
         userATutorDAO.saveOrUpdate(userATutor);
 
         List<TestsQuestions> testsQuestions = new ArrayList<>();
@@ -91,12 +91,14 @@ public class ATutorService {
 //            questionObj.setQuestionsAnswers(answersList);
             questionDAO.saveOrUpdate(questionObj);
 
-            TestsQuestions testsQuestions1 = createTestQuestions(test, questionObj, userATutor, selectedAnswer);
+            TestsQuestions testsQuestions1 = createTestQuestions(test, questionObj, selectedAnswer);
             testsQuestions.add(testsQuestions1);
             questionObj.getTestsQuestions().add(testsQuestions1);
 
         }
 
+//        userATutor.getTests().add(test);
+        test.setUserATutor(userATutor);
         test.setTestsQuestions(testsQuestions);
 
         testDAO.saveOrUpdate(test);
@@ -130,11 +132,10 @@ public class ATutorService {
         return questionsAnswers;
     }
 
-    public TestsQuestions createTestQuestions(Test test, Question question, UserATutor userAtutor, Answer answer) {
+    public TestsQuestions createTestQuestions(Test test, Question question, Answer answer) {
         TestsQuestions testsQuestions = new TestsQuestions();
         testsQuestions.setTest(test);
         testsQuestions.setQuestion(question);
-        testsQuestions.setUserATutor(userAtutor);
         testsQuestions.setSelectedAnswer(answer);
         return testsQuestions;
     }
@@ -144,6 +145,8 @@ public class ATutorService {
     @Produces(MediaType.APPLICATION_JSON)
     public void storeTestResult(TestScores testScores) {
         TestResult testResult = new TestResult();
+        Logger.getLogger(ATutorService.class.getName()).info("Count element in list: " + testScores.getId());
+
         testResult.setTestId(UUID.fromString(testScores.getId()));
         testResult.setMax(testScores.getMaxScores());
         testResult.setCurrent(testScores.getScores());

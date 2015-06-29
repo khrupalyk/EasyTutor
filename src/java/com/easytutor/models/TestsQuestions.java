@@ -13,9 +13,7 @@ import java.io.Serializable;
         {
                 @AssociationOverride(name = "pk.selectedAnswer", joinColumns = @JoinColumn(name = "answer_content")),
                 @AssociationOverride(name = "pk.question", joinColumns = @JoinColumn(name = "question_name")),
-                @AssociationOverride(name = "pk.test", joinColumns = @JoinColumn(name = "test_id")),
-                @AssociationOverride(name = "pk.userATutor", joinColumns = @JoinColumn(name = "user_atutor_id"))
-
+                @AssociationOverride(name = "pk.test", joinColumns = @JoinColumn(name = "test_id"))
         }
 )
 public class TestsQuestions implements Serializable {
@@ -32,27 +30,18 @@ public class TestsQuestions implements Serializable {
     }
 
     @Transient
-    public Question getQuestion(){
+    public Question getQuestion() {
         return pk.getQuestion();
     }
 
     @Transient
-    public Answer getSelectedAnswer(){
+    public Answer getSelectedAnswer() {
         return pk.getSelectedAnswer();
     }
 
     @Transient
-    public Test getTest(){
+    public Test getTest() {
         return pk.getTest();
-    }
-
-    @Transient
-    public UserATutor getUserATutor(){
-        return pk.getUserATutor();
-    }
-
-    public void setUserATutor(UserATutor userAtutor) {
-        pk.setUserATutor(userAtutor);
     }
 
     public void setSelectedAnswer(Answer answer) {

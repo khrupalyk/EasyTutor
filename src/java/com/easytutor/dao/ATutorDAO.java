@@ -82,7 +82,7 @@ public class ATutorDAO {
 //                answerObj.getQuestions().add(questionObj);
 //            }
 
-            TestsQuestions testsQuestions1 = createTestQuestions(test, questionObj, user, selectedAnswer);
+            TestsQuestions testsQuestions1 = createTestQuestions(test, questionObj, selectedAnswer);
             testsQuestions.add(testsQuestions1);
             questionObj.getTestsQuestions().add(testsQuestions1);
 
@@ -102,11 +102,10 @@ public class ATutorDAO {
                 .uniqueResult() != null;
     }
 
-    private TestsQuestions createTestQuestions(Test test, Question question, UserATutor userAtutor, Answer answer) {
+    private TestsQuestions createTestQuestions(Test test, Question question, Answer answer) {
         TestsQuestions testsQuestions = new TestsQuestions();
         testsQuestions.setTest(test);
         testsQuestions.setQuestion(question);
-        testsQuestions.setUserATutor(userAtutor);
         testsQuestions.setSelectedAnswer(answer);
         return testsQuestions;
     }

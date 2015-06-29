@@ -103,9 +103,9 @@ public class TestsMappingTest {
 
         assertEquals("Size question in test not equals!", 2, testFromDB.getTestsQuestions().size());
 
-        testFromDB.getTestsQuestions().forEach(
-                e -> assertEquals("User in test not equals!", userAtutor, e.getUserATutor())
-        );
+//        testFromDB.getTestsQuestions().forEach(
+//                e -> assertEquals("User in test not equals!", userAtutor, e.getUserATutor())
+//        );
 
         assertEquals("Selected answer not equals!", testFromDB.getTestsQuestions().get(0).getSelectedAnswer(), answer);
 
@@ -139,7 +139,6 @@ public class TestsMappingTest {
         TestsQuestions testsQuestions = new TestsQuestions();
         testsQuestions.setTest(test);
         testsQuestions.setQuestion(question);
-        testsQuestions.setUserATutor(userAtutor);
         testsQuestions.setSelectedAnswer(answer);
         return testsQuestions;
     }

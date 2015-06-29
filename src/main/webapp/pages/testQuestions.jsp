@@ -29,7 +29,7 @@
                 ${test.discipline}<br/>
                 ${test.group}<br/>
                 ${test.submissionTime}<br/>
-                ${test.testsQuestions.get(0).userATutor.name}<br/>
+                ${test.userATutor.name}<br/>
             </div>
         </div>
     </div>

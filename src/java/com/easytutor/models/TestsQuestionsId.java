@@ -13,7 +13,6 @@ public class TestsQuestionsId implements Serializable {
 
     private Question question;
     private Test test;
-    private UserATutor userATutor;
     private Answer selectedAnswer;
 
     @ManyToOne
@@ -32,15 +31,6 @@ public class TestsQuestionsId implements Serializable {
 
     public void setTest(Test test) {
         this.test = test;
-    }
-
-    @ManyToOne
-    public UserATutor getUserATutor() {
-        return userATutor;
-    }
-
-    public void setUserATutor(UserATutor userATutor) {
-        this.userATutor = userATutor;
     }
 
     @ManyToOne
