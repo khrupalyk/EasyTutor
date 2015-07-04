@@ -1,5 +1,6 @@
 package com.easytutor.models;
 
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -21,6 +22,7 @@ public class Test implements java.io.Serializable {
     private Date submissionTime;
     private TestResult testResult;
     private UserATutor userATutor;
+    private Integer testCount;
 
     public Test() {
     }
@@ -34,6 +36,15 @@ public class Test implements java.io.Serializable {
         this.testId = testId;
         this.name = name;
         this.testsQuestions = testsQuestions;
+    }
+
+    @Transient
+    public Integer getTestCount() {
+        return testCount;
+    }
+
+    public void setTestCount(Integer testCount) {
+        this.testCount = testCount;
     }
 
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "test", cascade = CascadeType.ALL)
@@ -118,5 +129,21 @@ public class Test implements java.io.Serializable {
 
     public void setUserATutor(UserATutor userATutor) {
         this.userATutor = userATutor;
+    }
+
+    @Override
+    public String toString() {
+        return "Test{" +
+                "testId=" + testId +
+                ", name='" + name + '\'' +
+                ", discipline='" + discipline + '\'' +
+                ", group='" + group + '\'' +
+                ", course=" + course +
+                ", testsQuestions=" + testsQuestions +
+                ", submissionTime=" + submissionTime +
+                ", testResult=" + testResult +
+                ", userATutor=" + userATutor +
+                ", testCount=" + testCount +
+                '}';
     }
 }

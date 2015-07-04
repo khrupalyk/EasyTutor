@@ -23,7 +23,7 @@ import javax.ws.rs.core.Response;
 /**
  * Created by root on 12.06.15.
  */
-@Path("/")
+@Path("/atutor")
 public class ATutorService {
 
     private TemporaryTestStorage tempTestIds = (TemporaryTestStorage) ApplicationContextProvider.getApplicationContext().getBean("temporaryTestStorage");

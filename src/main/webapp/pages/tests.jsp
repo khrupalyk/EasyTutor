@@ -10,34 +10,72 @@
 <html>
 <head>
     <title></title>
-  <link href="<%=request.getContextPath()%>/resources/css/table.test.css" rel="stylesheet"/>
+  <%--<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">--%>
+  <%--<link rel="stylesheet" href="http://bootstrap-table.wenzhixin.net.cn/dist/bootstrap-table.min.css">--%>
+  <script src="<%=request.getContextPath()%>/resources/javascript/jquery.js"></script>
+  <script src="<%=request.getContextPath()%>/resources/javascript/bootstrap-table.js"></script>
+  <link href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="<%=request.getContextPath()%>/resources/css/bootstrap-table.min.css" rel="stylesheet"/>
+
+<%--<script src="http://wenzhixin.net.cn/p/bootstrap-table/docs/assets/bootstrap/js/bootstrap.min.js"></script>--%>
+  <%--<link href="<%=request.getContextPath()%>/resources/css/table.test.css" rel="stylesheet"/>--%>
 </head>
-<body>
+
 <%@include file="template/header.jsp"%>
-<table>
-  <thead>
 
-  <tr>
-    <th>Test name</th>
-    <th>Discipline</th>
-    <th>Group</th>
-    <th>Course</th>
-    <th>Result</th>
-  </tr>
-  </thead>
-  <tbody>
-  <c:forEach items="${tests}" var="i">
+<div class="container">
+<div class="table-responsive">
+
+  <%--jo.put("testName", test.getName());--%>
+  <%--jo.put("discipline", test.getDiscipline());--%>
+  <%--jo.put("group", test.getGroup());--%>
+  <%--jo.put("course", test.getCourse());--%>
+  <%--jo.put("count", test.getTestCount());--%>
+  <%--<a href="tests">--%>
+
+  <table data-toggle="table"
+         data-url="<%=request.getContextPath()%>/rest/test/tests/unique"
+         data-query-params="queryParams"
+         data-pagination="true"
+         data-search="true"
+         data-height="300">
+    <thead>
     <tr>
-      <td><strong><a href="test/${i.testId}/questions">${i.name}</a></strong></td>
-      <td>${i.discipline}</td>
-      <td>${i.group}</td>
-      <td>${i.course}</td>
-      <td>${i.testResult == null ? "NaN" : i.testResult.current.toString().concat("/").concat(i.testResult.max)}</td>
+      <th data-field="testName">testName</th>
+      <th data-field="discipline">discipline</th>
+      <th data-field="group">group</th>
+      <th data-field="course">course</th>
+      <th data-field="count">count</th>
     </tr>
-  </c:forEach>
+    </thead>
+  </table>
 
-  </tbody>
-</table>
+<%--<table class="table">--%>
+  <%--<thead>--%>
 
+  <%--<tr>--%>
+    <%--<th>Test name</th>--%>
+    <%--<th>Discipline</th>--%>
+    <%--<th>Group</th>--%>
+    <%--<th>Course</th>--%>
+    <%--<th>Count</th>--%>
+  <%--</tr>--%>
+  <%--</thead>--%>
+  <%--<tbody>--%>
+  <%--<c:forEach items="${tests}" var="i">--%>
+    <%--<tr>--%>
+      <%--<td><strong><a href="test/${i.testId}/questions">${i.name}</a></strong></td>--%>
+      <%--<td>${i.discipline}</td>--%>
+      <%--<td>${i.group}</td>--%>
+      <%--<td>${i.course}</td>--%>
+      <%--&lt;%&ndash;<td>${i.testResult == null ? "NaN" : i.testResult.current.toString().concat("/").concat(i.testResult.max)}</td>&ndash;%&gt;--%>
+      <%--<td>${i.testCount}</td>--%>
+    <%--</tr>--%>
+  <%--</c:forEach>--%>
+
+  <%--</tbody>--%>
+<%--</table>--%>
+</div>
+</div>
 </body>
 </html>

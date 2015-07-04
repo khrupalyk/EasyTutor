@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    background: #fafafa url(http://jackrugile.com/images/misc/noise-diagonal.png);
+    /*background: #fafafa url(http://jackrugile.com/images/misc/noise-diagonal.png);*/
     /*background: #ccc;*/
 }
 
@@ -106,4 +106,12 @@ li.correct_answer {
 
 .test_info {
     margin-top: 20px;
+}
+
+.wrong_answer {
+    color: #FF0000;
+    font-weight: normal;
+    filter: none;
+    background: rgb(252, 248, 248);
+    border: 1px solid rgb(149, 72, 72);
 }

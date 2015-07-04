@@ -19,30 +19,20 @@ import java.util.logging.Logger;
 @Controller
 public class LoginController {
 
-    TestDAO testDAO = (TestDAO) ApplicationContextProvider.getApplicationContext().getBean(TestDAO.class);
 
     @RequestMapping({"/"})
     public String goHome() {
         return "index";
     }
 
-    @RequestMapping({"tests"})
-    public ModelAndView getTests() {
-        ModelAndView modelAndView = new ModelAndView("pages/tests");
-        modelAndView.addObject("tests", testDAO.getAllTests());
-        return modelAndView;
-    }
+//    @RequestMapping({"tests"})
+//    public ModelAndView getTests() {
+//        ModelAndView modelAndView = new ModelAndView("pages/tests");
+//        modelAndView.addObject("tests", testDAO.getUniqueTests());
+//        return modelAndView;
+//    }
 
-    @RequestMapping(value = "test/{testId}/questions")
-    public ModelAndView getQuestions(@PathVariable("testId") String testId) {
 
-        Test test = testDAO.getTest(UUID.fromString(testId));
-
-        ModelAndView modelAndView = new ModelAndView("pages/testQuestions");
-        modelAndView.addObject("test", test);
-
-        return modelAndView;
-    }
 
     @RequestMapping(value = "contact")
     public String goToContactView() {

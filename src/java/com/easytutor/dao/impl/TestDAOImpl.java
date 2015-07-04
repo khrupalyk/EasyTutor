@@ -10,6 +10,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.StandardBasicTypes;
+import org.hibernate.type.Type;
 
 import java.util.Iterator;
 import java.util.List;
@@ -77,12 +80,12 @@ public class TestDAOImpl implements TestDAO {
     @Override
     public Test getTest(UUID testId) {
         Session session = sessionFactory.openSession();
-        Test test = (Test)session.get(Test.class, testId);
+        Test test = (Test) session.get(Test.class, testId);
         Iterator<TestsQuestions> l = test.getTestsQuestions().iterator();
         while (l.hasNext()) {
-            Question nextElement =  l.next().getQuestion();
+            Question nextElement = l.next().getQuestion();
             Query query = session.createQuery("" +
-                "from Answer as answ where answ.id IN (select q.pk.answer.id from QuestionsAnswers as q where q.pk.testId = :testId AND q.pk.question.id = :questionId)");
+                    "from Answer as answ where answ.id IN (select q.pk.answer.id from QuestionsAnswers as q where q.pk.testId = :testId AND q.pk.question.id = :questionId)");
             query.setParameter("testId", testId);
             query.setParameter("questionId", nextElement.getName());
             nextElement.setAnswers(query.list());
@@ -91,5 +94,25 @@ public class TestDAOImpl implements TestDAO {
         session.close();
 
         return test;
+    }
+
+    @Override
+    public List<Test> getUniqueTests() {
+        Session session = sessionFactory.openSession();
+        List results = session.createCriteria(Test.class)
+                .setProjection(Projections.projectionList()
+                                .add(Projections.groupProperty("course"), "course")
+                                .add(Projections.groupProperty("group"), "group")
+                                .add(Projections.groupProperty("name"), "name")
+                                .add(Projections.groupProperty("discipline"), "discipline")
+                                .add(Projections.sqlProjection(
+                                        "count(*) as count",
+                                        new String[]{"count"},
+                                        new Type[]{StandardBasicTypes.INTEGER}
+                                ), "testCount")
+                ).setResultTransformer(Transformers.aliasToBean(Test.class))
+                .list();
+        session.close();
+        return results;
     }
 }

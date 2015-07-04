@@ -36,7 +36,7 @@
     <div class="test_questions">
         <c:forEach items="${test.testsQuestions}" var="testsQuestion">
             <div>
-                <div class="question_header choices active_choice"><c:out value="${testsQuestion.question.name}"/></div>
+                <div class="question_header choices active_choice selected wrong_answer"><c:out value="${testsQuestion.question.name}"/></div>
                 <ul class="choices">
                     <c:forEach items="${testsQuestion.question.answers}" var="answer">
                         <li class="${answer.content.equals(testsQuestion.selectedAnswer.content) ? "correct_answer" : "active_choice active"}">

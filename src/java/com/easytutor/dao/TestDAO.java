@@ -22,4 +22,6 @@ public interface TestDAO {
 
     Test getTest(UUID testId);
 
+    List<Test> getUniqueTests();
+
 }

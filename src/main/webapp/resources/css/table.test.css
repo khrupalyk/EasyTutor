@@ -39,15 +39,7 @@ th {
 }
 
 th:after {
-    background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.08));
-    content: '';
-    display: block;
-    height: 25%;
-    left: 0;
-    margin: 1px 0 0 0;
-    position: absolute;
-    top: 25%;
-    width: 100%;
+    background-color: #444;
 }
 
 th:first-child {
@@ -97,7 +89,7 @@ tr:last-of-type td:first-child {
 tr:last-of-type td:last-child {
     box-shadow: inset -1px -1px 0 #fff;
 }
-
+/*
 tbody:hover td {
     color: transparent;
     text-shadow: 0 0 3px #aaa;
@@ -107,7 +99,7 @@ tbody:hover tr:hover td {
     color: #444;
     text-shadow: 0 1px 0 #fff;
 }
-
+*/
 a {
     text-decoration: none;
 }
