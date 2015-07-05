@@ -19,6 +19,7 @@
 
 <body>
 <%@include file="template/header.jsp" %>
+<link href="<%=request.getContextPath()%>/resources/css/header.css" rel="stylesheet"/>
 
 <div>
     <div class="test_info">

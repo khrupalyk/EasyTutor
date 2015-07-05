@@ -3,6 +3,7 @@ package com.easytutor.dao;
 import com.easytutor.models.Test;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -23,5 +24,7 @@ public interface TestDAO {
     Test getTest(UUID testId);
 
     List<Test> getUniqueTests();
+
+    List<Test> getTests(Map<String, Object> params);
 
 }

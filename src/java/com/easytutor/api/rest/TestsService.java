@@ -26,7 +26,7 @@ public class TestsService {
         JSONArray ja = new JSONArray();
         for (Test test : testDAO.getUniqueTests()) {
             JSONObject jo = new JSONObject();
-            jo.put("testName", test.getName());
+            jo.put("name", test.getName());
             jo.put("discipline", test.getDiscipline());
             jo.put("group", test.getGroup());
             jo.put("course", test.getCourse());

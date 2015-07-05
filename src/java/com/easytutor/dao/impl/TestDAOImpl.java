@@ -4,10 +4,7 @@ import com.easytutor.dao.TestDAO;
 import com.easytutor.models.Question;
 import com.easytutor.models.Test;
 import com.easytutor.models.TestsQuestions;
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
@@ -16,6 +13,7 @@ import org.hibernate.type.Type;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -114,5 +112,18 @@ public class TestDAOImpl implements TestDAO {
                 .list();
         session.close();
         return results;
+    }
+
+    @Override
+    public List<Test> getTests(Map<String, Object> params) {
+
+        Session session = sessionFactory.openSession();
+        Criteria criteria = session.createCriteria(Test.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);;
+        for (Map.Entry<String, Object> stringStringEntry : params.entrySet()) {
+            criteria.add(Restrictions.eq(stringStringEntry.getKey(), stringStringEntry.getValue()));
+        }
+        List result = criteria.list();
+        session.close();
+        return result;
     }
 }
