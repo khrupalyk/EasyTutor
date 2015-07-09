@@ -39,11 +39,22 @@ public class LoginController {
         return "pages/contact";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "login")
-    public String login(@RequestParam("login") String login, @RequestParam("password") String pass) {
-        Logger.getLogger(LoginController.class.getName()).info("Login and pass: " + login + " pass " + pass);
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.a
-        return "pages/tests";
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public ModelAndView login(
+            @RequestParam(value = "error", required = false) String error,
+            @RequestParam(value = "logout", required = false) String logout) {
+
+        ModelAndView model = new ModelAndView();
+        if (error != null) {
+            model.addObject("error", "Invalid username and password!");
+        }
+
+        if (logout != null) {
+            model.addObject("msg", "You've been logged out successfully.");
+        }
+        model.setViewName("pages/login");
+
+        return model;
+
     }
 }
