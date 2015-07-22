@@ -36,7 +36,7 @@ public class LoginController {
 
     @RequestMapping(value = "contact")
     public String goToContactView() {
-        return "pages/contact";
+        return "WEB-INF/pages/contact";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -52,7 +52,7 @@ public class LoginController {
         if (logout != null) {
             model.addObject("msg", "You've been logged out successfully.");
         }
-        model.setViewName("pages/login");
+        model.setViewName("WEB-INF/pages/login");
 
         return model;
 

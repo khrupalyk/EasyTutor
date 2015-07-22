@@ -32,7 +32,7 @@ public class TestsController {
 
         Test test = testDAO.getTest(UUID.fromString(testId));
 
-        ModelAndView modelAndView = new ModelAndView("pages/testQuestions");
+        ModelAndView modelAndView = new ModelAndView("WEB-INF/pages/testQuestions");
         modelAndView.addObject("test", test);
 
         return modelAndView;
@@ -40,7 +40,7 @@ public class TestsController {
 
     @RequestMapping(value = "tests")
     public String a() {
-        return "pages/tests";
+        return "WEB-INF/pages/tests";
     }
 
     static String urlEncodeUTF8(String s) {
@@ -67,7 +67,7 @@ public class TestsController {
 
     @RequestMapping(value = "search")
     public ModelAndView a1(@RequestParam Map<String, String> params) {
-        ModelAndView modelAndView = new ModelAndView("pages/groupTest");
+        ModelAndView modelAndView = new ModelAndView("WEB-INF/pages/groupTest");
         modelAndView.addObject("params", urlEncodeUTF8(params));
         return modelAndView;
     }

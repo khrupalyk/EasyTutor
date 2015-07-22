@@ -8,7 +8,7 @@
 <head>
 </head>
 <body style="background: white">
-<%@include file="pages/template/header.jsp" %>
+<%@include file="WEB-INF/pages/template/header.jsp" %>
 
     <div>
         <form class="col-md-12" style="width: 50%; text-align: center;">
