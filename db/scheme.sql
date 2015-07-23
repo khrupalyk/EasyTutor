@@ -64,5 +64,17 @@ CREATE TABLE tests_results(
   CONSTRAINT FK_TESTS_RESULTS_TEST_ID FOREIGN KEY (test_id) REFERENCES tests(test_id)
 );
 
+CREATE TABLE users(
+  name VARCHAR(30) PRIMARY KEY,
+  password TEXT,
+  enabled BOOL
+);
+
+CREATE TABLE users_roles(
+  user_role_id INT AUTO_INCREMENT PRIMARY KEY,
+  role VARCHAR(20),
+  user_name VARCHAR(30),
+  CONSTRAINT FK_USERS_ROLES_ROLE FOREIGN KEY (user_name) REFERENCES users(name)
+);
 
 

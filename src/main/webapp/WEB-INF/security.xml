@@ -23,11 +23,9 @@
        </http>
 
        <authentication-manager>
-              <authentication-provider>
-                     <user-service>
-                            <user name="user" password="user" authorities="ROLE_USER" />
-                     </user-service>
-              </authentication-provider>
+              <authentication-provider user-service-ref="userService"/>
+
+              <!--</authentication-provider>-->
        </authentication-manager>
 
 </beans:beans>
