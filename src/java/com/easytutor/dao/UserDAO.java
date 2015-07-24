@@ -7,4 +7,6 @@ import com.easytutor.models.User;
  */
 public interface UserDAO {
     User getUserByName(String name);
+
+    void addUser(User user);
 }

@@ -2,6 +2,7 @@ package com.easytutor.dao.impl;
 
 import com.easytutor.dao.UserDAO;
 import com.easytutor.models.User;
+import com.easytutor.models.UserRole;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -26,5 +27,18 @@ public class UserDAOImpl implements UserDAO {
         User user = (User)session.get(User.class, name);
         session.close();
         return user;
+    }
+
+    @Override
+    public void addUser(User user) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.save(user);
+        UserRole userRole = new UserRole();
+        userRole.setRole("ROLE_USER");
+        userRole.setUser(user);
+        session.save(userRole);
+        session.getTransaction().commit();
+        session.close();
     }
 }

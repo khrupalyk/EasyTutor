@@ -1,13 +1,17 @@
 package com.easytutor.controllers;
 
 import com.easytutor.dao.TestDAO;
+import com.easytutor.dao.UserDAO;
+import com.easytutor.models.RegisteredUser;
 import com.easytutor.models.Test;
+import com.easytutor.models.User;
 import com.easytutor.utils.ApplicationContextProvider;
+import com.easytutor.validators.UserFormValidator;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.UUID;
@@ -19,20 +23,47 @@ import java.util.logging.Logger;
 @Controller
 public class LoginController {
 
+    UserDAO userDAO = (UserDAO) ApplicationContextProvider.getApplicationContext().getBean(UserDAO.class);
+    UserFormValidator userFormValidator = (UserFormValidator) ApplicationContextProvider.getApplicationContext().getBean(UserFormValidator.class);
+
 
     @RequestMapping({"/"})
     public String goHome() {
         return "index";
     }
 
-//    @RequestMapping({"tests"})
-//    public ModelAndView getTests() {
-//        ModelAndView modelAndView = new ModelAndView("pages/tests");
-//        modelAndView.addObject("tests", testDAO.getUniqueTests());
-//        return modelAndView;
-//    }
+
+    @RequestMapping("/signup")
+    public ModelAndView signupTO(){
+
+        ModelAndView modelAndView = new ModelAndView("WEB-INF/pages/signup");
+
+        modelAndView.addObject("user", new RegisteredUser());
+        return modelAndView;
+    }
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.setValidator(userFormValidator);
+    }
 
 
+    @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    public ModelAndView signup(@ModelAttribute("user")  @Validated RegisteredUser user, BindingResult bindingResult){
+
+        if(bindingResult.hasErrors()){
+            System.out.println("Has errors");
+            return new ModelAndView("WEB-INF/pages/signup");
+        }
+//        User newUSer = new User();
+//        newUSer.setEnabled(true);
+//        System.out.println(user);
+        System.out.println("No errors");
+
+//        userDAO.addUser(user);
+        return new ModelAndView("index");
+
+    }
 
     @RequestMapping(value = "contact")
     public String goToContactView() {
