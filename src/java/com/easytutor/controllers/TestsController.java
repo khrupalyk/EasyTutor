@@ -5,6 +5,7 @@ import com.easytutor.models.Test;
 import com.easytutor.utils.ApplicationContextProvider;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.MultiValueMap;
@@ -27,6 +28,7 @@ public class TestsController {
     TestDAO testDAO = (TestDAO) ApplicationContextProvider.getApplicationContext().getBean(TestDAO.class);
 
 
+    @Secured("hasRole('ROLE_USER')")
     @RequestMapping(value = "test/{testId}/questions")
     public ModelAndView getQuestions(@PathVariable("testId") String testId) {
 

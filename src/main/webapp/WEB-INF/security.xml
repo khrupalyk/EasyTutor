@@ -6,26 +6,23 @@
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
-       <http auto-config="true">
-              <intercept-url pattern="/pages**" access="ROLE_A" />
+    <http auto-config="true" >
+        <intercept-url pattern="/tests" access="ROLE_USER" />
+        <intercept-url pattern="/test/**" access="ROLE_USER"/>
+        <form-login
+                login-page="/login"
+                default-target-url="/"
+                authentication-failure-url="/login?error"
+                username-parameter="username"
+                password-parameter="password"/>
 
-              <intercept-url pattern="/tests**" access="ROLE_USER" />
-           <form-login
-                   login-page="/login"
-                   default-target-url="/"
-                   authentication-failure-url="/login?error"
-                   username-parameter="username"
-                   password-parameter="password" />
+        <logout logout-success-url="/login?logout"/>
 
-           <logout logout-success-url="/login?logout" />
+        <csrf/>
+    </http>
 
-           <csrf/>
-       </http>
-
-       <authentication-manager>
-              <authentication-provider user-service-ref="userService"/>
-
-              <!--</authentication-provider>-->
-       </authentication-manager>
+    <authentication-manager>
+        <authentication-provider user-service-ref="userService"/>
+    </authentication-manager>
 
 </beans:beans>

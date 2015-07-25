@@ -1,9 +1,7 @@
 package com.easytutor.controllers;
 
-import com.easytutor.dao.TestDAO;
 import com.easytutor.dao.UserDAO;
 import com.easytutor.models.RegisteredUser;
-import com.easytutor.models.Test;
 import com.easytutor.models.User;
 import com.easytutor.utils.ApplicationContextProvider;
 import com.easytutor.validators.UserFormValidator;
@@ -13,9 +11,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.UUID;
-import java.util.logging.Logger;
 
 /**
  * Created by root on 17.06.15.
@@ -29,7 +24,7 @@ public class LoginController {
 
     @RequestMapping({"/"})
     public String goHome() {
-        return "index";
+        return "WEB-INF/pages/index";
     }
 
 

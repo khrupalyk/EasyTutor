@@ -1,14 +1,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <html>
 <body>
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<nav class="navbar navbar-inverse">
+<link href="http://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/css/material-fullpalette.css" rel="stylesheet"/>
+
+<nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">WebSiteName</a>
+      <a class="navbar-brand" href="<%=request.getContextPath()%>/">EasyTutor</a>
     </div>
     <div>
       <ul class="nav navbar-nav">
@@ -24,8 +28,13 @@
         <li><a href="#">Page 3</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="<c:url value='/signup' />"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-        <li><a href="<c:url value='/login' />"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <sec:authorize access="isAnonymous()">
+          <li><a href="<c:url value='/signup' />"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+          <li><a href="<c:url value='/login' />"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        </sec:authorize>
+        <sec:authorize access="isAuthenticated()">
+          <li><a href="<c:url value='/j_spring_security_logout' />"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        </sec:authorize>
       </ul>
     </div>
   </div>

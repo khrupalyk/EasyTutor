@@ -77,4 +77,6 @@
         <property name="basename" value="messages"/>
     </bean>
 
+    <bean id="webexpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" />
+
 </beans>
