@@ -3,8 +3,11 @@ package com.easytutor.dao.impl;
 import com.easytutor.dao.UserDAO;
 import com.easytutor.models.User;
 import com.easytutor.models.UserRole;
+import com.easytutor.utils.UsersRoles;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 
 /**
  * Created by root on 23.07.15.
@@ -24,7 +27,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User getUserByName(String name) {
         Session session = sessionFactory.openSession();
-        User user = (User)session.get(User.class, name);
+        User user = (User) session.get(User.class, name);
         session.close();
         return user;
     }
@@ -35,10 +38,21 @@ public class UserDAOImpl implements UserDAO {
         session.beginTransaction();
         session.save(user);
         UserRole userRole = new UserRole();
-        userRole.setRole("ROLE_USER");
+        userRole.setRole(UsersRoles.USER.getRole());
         userRole.setUser(user);
         session.save(userRole);
         session.getTransaction().commit();
         session.close();
+    }
+
+    @Override
+    public boolean isUserExistWithSuchName(String name) {
+        Session session = sessionFactory.openSession();
+        boolean exist = session.createCriteria(User.class)
+                .add(Restrictions.eq("username", name))
+                .setProjection(Projections.property("username"))
+                .uniqueResult() != null;
+        session.close();
+        return exist;
     }
 }

@@ -52,16 +52,16 @@ public class LoginController {
     public ModelAndView signup(@ModelAttribute("user")  @Validated RegisteredUser user, BindingResult bindingResult){
 
         if(bindingResult.hasErrors()){
-            System.out.println("Has errors");
             return new ModelAndView("WEB-INF/pages/signup");
         }
-//        User newUSer = new User();
-//        newUSer.setEnabled(true);
-//        System.out.println(user);
-        System.out.println("No errors");
 
-//        userDAO.addUser(user);
-        return new ModelAndView("index");
+        User newUSer = new User();
+        newUSer.setEnabled(true);
+        newUSer.setPassword(user.getPassword());
+        newUSer.setUsername(user.getUsername());
+
+        userDAO.addUser(newUSer);
+        return new ModelAndView("WEB-INF/pages/signupComplete");
 
     }
 

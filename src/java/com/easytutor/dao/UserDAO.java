@@ -9,4 +9,6 @@ public interface UserDAO {
     User getUserByName(String name);
 
     void addUser(User user);
+
+    boolean isUserExistWithSuchName(String name);
 }

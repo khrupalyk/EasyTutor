@@ -1,5 +1,7 @@
 package com.easytutor.models;
 
+import org.hibernate.validator.constraints.Length;
+
 import java.io.Serializable;
 
 /**
@@ -36,6 +38,7 @@ public class RegisteredUser implements Serializable {
         this.email = email;
     }
 
+    @Length(min = 6, max = 12)
     public String getConfirmPassword() {
         return confirmPassword;
     }

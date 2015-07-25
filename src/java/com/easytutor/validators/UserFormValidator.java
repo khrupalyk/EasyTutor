@@ -1,5 +1,6 @@
 package com.easytutor.validators;
 
+import com.easytutor.dao.UserDAO;
 import com.easytutor.models.RegisteredUser;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -10,6 +11,8 @@ import org.springframework.validation.Validator;
  */
 public class UserFormValidator implements Validator {
 
+    private UserDAO userDAO;
+
     @Override
     public boolean supports(Class<?> aClass) {
         return RegisteredUser.class.equals(aClass);
@@ -18,18 +21,37 @@ public class UserFormValidator implements Validator {
     @Override
     public void validate(Object o, Errors errors) {
 
-        RegisteredUser user = (RegisteredUser)o;
+        RegisteredUser user = (RegisteredUser) o;
 
 //        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "confirm.user.confirmPassword");
 
-        if (!user.getPassword().equals(user.getConfirmPassword())) {
-            System.out.println("ERROR");
-            errors.rejectValue("confirmPassword", "Ok.user.confirmPassword");
-        }else {
-            System.out.println("ERRORwwww");
+        if (user.getPassword().trim().isEmpty() || user.getConfirmPassword().trim().isEmpty()) {
 
+            if (user.getPassword().trim().isEmpty())
+                errors.rejectValue("password", "empty.user.confirmPassword");
+
+            if (user.getConfirmPassword().trim().isEmpty())
+                errors.rejectValue("confirmPassword", "empty.user.confirmPassword");
+
+
+        } else if (!user.getPassword().equals(user.getConfirmPassword())) {
+            errors.rejectValue("confirmPassword", "user.confirmPassword");
         }
 
+        if (user.getUsername().trim().isEmpty()) {
+            errors.rejectValue("username", "empty.user.username");
+        } else if (userDAO.isUserExistWithSuchName(user.getUsername())) {
+            errors.rejectValue("username", "user.username");
+        }
 
+    }
+
+
+    public UserDAO getUserDAO() {
+        return userDAO;
+    }
+
+    public void setUserDAO(UserDAO userDAO) {
+        this.userDAO = userDAO;
     }
 }

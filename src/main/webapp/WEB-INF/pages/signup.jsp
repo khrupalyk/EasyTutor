@@ -19,17 +19,19 @@
       <tr>
         <td>User Name:</td>
         <td><form:input path="username" /></td>
+        <td><form:errors path="username" cssClass="error" /></td>
       </tr>
       <tr>
         <td>Password:</td>
         <td><form:password path="password" /></td>
+        <td><form:errors path="password" cssClass="error" /></td>
       </tr>
       <tr>
         <td>Password:</td>
         <td><form:password path="confirmPassword" /></td>
+        <td><form:errors path="confirmPassword" cssClass="error" /></td>
       </tr>
       <tr>
-        <form:errors path="confirmPassword" cssClass="error" />
         <td colspan="2" align="center"><input type="submit" value="Register" /></td>
       </tr>
     </table>

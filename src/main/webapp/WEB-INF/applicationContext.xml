@@ -68,7 +68,10 @@
     </bean>
 
     <bean id="userService" class="com.easytutor.service.MyUserDetailsService"/>
-    <bean id="userFormValidator" class="com.easytutor.validators.UserFormValidator"/>
+
+    <bean id="userFormValidator" class="com.easytutor.validators.UserFormValidator">
+        <property name="userDAO" ref="userDAO"/>
+    </bean>
 
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
         <property name="basename" value="messages"/>
