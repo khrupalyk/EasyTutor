@@ -11,8 +11,8 @@
 <html>
 <head>
     <title></title>
-    <link href="<%=request.getContextPath()%>/resources/css/bootstrap-theme.css" rel="stylesheet"/>
-    <link href="<%=request.getContextPath()%>/resources/css/bootstrap-theme.css.map" rel="stylesheet"/>
+    <%--<link href="<%=request.getContextPath()%>/resources/css/bootstrap-theme.css" rel="stylesheet"/>--%>
+    <%--<link href="<%=request.getContextPath()%>/resources/css/bootstrap-theme.css.map" rel="stylesheet"/>--%>
     <link href="<%=request.getContextPath()%>/resources/css/bootstrap.css" rel="stylesheet"/>
     <link href="<%=request.getContextPath()%>/resources/css/test.questions.css" rel="stylesheet"/>
 </head>
@@ -34,20 +34,25 @@
             </div>
         </div>
     </div>
+
     <div class="test_questions">
         <c:forEach items="${test.testsQuestions}" var="testsQuestion">
             <div>
-                <div class="question_header choices active_choice selected wrong_answer"><c:out value="${testsQuestion.question.name}"/></div>
-                <ul class="choices">
-                    <c:forEach items="${testsQuestion.question.answers}" var="answer">
-                        <li class="${answer.content.equals(testsQuestion.selectedAnswer.content) ? "correct_answer" : "active_choice active"}">
-                            <div class="lastUnit"><c:out value="${answer.content}"/></div>
-                        </li>
-                    </c:forEach>
-                </ul>
+                    <%--<div class="question_header choices active_choice selected"><c:out value="${testsQuestion.question.name}"/></div>--%>
+                <div class="jumbotron">
+                    <h3><c:out value="${testsQuestion.question.name}"/></h3>
+                    <ul class="choices">
+                        <c:forEach items="${testsQuestion.question.answers}" var="answer">
+                            <li class="${answer.content.equals(testsQuestion.selectedAnswer.content) ? "bnt btn-material-green-500" : "active_choice active"}">
+                                <div class="lastUnit"><c:out value="${answer.content}"/></div>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </div>
             </div>
         </c:forEach>
     </div>
 </div>
+
 </body>
 </html>

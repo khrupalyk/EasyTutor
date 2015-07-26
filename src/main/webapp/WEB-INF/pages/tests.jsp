@@ -57,7 +57,7 @@
 
 
             function operateFormatter(value, row, index) {
-                return value !== undefined ? "<span class='like'><a>" + value + "</a></span>" : "<span class='like'>-</span>";
+                return value !== undefined ? "<span class='like' style='cursor: pointer;'><a>" + value + "</a></span>" : "<span class='like'>-</span>";
             }
             window.operateEvents = {
                 'click .like': function (e, value, row, index) {

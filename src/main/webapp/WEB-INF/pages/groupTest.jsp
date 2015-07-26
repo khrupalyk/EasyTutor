@@ -13,17 +13,22 @@
   <%--<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">--%>
   <%--<link rel="stylesheet" href="http://bootstrap-table.wenzhixin.net.cn/dist/bootstrap-table.min.css">--%>
   <script src="<%=request.getContextPath()%>/resources/javascript/jquery.js"></script>
-  <script src="<%=request.getContextPath()%>/resources/javascript/bootstrap-table.js"></script>
+  <%--<script src="<%=request.getContextPath()%>/resources/javascript/bootstrap-table.js"></script>--%>
   <link href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="<%=request.getContextPath()%>/resources/css/bootstrap-table.min.css" rel="stylesheet"/>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 
-  <%--<script src="http://wenzhixin.net.cn/p/bootstrap-table/docs/assets/bootstrap/js/bootstrap.min.js"></script>--%>
+
+    <script>
+        var object = undefined
+    </script>
   <%--<link href="<%=request.getContextPath()%>/resources/css/table.test.css" rel="stylesheet"/>--%>
 </head>
 
 <%@include file="template/header.jsp" %>
-
+<%--<script src="<%=request.getContextPath()%>/resources/javascript/bootstrap-table-all.js"></script>--%>
+<%--<script src="<%=request.getContextPath()%>/resources/javascript/bootstrap-table-all.min.js"></script>--%>
+<script src="<%=request.getContextPath()%>/resources/javascript/bootstrap-table.min.js"></script>
 <div class="container">
   <div class="table-responsive">
 
@@ -34,13 +39,24 @@
     <%--jo.put("count", test.getTestCount());--%>
     <%--<a href="tests">--%>
 
+        <div id="custom-toolbar">
+            <div class="form-inline" role="form">
+                <div class="form-group">
+                    <input type="button" class="btn btn-primary" value="Show all questions" id="showAllQuestions" disabled/>
+                </div>
+
+            </div>
+        </div>
+
     <table data-toggle="table"
            data-url="<%=request.getContextPath()%>/group-test?${params}"
            data-query-params="queryParams"
            data-pagination="true"
            data-search="true"
            data-height="600"
-           data-page-list="[50, 100, 200]">
+           data-page-list="[50, 100, 200]"
+           data-toolbar="#custom-toolbar"
+           id="events-table">
       <thead>
       <tr>
         <%--<th data-field="id" data-sortable="true">Test id</th>--%>
@@ -57,6 +73,13 @@
       </thead>
     </table>
     <script>
+        $('#events-table').bootstrapTable({
+            onLoadSuccess: function (data) {
+                if(data.length > 0) {
+                    object = data[0];
+                    $("#showAllQuestions").removeAttr("disabled");
+                }
+            }});
 
       function jsonToQueryString(json) {
         return '?' +
@@ -67,43 +90,24 @@
       }
 
       function operateFormatter(value, row, index) {
-
-
         return  "<strong><a href='test/" + row.id + "/questions'>" + value + "</a></strong>";
       }
-//      window.operateEvents = {
-//        'click .like': function (e, value, row, index) {
-//          delete row.count;
-//          delete row.undefined;
-//
-//        }
-//      };
+
+      $('#showAllQuestions').click( function(){
+//          alert('You clicked row '+ JSON.stringify($(".table tbody").find('tr')[0]));
+          if(object !== undefined){
+              delete object.date;
+              delete object.id;
+              delete object.user;
+              console.log(object);
+              console.log(JSON.stringify(object));
+              window.location.href = "<%=request.getContextPath()%>/questions/_all";
+          } else {
+              console.log("Object undefined")
+          }
+      });
+
     </script>
-    <%--<table class="table">--%>
-    <%--<thead>--%>
-
-    <%--<tr>--%>
-    <%--<th>Test name</th>--%>
-    <%--<th>Discipline</th>--%>
-    <%--<th>Group</th>--%>
-    <%--<th>Course</th>--%>
-    <%--<th>Count</th>--%>
-    <%--</tr>--%>
-    <%--</thead>--%>
-    <%--<tbody>--%>
-    <%--<c:forEach items="${tests}" var="i">--%>
-    <%--<tr>--%>
-    <%--<td><strong><a href="test/${i.testId}/questions">${i.name}</a></strong></td>--%>
-    <%--<td>${i.discipline}</td>--%>
-    <%--<td>${i.group}</td>--%>
-    <%--<td>${i.course}</td>--%>
-    <%--&lt;%&ndash;<td>${i.testResult == null ? "NaN" : i.testResult.current.toString().concat("/").concat(i.testResult.max)}</td>&ndash;%&gt;--%>
-    <%--<td>${i.testCount}</td>--%>
-    <%--</tr>--%>
-    <%--</c:forEach>--%>
-
-    <%--</tbody>--%>
-    <%--</table>--%>
   </div>
 </div>
 </body>
