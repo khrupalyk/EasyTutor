@@ -101,7 +101,7 @@
               delete object.user;
               console.log(object);
               console.log(JSON.stringify(object));
-              window.location.href = "<%=request.getContextPath()%>/questions/_all";
+              window.location.href = "<%=request.getContextPath()%>/questions/_all?" + $.param(object) ;
           } else {
               console.log("Object undefined")
           }

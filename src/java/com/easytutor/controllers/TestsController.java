@@ -88,8 +88,8 @@ public class TestsController {
 
         for (Map.Entry<String, String> stringStringEntry : params.entrySet()) {
             if (searchField.contains(stringStringEntry.getKey())) {
-                if(stringStringEntry.getKey().equals("course"))
-                map.put(stringStringEntry.getKey(), Integer.parseInt(stringStringEntry.getValue()));
+                if (stringStringEntry.getKey().equals("course"))
+                    map.put(stringStringEntry.getKey(), Integer.parseInt(stringStringEntry.getValue()));
                 else
                     map.put(stringStringEntry.getKey(), stringStringEntry.getValue());
             }
@@ -122,10 +122,14 @@ public class TestsController {
     }
 
     @RequestMapping(value = "questions/_all")
-    public ModelAndView getAllQuestions(){
+    public ModelAndView getAllQuestions(@RequestParam Map<String, String> params) {
         ModelAndView modelAndView = new ModelAndView("WEB-INF/pages/allQuestions");
 
-        modelAndView.addObject("questions", questionDAO.getAllQuestions());
+        Map<String, Object> par = filterParams(params);
+        if (par.isEmpty())
+            modelAndView.addObject("questions", new ArrayList<>());
+        else
+            modelAndView.addObject("questions", questionDAO.getQuestionsByTestInfo(filterParams(params)));
 
         return modelAndView;
     }

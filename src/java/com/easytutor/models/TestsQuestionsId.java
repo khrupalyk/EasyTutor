@@ -1,6 +1,7 @@
 package com.easytutor.models;
 
 import javax.persistence.Embeddable;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
 
@@ -15,7 +16,7 @@ public class TestsQuestionsId implements Serializable {
     private Test test;
     private Answer selectedAnswer;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     public Question getQuestion() {
         return question;
     }
@@ -33,7 +34,7 @@ public class TestsQuestionsId implements Serializable {
         this.test = test;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     public Answer getSelectedAnswer() {
         return selectedAnswer;
     }

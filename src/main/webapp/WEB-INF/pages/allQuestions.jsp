@@ -15,6 +15,7 @@
 <%@include file="template/header.jsp" %>
 <link href="<%=request.getContextPath()%>/resources/css/header.css" rel="stylesheet"/>
 
+<div style="width: 900px;">
 <div class="test_questions">
   <c:forEach items="${questions}" var="question">
     <div>
@@ -22,15 +23,16 @@
       <div class="jumbotron">
         <h3><c:out value="${question.name}"/></h3>
         <ul class="choices">
-          <c:forEach items="${question.answers}" var="answer">
-            <li class="${answer.content.equals(question.selectedAnswer.content) ? "bnt btn-material-green-500" : "active_choice active"}">
-              <div class="lastUnit"><c:out value="${answer.content}"/></div>
+          <c:forEach items="${question.answers}" var="questionsAnswer">
+            <li class="active_choice active">
+              <div class="lastUnit"><c:out value="${questionsAnswer.content}"/></div>
             </li>
           </c:forEach>
         </ul>
       </div>
     </div>
   </c:forEach>
+</div>
 </div>
 </body>
 </html>
