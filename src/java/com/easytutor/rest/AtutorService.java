@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-import javax.inject.Inject;
+//import javax.inject.Inject;
 import javax.naming.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -26,7 +26,7 @@ import javax.ws.rs.core.Response;
 @Path("atutor")
 public class AtutorService {
 
-    private TemporaryTestStorage tempTestIds = (TemporaryTestStorage) ApplicationContextProvider.getBean("TemporaryTestStorage");
+    private TemporaryTestStorage tempTestIds = (TemporaryTestStorage) ApplicationContextProvider.getApplicationContext().getBean("TemporaryTestStorage");
 
     @POST
     @Path("test/questions")
