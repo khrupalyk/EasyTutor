@@ -25,7 +25,8 @@
         <ul class="choices">
           <c:forEach items="${question.answers}" var="questionsAnswer">
             <li class="active_choice active">
-              <div class="lastUnit"><c:out value="${questionsAnswer.content}"/></div>
+              <div class="lastUnit"><c:out value="${questionsAnswer.selectedCount}"/> <c:out value="${questionsAnswer.content}"/>
+                </div>
             </li>
           </c:forEach>
         </ul>

@@ -19,7 +19,7 @@
 
         <logout logout-success-url="/login?logout"/>
 
-        <csrf/>
+        <!--<csrf/>-->
     </http>
 
     <authentication-manager>

@@ -97,6 +97,31 @@ public class TestsController {
         return map;
     }
 
+    public Map<String, Object> filterParam(Map<String, String> params) {
+
+        Map<String, Object> map = new TreeMap<>();
+
+        List<String> searchField = new ArrayList<>();
+        searchField.add("name");
+        searchField.add("group");
+        searchField.add("course");
+        searchField.add("discipline");
+
+        for (Map.Entry<String, String> stringStringEntry : params.entrySet()) {
+            if (searchField.contains(stringStringEntry.getKey())) {
+                if (stringStringEntry.getKey().equals("course"))
+                    map.put(stringStringEntry.getKey(), Integer.parseInt(stringStringEntry.getValue()));
+                else if (stringStringEntry.getKey().equals("group"))
+                    map.put("groups", stringStringEntry.getValue());
+                else if (stringStringEntry.getKey().equals("discipline"))
+                    map.put("discipline_name", stringStringEntry.getValue());
+                else
+                    map.put(stringStringEntry.getKey(), stringStringEntry.getValue());
+            }
+        }
+        return map;
+    }
+
     @RequestMapping(value = {"group-test"}, method = RequestMethod.GET)
     public
     @ResponseBody
@@ -125,11 +150,11 @@ public class TestsController {
     public ModelAndView getAllQuestions(@RequestParam Map<String, String> params) {
         ModelAndView modelAndView = new ModelAndView("WEB-INF/pages/allQuestions");
 
-        Map<String, Object> par = filterParams(params);
+        Map<String, Object> par = filterParam(params);
         if (par.isEmpty())
             modelAndView.addObject("questions", new ArrayList<>());
         else
-            modelAndView.addObject("questions", questionDAO.getQuestionsByTestInfo(filterParams(params)));
+            modelAndView.addObject("questions", questionDAO.getQuestionsByTestInfo(par));
 
         return modelAndView;
     }

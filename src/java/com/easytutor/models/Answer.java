@@ -17,6 +17,7 @@ public class Answer implements Serializable {
 
 //    private int answerId;
     private String content;
+    private int selectedCount = 0;
     private List<QuestionsAnswers> questionsAnswers = new ArrayList<>();
 
     public Answer() {
@@ -65,5 +66,17 @@ public class Answer implements Serializable {
 //                "answerId=" + answerId +
                 ", content='" + content + '\'' +
                 '}';
+    }
+
+    @Transient
+    public int getSelectedCount() {
+        return selectedCount;
+    }
+
+    public void setSelectedCount(int selectedCount) {
+        this.selectedCount = selectedCount;
+    }
+    public void incrementSelectedCount() {
+        this.selectedCount ++;
     }
 }

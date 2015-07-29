@@ -88,7 +88,6 @@ public class TestDAOImpl implements TestDAO {
             query.setParameter("questionId", nextElement.getName());
             nextElement.setAnswers(query.list());
         }
-
         session.close();
 
         return test;
