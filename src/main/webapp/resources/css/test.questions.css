@@ -1,7 +1,7 @@
 .test_info {
     float: left;
     width: 300px;
-    padding: 5px;
+    /*padding: 5px;*/
 }
 
 .test_questions {
@@ -9,4 +9,17 @@
     float: left;
     padding: 5px;
     width: 700px;
+}
+
+.floating {
+    background: #1c1c1c;
+    color: #fff;
+    font: normal normal 14px Tahoma;
+    padding: 10px;
+    width: 300px;
+}
+.fixed {
+    position: fixed;
+    top: 10px;
+    z-index: 9999;
 }

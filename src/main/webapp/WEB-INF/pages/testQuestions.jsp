@@ -21,19 +21,8 @@
 <%@include file="template/header.jsp" %>
 <link href="<%=request.getContextPath()%>/resources/css/header.css" rel="stylesheet"/>
 
-<div>
-    <div class="test_info">
-        <div class="panel panel-default">
-            <div class="panel-heading">Test information</div>
-            <div class="panel-body">
-                ${test.name} <br/>
-                ${test.discipline}<br/>
-                ${test.group}<br/>
-                ${test.submissionTime}<br/>
-                ${test.userATutor.name}<br/>
-            </div>
-        </div>
-    </div>
+<div style="margin: 0 auto; width: 700px; ">
+
 
     <div class="test_questions">
         <c:forEach items="${test.testsQuestions}" var="testsQuestion">
@@ -53,6 +42,45 @@
         </c:forEach>
     </div>
 </div>
-
+<div class="right">
+<div id="fixed">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            ${test.name} <br/>
+            ${test.discipline}<br/>
+            ${test.group}-${test.course}<br/>
+            ${test.submissionTime}<br/>
+            <c:if test="${test.testResult != null}">
+                ${test.testResult}<br/>
+            </c:if>
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
+                ${test.userATutor.name}<br/>
+            </sec:authorize>
+        </div>
+    </div>
+</div>
+    </div>
+<script>
+    $(function() {
+        var offset = $("#fixed").offset();
+        var topPadding = 15;
+        $(window).scroll(function() {
+            if ($(window).scrollTop() > offset.top) {
+                $("#fixed").stop().animate({marginTop: $(window).scrollTop() - offset.top + topPadding});
+            }
+            else {$("#fixed").stop().animate({marginTop: 0});};});
+    });
+</script>
+<style>
+    .right {
+        margin-top: 2px;
+        float: left;
+        width: 20%;
+    }
+    #fixed {
+        /*background: #CCC;*/
+        padding: 20px;
+    }
+</style>
 </body>
 </html>

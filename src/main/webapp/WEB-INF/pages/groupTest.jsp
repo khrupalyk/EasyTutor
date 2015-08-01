@@ -66,8 +66,11 @@
         <th data-field="discipline" data-sortable="true">Discipline</th>
         <th data-field="group" data-sortable="true">Group</th>
         <th data-field="course" data-sortable="true">Course</th>
-        <th data-field="user" data-sortable="true">User</th>
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
+                <th data-field="user" data-sortable="true">User</th>
+            </sec:authorize>
         <th data-field="date" data-sortable="true">Date</th>
+        <th data-field="result" data-sortable="true">Result</th>
         <%--<th data-field="count" data-sortable="true">Count</th>--%>
       </tr>
       </thead>

@@ -8,7 +8,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <link href="http://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/css/material-fullpalette.css" rel="stylesheet"/>
-
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/login.css"/>
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -24,7 +24,7 @@
             <%--<li><a href="#">Page 1-3</a></li>--%>
           <%--</ul>--%>
         <%--</li>--%>
-        <li><a href="<%=request.getContextPath()%>/tests">All tests</a></li>
+        <li><a href="<%=request.getContextPath()%>/tests">Тести</a></li>
         <li><a href="#">Page 3</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -39,17 +39,4 @@
     </div>
   </div>
 </nav>
-<%--<header>--%>
-  <%--<link href="<%=request.getContextPath()%>/resources/css/header.css" rel="stylesheet"/>--%>
-
-  <%--<div class="nav">--%>
-    <%--<ul>--%>
-      <%--<li class="home"><a href="<%=request.getContextPath()%>/tests">All tests</a></li>--%>
-      <%--<li class="tutorials"><a class="" href="#">Tutorials</a></li>--%>
-      <%--<li class="about"><a href="#">About</a></li>--%>
-      <%--<li class="news"><a href="#">Newsletter</a></li>--%>
-      <%--<li class="contact"><a href="<%=request.getContextPath()%>/contact">Contact</a></li>--%>
-    <%--</ul>--%>
-  <%--</div>--%>
-<%--</header>--%>
 </body>

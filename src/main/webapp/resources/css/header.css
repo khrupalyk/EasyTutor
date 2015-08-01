@@ -68,7 +68,8 @@ li.correct_answer {
 }
 
 .test_info {
-    margin-top: 20px;
+    /*margin-top: 20px;*/
+    position: fixed;
 }
 
 .wrong_answer {
@@ -77,4 +78,10 @@ li.correct_answer {
     filter: none;
     background: rgb(252, 248, 248);
     border: 1px solid rgb(149, 72, 72);
+}
+
+.qq {
+    height: 40px;
+    margin-left: -16px;
+    margin-top: -11px;
 }

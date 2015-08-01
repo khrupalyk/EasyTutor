@@ -138,6 +138,8 @@ public class TestsController {
             jo.put("course", test.getCourse());
             jo.put("user", test.getUserATutor() != null ? test.getUserATutor().getName() : "Unknown user");
             jo.put("date", test.getSubmissionTime());
+            if (test.getTestResult() != null)
+                jo.put("result", test.getTestResult().toString());
             ja.put(jo);
         }
 

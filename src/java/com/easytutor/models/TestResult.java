@@ -54,4 +54,9 @@ public class TestResult implements Serializable {
     public void setTest(Test test) {
         this.test = test;
     }
+
+    @Override
+    public String toString() {
+        return current + "/" + max;
+    }
 }
