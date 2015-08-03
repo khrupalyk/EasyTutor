@@ -21,6 +21,7 @@
 <%@include file="template/header.jsp" %>
 <link href="<%=request.getContextPath()%>/resources/css/header.css" rel="stylesheet"/>
 
+
 <div style="margin: 0 auto; width: 700px; ">
 
 
@@ -33,7 +34,7 @@
                     <ul class="choices">
                         <c:forEach items="${testsQuestion.question.answers}" var="answer">
                             <li class="${answer.content.equals(testsQuestion.selectedAnswer.content) ? "bnt btn-material-green-500" : "active_choice active"}">
-                                <div class="lastUnit"><c:out value="${answer.content}"/></div>
+                                <div class="lastUnit">${answer.selectedCount} <c:out value="${answer.content}"/></div>
                             </li>
                         </c:forEach>
                     </ul>
@@ -43,32 +44,48 @@
     </div>
 </div>
 <div class="right">
-<div id="fixed">
-    <div class="panel panel-default">
-        <div class="panel-body">
-            ${test.name} <br/>
-            ${test.discipline}<br/>
-            ${test.group}-${test.course}<br/>
-            ${test.submissionTime}<br/>
-            <c:if test="${test.testResult != null}">
-                ${test.testResult}<br/>
-            </c:if>
-            <sec:authorize access="hasRole('ROLE_ADMIN')">
-                ${test.userATutor.name}<br/>
-            </sec:authorize>
+    <div id="fixed">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                ${test.name} <br/>
+                ${test.discipline}<br/>
+                ${test.group}-${test.course}<br/>
+                ${test.submissionTime}<br/>
+                <c:if test="${test.testResult != null}">
+                    ${test.testResult}<br/>
+                </c:if>
+                <sec:authorize access="hasRole('ROLE_ADMIN')">
+                    ${test.userATutor.name}<br/>
+                </sec:authorize>
+
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="togglebutton">
+                    Show statistic
+                    <label style="float: right" >
+                        <input type="checkbox" ><span class="toggle" ></span>
+                    </label>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-    </div>
+
 <script>
-    $(function() {
+    $(function () {
         var offset = $("#fixed").offset();
         var topPadding = 15;
-        $(window).scroll(function() {
+        $(window).scroll(function () {
             if ($(window).scrollTop() > offset.top) {
                 $("#fixed").stop().animate({marginTop: $(window).scrollTop() - offset.top + topPadding});
             }
-            else {$("#fixed").stop().animate({marginTop: 0});};});
+            else {
+                $("#fixed").stop().animate({marginTop: 0});
+            }
+            ;
+        });
     });
 </script>
 <style>
@@ -77,6 +94,7 @@
         float: left;
         width: 20%;
     }
+
     #fixed {
         /*background: #CCC;*/
         padding: 20px;

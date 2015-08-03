@@ -9,6 +9,8 @@
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <link href="http://cdn.jsdelivr.net/bootstrap.material-design/0.3.0/css/material-fullpalette.css" rel="stylesheet"/>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/login.css"/>
+<link href="https://fezvrasta.github.io/bootstrap-material-design/dist/css/material-fullpalette.min.css" rel="stylesheet"/>
+
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">

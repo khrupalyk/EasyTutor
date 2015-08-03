@@ -34,7 +34,7 @@ public class TestsController {
     @RequestMapping(value = "test/{testId}/questions")
     public ModelAndView getQuestions(@PathVariable("testId") String testId) {
 
-        Test test = testDAO.getTest(UUID.fromString(testId));
+        Test test = testDAO.getTestWithQuestionStatistic(UUID.fromString(testId));
 
         ModelAndView modelAndView = new ModelAndView("WEB-INF/pages/testQuestions");
         modelAndView.addObject("test", test);

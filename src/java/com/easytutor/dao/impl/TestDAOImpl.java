@@ -1,9 +1,11 @@
 package com.easytutor.dao.impl;
 
+import com.easytutor.dao.QuestionDAO;
 import com.easytutor.dao.TestDAO;
 import com.easytutor.models.Question;
 import com.easytutor.models.Test;
 import com.easytutor.models.TestsQuestions;
+import org.apache.commons.collections.map.HashedMap;
 import org.hibernate.*;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -11,10 +13,10 @@ import org.hibernate.transform.Transformers;
 import org.hibernate.type.StandardBasicTypes;
 import org.hibernate.type.Type;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by root on 26.06.15.
@@ -23,12 +25,22 @@ public class TestDAOImpl implements TestDAO {
 
     private SessionFactory sessionFactory;
 
+    private QuestionDAO questionDAO;
+
     public SessionFactory getSessionFactory() {
         return sessionFactory;
     }
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
+    }
+
+    public QuestionDAO getQuestionDAO() {
+        return questionDAO;
+    }
+
+    public void setQuestionDAO(QuestionDAO questionDAO) {
+        this.questionDAO = questionDAO;
     }
 
     @Override
@@ -117,12 +129,41 @@ public class TestDAOImpl implements TestDAO {
     public List<Test> getTests(Map<String, Object> params) {
 
         Session session = sessionFactory.openSession();
-        Criteria criteria = session.createCriteria(Test.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);;
+        Criteria criteria = session.createCriteria(Test.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        ;
         for (Map.Entry<String, Object> stringStringEntry : params.entrySet()) {
             criteria.add(Restrictions.eq(stringStringEntry.getKey(), stringStringEntry.getValue()));
         }
         List result = criteria.list();
         session.close();
         return result;
+    }
+
+    @Override
+    public Test getTestWithQuestionStatistic(UUID testId) {
+
+        Session session = sessionFactory.openSession();
+        Test test = (Test) session.get(Test.class, testId);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", test.getName());
+        map.put("discipline_name", test.getDiscipline());
+        if (test.getCourse() != 0)
+            map.put("course", test.getCourse());
+        map.put("groups", test.getGroup());
+
+        List<Question> questionsWithStatistic = questionDAO.getQuestionsByTestInfo(map);
+
+        test.getTestsQuestions().forEach(testsQuestions -> {
+            testsQuestions.setQuestion(
+                    questionsWithStatistic.stream()
+                            .filter(e -> e.getName().equals(testsQuestions.getQuestion().getName()))
+                            .findAny()
+                            .orElse(testsQuestions.getQuestion()));
+
+        });
+
+        session.close();
+        return test;
     }
 }

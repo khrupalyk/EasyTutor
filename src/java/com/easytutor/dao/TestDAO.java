@@ -27,4 +27,6 @@ public interface TestDAO {
 
     List<Test> getTests(Map<String, Object> params);
 
+    Test getTestWithQuestionStatistic(UUID testId);
+
 }

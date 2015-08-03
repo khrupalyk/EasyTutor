@@ -45,6 +45,7 @@
 
     <bean id="testDAO" class="com.easytutor.dao.impl.TestDAOImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="questionDAO" ref="questionDAO"/>
     </bean>
 
     <bean id="questionDAO" class="com.easytutor.dao.impl.QuestionDAOImpl">

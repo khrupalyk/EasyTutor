@@ -71,26 +71,27 @@ public class QuestionDAOImpl implements QuestionDAO {
         return questions;
     }
 
-    private List<Question> getQuestions(List<Test> tests) {
+    @Override
+    public List<Question> getQuestionsWithStatistic(List<Test> tests) {
 
         List<Question> questions = new ArrayList<>();
 
-        tests.forEach(test -> {
-            test.getTestsQuestions().forEach(testsQuestions -> {
-                Answer selectedAnswer = testsQuestions.getSelectedAnswer();
-                Question question = testsQuestions.getQuestion();
-                List<Answer> ans = question.getAnswers().stream().map(e -> {
-                    Answer newAnsw = new Answer();
-                    newAnsw.setContent(e.getContent());
-                    if (e.getContent().equals(selectedAnswer.getContent())) {
-                        newAnsw.incrementSelectedCount();
-                    }
-                    return newAnsw;
-                }).collect(Collectors.toList());
-                question.setAnswers(ans);
-                questions.add(question);
-            });
-        });
+        tests.forEach(test ->
+                        test.getTestsQuestions().forEach(testsQuestions -> {
+                            Answer selectedAnswer = testsQuestions.getSelectedAnswer();
+                            Question question = testsQuestions.getQuestion();
+                            List<Answer> ans = question.getAnswers().stream().map(e -> {
+                                Answer newAnsw = new Answer();
+                                newAnsw.setContent(e.getContent());
+                                if (e.getContent().equals(selectedAnswer.getContent())) {
+                                    newAnsw.incrementSelectedCount();
+                                }
+                                return newAnsw;
+                            }).collect(Collectors.toList());
+                            question.setAnswers(ans);
+                            questions.add(question);
+                        })
+        );
 
         Map<String, List<Question>> map = questions.stream().collect(Collectors.groupingBy(Question::getName));
 
@@ -131,7 +132,7 @@ public class QuestionDAOImpl implements QuestionDAO {
         });
 
         List<Test> testList = session.createSQLQuery("SELECT * FROM tests WHERE " + sb.replace(sb.lastIndexOf("AND"), sb.lastIndexOf("AND") + 3, "").toString()).addEntity(Test.class).list();
-        List<Question> questionsNew = getQuestions(testList.stream().map(test -> testDAO.getTest(test.getTestId())).collect(Collectors.toList()));
+        List<Question> questionsNew = getQuestionsWithStatistic(testList.stream().map(test -> testDAO.getTest(test.getTestId())).collect(Collectors.toList()));
 
         session.close();
         return questionsNew;

@@ -1,6 +1,7 @@
 package com.easytutor.dao;
 
 import com.easytutor.models.Question;
+import com.easytutor.models.Test;
 
 import java.util.List;
 import java.util.Map;
@@ -20,4 +21,6 @@ public interface QuestionDAO {
     List<Question> getAllQuestions();
 
     List<Question> getQuestionsByTestInfo(Map<String, Object> params);
+
+    List<Question> getQuestionsWithStatistic(List<Test> tests);
 }
