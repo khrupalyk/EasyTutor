@@ -29,6 +29,7 @@
 <%--<script src="<%=request.getContextPath()%>/resources/javascript/bootstrap-table-all.js"></script>--%>
 <%--<script src="<%=request.getContextPath()%>/resources/javascript/bootstrap-table-all.min.js"></script>--%>
 <script src="<%=request.getContextPath()%>/resources/javascript/bootstrap-table.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/bootstrap-table.min.js"></script>
 <div class="container">
   <div class="table-responsive">
 

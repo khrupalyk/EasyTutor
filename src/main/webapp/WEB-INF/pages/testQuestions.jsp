@@ -25,7 +25,7 @@
 <div style="margin: 0 auto; width: 700px; ">
 
 
-    <div class="test_questions">
+    <div class="test_questions" id="question-test">
         <c:forEach items="${test.testsQuestions}" var="testsQuestion">
             <div>
                     <%--<div class="question_header choices active_choice selected"><c:out value="${testsQuestion.question.name}"/></div>--%>
@@ -33,8 +33,9 @@
                     <h3><c:out value="${testsQuestion.question.name}"/></h3>
                     <ul class="choices">
                         <c:forEach items="${testsQuestion.question.answers}" var="answer">
-                            <li class="${answer.content.equals(testsQuestion.selectedAnswer.content) ? "bnt btn-material-green-500" : "active_choice active"}">
-                                <div class="lastUnit">${answer.selectedCount} <c:out value="${answer.content}"/></div>
+                            <li class="${answer.content.equals(testsQuestion.selectedAnswer.content) ? "bnt btn-material-green-500 active_choice" : "active_choice active"}">
+                                <div class="lastUnit" count="${answer.selectedCount}"> <c:out value="${answer.content}"/></div>
+                                <div class="qq"></div>
                             </li>
                         </c:forEach>
                     </ul>
@@ -65,7 +66,7 @@
                 <div class="togglebutton">
                     Show statistic
                     <label style="float: right" >
-                        <input type="checkbox" ><span class="toggle" ></span>
+                        <input type="checkbox" id="show-statistic"><span class="toggle" ></span>
                     </label>
                 </div>
             </div>
@@ -74,6 +75,66 @@
 </div>
 
 <script>
+
+    $("#show-statistic").click(function(){
+        if($("input[id='show-statistic']:checked").length >=1){
+
+//        alert($("input[id='show-statistic']:checked").length);
+            buildStatistic();
+        } else {
+            cleanStatistic();
+        }
+    });
+
+    function cleanStatistic(){
+        var divs = $("#question-test > div");
+        divs.each(function(){
+            var count = 0;
+
+            $(this).find(".lastUnit").each(function(){
+                count += parseInt($(this).attr("count"))
+            });
+
+            $(this).find(".active_choice").each(function(){
+                var ddd = this;
+                $(ddd).find(".qq").each(function(){
+                    var l = (parseInt($(ddd).find(".lastUnit").attr("count"))*100) /count;
+//                    $(this).attr("style", "width:0px;");
+                    $(this).animate({ "width": "-=" + ((l * $(ddd).width() + 16)/100 ) + "px" }, 500);
+//                    $(this).addClass("bnt btn-material-green-500");
+                });
+            });
+
+        })
+    }
+
+    function buildStatistic(){
+        var divs = $("#question-test > div");
+        divs.each(function(){
+            var count = 0;
+
+            $(this).find(".lastUnit").each(function(){
+                count += parseInt($(this).attr("count"))
+            });
+
+            $(this).find("li").each(function(){
+                console.log($(this).height())
+            });
+
+
+            $(this).find(".active_choice").each(function(){
+                var ddd = this;
+                $(ddd).find(".qq").each(function(){
+                    var l = (parseInt($(ddd).find(".lastUnit").attr("count"))*100) /count;
+                    $(this).attr("style", "width:0px;");
+                    $(this).animate({ "width": "+=" + ((l * $(ddd).width() + 16)/100 ) + "px" }, 500);
+                    $(this).addClass("bnt btn-material-green-500");
+                });
+            });
+
+        })
+    }
+
     $(function () {
         var offset = $("#fixed").offset();
         var topPadding = 15;
