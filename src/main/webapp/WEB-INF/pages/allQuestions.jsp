@@ -25,7 +25,15 @@
           <ul class="choices">
             <c:forEach items="${question.answers}" var="questionsAnswer">
               <li class="active_choice active answer">
-                <div class="lastUnit" style="position: absolute;" count="<c:out value="${questionsAnswer.selectedCount}"/>"><c:out value="${questionsAnswer.content}"/>
+                <div class="lastUnit" style="position: absolute; width: 780px;" count="<c:out value="${questionsAnswer.selectedCount}"/>"><c:out value="${questionsAnswer.content}"/>
+                  пoдiлy cтopiнки нa чacтини для вiдoбpaжeння в ниx piзниx HTML-дoкyмeнтiв
+
+                  пoдiлy cтopiнки нa чacтини для вiдoбpaжeння в ниx piзниx HTML-дoкyмeнтiв
+
+                  пoдiлy cтopiнки нa чacтини для вiдoбpaжeння в ниx piзниx HTML-дoкyмeнтiв
+
+                  пoдiлy cтopiнки нa чacтини для вiдoбpaжeння в ниx piзниx HTML-дoкyмeнтiв
+
 
                 </div>
                 <div class="qq"></div>
@@ -56,15 +64,39 @@
           var ddd = this;
           $(ddd).find(".qq").each(function(){
             var l = (parseInt($(ddd).find(".lastUnit").attr("count"))*100) /count;
-            $(this).attr("style", "width:0px;");
-            $(this).animate({ "width": "+=" + ((l * $(ddd).width() + 16)/100 ) + "px" }, 2000);
+            $(this).css("width", "0px");
+            $(this).animate({ "width": "+=" + ((l * $(ddd).width() + 16)/100 ) + "px" }, 1000);
             $(this).addClass("bnt btn-material-green-500");
           });
         });
 
       })
     }
-    buildStatistic();
+
+
+    function setNormalHeight(){
+      var divs = $("#question-test > div");
+      divs.each(function(){
+
+        $(this).find(".active_choice").each(function(){
+          var ddd = this;
+          var height = $(ddd).find(".lastUnit").outerHeight();
+          $(ddd).find(".qq").each(function(){
+            $(ddd).attr("style", "height:" + (height + 15) + "px;");
+//            $(this).animate({ "width": "+=" + ((l * $(ddd).width() + 16)/100 ) + "px" }, 1000);
+            $(this).css({"height" : ((height + 15) + "px")});
+//            $(this).addClass("bnt btn-material-green-600");
+
+          });
+//          console.log($(this).find("div").next().html());
+//          $(this).find("div").next().css({"height" : ((height + 15) + "px")});
+        });
+
+      });
+      buildStatistic();
+    }
+
+    setNormalHeight();
   </script>
   <style>
     .choices li {
