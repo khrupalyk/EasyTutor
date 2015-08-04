@@ -26,14 +26,6 @@
             <c:forEach items="${question.answers}" var="questionsAnswer">
               <li class="active_choice active answer">
                 <div class="lastUnit" style="position: absolute; width: 780px;" count="<c:out value="${questionsAnswer.selectedCount}"/>"><c:out value="${questionsAnswer.content}"/>
-                  пoдiлy cтopiнки нa чacтини для вiдoбpaжeння в ниx piзниx HTML-дoкyмeнтiв
-
-                  пoдiлy cтopiнки нa чacтини для вiдoбpaжeння в ниx piзниx HTML-дoкyмeнтiв
-
-                  пoдiлy cтopiнки нa чacтини для вiдoбpaжeння в ниx piзниx HTML-дoкyмeнтiв
-
-                  пoдiлy cтopiнки нa чacтини для вiдoбpaжeння в ниx piзниx HTML-дoкyмeнтiв
-
 
                 </div>
                 <div class="qq"></div>

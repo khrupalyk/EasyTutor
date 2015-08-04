@@ -33,8 +33,9 @@
                     <h3><c:out value="${testsQuestion.question.name}"/></h3>
                     <ul class="choices">
                         <c:forEach items="${testsQuestion.question.answers}" var="answer">
-                            <li class="${answer.content.equals(testsQuestion.selectedAnswer.content) ? "bnt btn-material-green-500 active_choice" : "active_choice active"}">
-                                <div class="lastUnit" count="${answer.selectedCount}"> <c:out value="${answer.content}"/></div>
+                            <li class="${answer.content.equals(testsQuestion.selectedAnswer.content) ? "active_choice selected" : "active_choice active"}">
+                                <div class="lastUnit" style="position: absolute; width: 580px;"
+                                     count="${answer.selectedCount}"><c:out value="${answer.content}"/></div>
                                 <div class="qq"></div>
                             </li>
                         </c:forEach>
@@ -65,8 +66,8 @@
             <div class="panel-body">
                 <div class="togglebutton">
                     Show statistic
-                    <label style="float: right" >
-                        <input type="checkbox" id="show-statistic"><span class="toggle" ></span>
+                    <label style="float: right">
+                        <input type="checkbox" id="show-statistic"><span class="toggle"></span>
                     </label>
                 </div>
             </div>
@@ -76,64 +77,97 @@
 
 <script>
 
-    $("#show-statistic").click(function(){
-        if($("input[id='show-statistic']:checked").length >=1){
+    $("#show-statistic").click(function () {
+        if ($("input[id='show-statistic']:checked").length >= 1) {
 
-//        alert($("input[id='show-statistic']:checked").length);
             buildStatistic();
         } else {
             cleanStatistic();
         }
     });
 
-    function cleanStatistic(){
+    function cleanStatistic() {
         var divs = $("#question-test > div");
-        divs.each(function(){
+        divs.each(function () {
             var count = 0;
 
-            $(this).find(".lastUnit").each(function(){
+            $(this).find(".lastUnit").each(function () {
                 count += parseInt($(this).attr("count"))
             });
 
-            $(this).find(".active_choice").each(function(){
+            $(this).find(".active_choice").each(function () {
                 var ddd = this;
-                $(ddd).find(".qq").each(function(){
-                    var l = (parseInt($(ddd).find(".lastUnit").attr("count"))*100) /count;
-//                    $(this).attr("style", "width:0px;");
-                    $(this).animate({ "width": "-=" + ((l * $(ddd).width() + 16)/100 ) + "px" }, 500);
-//                    $(this).addClass("bnt btn-material-green-500");
+                var isSelected = $(this).hasClass("selected");
+                $(ddd).find(".qq").each(function () {
+
+                    if (isSelected) {
+                        var interest = (parseInt($(ddd).find(".lastUnit").attr("count")) * 100) / count;
+                        var current = 100 - interest;
+                        $(this).animate({"width": "+=" + ((current * $(ddd).width() + 16) / 100 ) + "px"}, 1000);
+                    } else {
+                        var l = (parseInt($(ddd).find(".lastUnit").attr("count")) * 100) / count;
+                        $(this).animate({"width": "-=" + ((l * $(ddd).width() + 16) / 100 ) + "px"}, 1000);
+                    }
                 });
             });
 
         })
     }
 
-    function buildStatistic(){
+    function buildStatistic() {
         var divs = $("#question-test > div");
-        divs.each(function(){
+        divs.each(function () {
             var count = 0;
 
-            $(this).find(".lastUnit").each(function(){
+            $(this).find(".lastUnit").each(function () {
                 count += parseInt($(this).attr("count"))
             });
 
-            $(this).find("li").each(function(){
-                console.log($(this).height())
-            });
-
-
-            $(this).find(".active_choice").each(function(){
+            $(this).find(".active_choice").each(function () {
                 var ddd = this;
-                $(ddd).find(".qq").each(function(){
-                    var l = (parseInt($(ddd).find(".lastUnit").attr("count"))*100) /count;
-                    $(this).attr("style", "width:0px;");
-                    $(this).animate({ "width": "+=" + ((l * $(ddd).width() + 16)/100 ) + "px" }, 500);
-                    $(this).addClass("bnt btn-material-green-500");
+                var isSelected = $(this).hasClass("selected");
+
+                $(ddd).find(".qq").each(function () {
+
+                    if (isSelected) {
+                        var interest = (parseInt($(ddd).find(".lastUnit").attr("count")) * 100) / count;
+                        var current = 100 - interest;
+                        $(this).animate({"width": "-=" + ((current * $(ddd).width() + 16) / 100 ) + "px"}, 1000);
+                    } else {
+                        var interest2 = (parseInt($(ddd).find(".lastUnit").attr("count")) * 100) / count;
+                        $(this).css("width", "0px");
+                        $(this).animate({"width": "+=" + ((interest2 * $(ddd).width() + 16) / 100 ) + "px"}, 1000);
+                        $(this).addClass("bnt btn-material-green-500");
+                    }
+
+
                 });
             });
 
         })
     }
+
+    function setNormalHeight() {
+        var divs = $("#question-test > div");
+        divs.each(function () {
+
+            $(this).find(".active_choice").each(function () {
+                var ddd = this;
+                var height = $(ddd).find(".lastUnit").outerHeight();
+                var isSelected = $(this).hasClass("selected");
+                $(ddd).find(".qq").each(function () {
+                    $(ddd).css("height", (height + 15) + "px");
+                    if (isSelected) {
+                        $(this).css("width", $(ddd).width() + "px");
+                        $(this).addClass("bnt btn-material-green-500");
+                    }
+                    $(this).css({"height": ((height + 15) + "px")});
+                });
+            });
+        });
+    }
+
+    setNormalHeight();
 
     $(function () {
         var offset = $("#fixed").offset();

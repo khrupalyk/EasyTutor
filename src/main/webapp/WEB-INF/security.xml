@@ -9,7 +9,7 @@
     <http auto-config="true" >
         <intercept-url pattern="/tests" access="ROLE_USER" />
         <intercept-url pattern="/search" access="ROLE_USER" />
-        <intercept-url pattern="/test/**" access="ROLE_USER"/>
+        <!--<intercept-url pattern="/test/**" access="ROLE_USER"/>-->
         <form-login
                 login-page="/login"
                 default-target-url="/"
