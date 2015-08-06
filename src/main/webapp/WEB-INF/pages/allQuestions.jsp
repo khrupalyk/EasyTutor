@@ -42,22 +42,17 @@
       var divs = $("#question-test > div");
       divs.each(function(){
         var count = 0;
-
         $(this).find(".lastUnit").each(function(){
           count += parseInt($(this).attr("count"))
         });
-
-        $(this).find("li").each(function(){
-          console.log($(this).height())
-        });
-
 
         $(this).find(".active_choice").each(function(){
           var ddd = this;
           $(ddd).find(".qq").each(function(){
             var l = (parseInt($(ddd).find(".lastUnit").attr("count"))*100) /count;
             $(this).css("width", "0px");
-            $(this).animate({ "width": "+=" + ((l * $(ddd).width() + 16)/100 ) + "px" }, 1000);
+
+            $(this).animate({ "width": "+=" + ((l * $(ddd).outerWidth())/100 ) + "px" }, 1000);
             $(this).addClass("bnt btn-material-green-500");
           });
         });
@@ -75,13 +70,10 @@
           var height = $(ddd).find(".lastUnit").outerHeight();
           $(ddd).find(".qq").each(function(){
             $(ddd).attr("style", "height:" + (height + 15) + "px;");
-//            $(this).animate({ "width": "+=" + ((l * $(ddd).width() + 16)/100 ) + "px" }, 1000);
             $(this).css({"height" : ((height + 15) + "px")});
-//            $(this).addClass("bnt btn-material-green-600");
 
           });
-//          console.log($(this).find("div").next().html());
-//          $(this).find("div").next().css({"height" : ((height + 15) + "px")});
+
         });
 
       });

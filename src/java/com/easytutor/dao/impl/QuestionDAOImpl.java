@@ -142,7 +142,7 @@ public class QuestionDAOImpl implements QuestionDAO {
         });
 
         List<UUID> testList = session.createQuery("select testId from Test  where " + sb.replace(sb.lastIndexOf("AND"), sb.lastIndexOf("AND") + 3, "").toString()).list();
-        List<Question> questionsNew = getQuestionsWithStatistic(testList.stream().map(testId -> testDAO.getTest(testId, session)).collect(Collectors.toList()));
+        List<Question> questionsNew = getQuestionsWithStatistic(testList.stream().map(testId -> testDAO.getTest(testId)).collect(Collectors.toList()));
 
         session.close();
         return questionsNew;

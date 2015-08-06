@@ -103,10 +103,10 @@
                     if (isSelected) {
                         var interest = (parseInt($(ddd).find(".lastUnit").attr("count")) * 100) / count;
                         var current = 100 - interest;
-                        $(this).animate({"width": "+=" + ((current * $(ddd).width() + 16) / 100 ) + "px"}, 1000);
+                        $(this).animate({"width": "+=" + ((current * $(ddd).outerWidth()) / 100 ) + "px"}, 1000);
                     } else {
                         var l = (parseInt($(ddd).find(".lastUnit").attr("count")) * 100) / count;
-                        $(this).animate({"width": "-=" + ((l * $(ddd).width() + 16) / 100 ) + "px"}, 1000);
+                        $(this).animate({"width": "-=" + ((l * $(ddd).outerWidth()) / 100 ) + "px"}, 1000);
                     }
                 });
             });
@@ -132,11 +132,11 @@
                     if (isSelected) {
                         var interest = (parseInt($(ddd).find(".lastUnit").attr("count")) * 100) / count;
                         var current = 100 - interest;
-                        $(this).animate({"width": "-=" + ((current * $(ddd).width() + 16) / 100 ) + "px"}, 1000);
+                        $(this).animate({"width": "-=" + ((current * $(ddd).outerWidth() + 16) / 100 ) + "px"}, 1000);
                     } else {
                         var interest2 = (parseInt($(ddd).find(".lastUnit").attr("count")) * 100) / count;
                         $(this).css("width", "0px");
-                        $(this).animate({"width": "+=" + ((interest2 * $(ddd).width() + 16) / 100 ) + "px"}, 1000);
+                        $(this).animate({"width": "+=" + ((interest2 * $(ddd).outerWidth() + 16) / 100 ) + "px"}, 1000);
                         $(this).addClass("bnt btn-material-green-500");
                     }
 
@@ -158,7 +158,7 @@
                 $(ddd).find(".qq").each(function () {
                     $(ddd).css("height", (height + 15) + "px");
                     if (isSelected) {
-                        $(this).css("width", $(ddd).width() + "px");
+                        $(this).css("width", $(ddd).outerWidth() + "px");
                         $(this).addClass("bnt btn-material-green-500");
                     }
                     $(this).css({"height": ((height + 15) + "px")});
