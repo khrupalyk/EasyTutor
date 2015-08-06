@@ -112,9 +112,9 @@ public class TestsController {
                 if (stringStringEntry.getKey().equals("course"))
                     map.put(stringStringEntry.getKey(), Integer.parseInt(stringStringEntry.getValue()));
                 else if (stringStringEntry.getKey().equals("group"))
-                    map.put("groups", stringStringEntry.getValue());
+                    map.put("group", stringStringEntry.getValue());
                 else if (stringStringEntry.getKey().equals("discipline"))
-                    map.put("discipline_name", stringStringEntry.getValue());
+                    map.put("discipline", stringStringEntry.getValue());
                 else
                     map.put(stringStringEntry.getKey(), stringStringEntry.getValue());
             }

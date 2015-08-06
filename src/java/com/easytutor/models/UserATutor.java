@@ -15,21 +15,8 @@ import java.util.List;
 @Table(name = "users_atutor")
 public class UserATutor implements Serializable{
 
-//    private int userId;
     private String name;
     private List<Test> tests = new ArrayList<>();
-
-//    @Id
-//    @GeneratedValue(generator = "increment")
-//    @GenericGenerator(name = "increment", strategy = "increment")
-//    @Column(name = "user_atutor_id")
-//    public int getUserId() {
-//        return userId;
-//    }
-//
-//    public void setUserId(int userId) {
-//        this.userId = userId;
-//    }
 
     @Id
     @Column(name = "name")

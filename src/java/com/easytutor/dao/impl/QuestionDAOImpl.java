@@ -4,6 +4,7 @@ import com.easytutor.dao.QuestionDAO;
 import com.easytutor.dao.TestDAO;
 import com.easytutor.models.*;
 import com.easytutor.utils.ApplicationContextProvider;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -15,7 +16,15 @@ import java.util.stream.Collectors;
  */
 public class QuestionDAOImpl implements QuestionDAO {
 
-    TestDAO testDAO = ApplicationContextProvider.getApplicationContext().getBean(TestDAO.class);
+    TestDAO testDAO;
+
+    public TestDAO getTestDAO() {
+        return testDAO;
+    }
+
+    public void setTestDAO(TestDAO testDAO) {
+        this.testDAO = testDAO;
+    }
 
     private SessionFactory sessionFactory;
 
@@ -26,6 +35,7 @@ public class QuestionDAOImpl implements QuestionDAO {
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
+
 
     @Override
     public void saveOrUpdate(Question question) {
@@ -128,11 +138,11 @@ public class QuestionDAOImpl implements QuestionDAO {
             if (v instanceof Integer)
                 sb.append(k).append("=").append(v).append(" AND ");
             else
-                sb.append(k).append("=").append("\"").append(v).append("\" AND ");
+                sb.append(k).append("=").append("'").append(v).append("' AND ");
         });
 
-        List<Test> testList = session.createSQLQuery("SELECT * FROM tests WHERE " + sb.replace(sb.lastIndexOf("AND"), sb.lastIndexOf("AND") + 3, "").toString()).addEntity(Test.class).list();
-        List<Question> questionsNew = getQuestionsWithStatistic(testList.stream().map(test -> testDAO.getTest(test.getTestId())).collect(Collectors.toList()));
+        List<UUID> testList = session.createQuery("select testId from Test  where " + sb.replace(sb.lastIndexOf("AND"), sb.lastIndexOf("AND") + 3, "").toString()).list();
+        List<Question> questionsNew = getQuestionsWithStatistic(testList.stream().map(testId -> testDAO.getTest(testId, session)).collect(Collectors.toList()));
 
         session.close();
         return questionsNew;

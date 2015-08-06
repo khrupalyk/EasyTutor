@@ -51,7 +51,7 @@ public class Answer implements Serializable {
         this.content = content;
     }
 
-    @OneToMany(mappedBy = "pk.answer", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "pk.answer", fetch = FetchType.LAZY)
     public List<QuestionsAnswers> getQuestionsAnswers() {
         return questionsAnswers;
     }

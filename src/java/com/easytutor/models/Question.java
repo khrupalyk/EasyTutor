@@ -73,7 +73,7 @@ public class Question implements java.io.Serializable {
 //                    @JoinColumn(name = "answer_content", nullable = false, updatable = false)
 //            })
 //    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @OneToMany(mappedBy = "pk.question", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "pk.question", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     public List<QuestionsAnswers> getQuestionsAnswers() {
         return questionsAnswers;
     }

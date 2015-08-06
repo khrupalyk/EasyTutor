@@ -106,6 +106,21 @@ public class TestDAOImpl implements TestDAO {
     }
 
     @Override
+    public Test getTest(UUID testId, Session session) {
+        Test test = (Test) session.get(Test.class, testId);
+        Iterator<TestsQuestions> l = test.getTestsQuestions().iterator();
+        while (l.hasNext()) {
+            Question nextElement = l.next().getQuestion();
+            Query query = session.createQuery("" +
+                    "from Answer as answ where answ.id IN (select q.pk.answer.id from QuestionsAnswers as q where q.pk.testId = :testId AND q.pk.question.id = :questionId)");
+            query.setParameter("testId", testId);
+            query.setParameter("questionId", nextElement.getName());
+            nextElement.setAnswers(query.list());
+        }
+        return test;
+    }
+
+    @Override
     public List<Test> getUniqueTests() {
         Session session = sessionFactory.openSession();
         List results = session.createCriteria(Test.class)
@@ -147,10 +162,10 @@ public class TestDAOImpl implements TestDAO {
 
         Map<String, Object> map = new HashMap<>();
         map.put("name", test.getName());
-        map.put("discipline_name", test.getDiscipline());
+        map.put("discipline", test.getDiscipline());
         if (test.getCourse() != 0)
             map.put("course", test.getCourse());
-        map.put("groups", test.getGroup());
+        map.put("group", test.getGroup());
 
         List<Question> questionsWithStatistic = questionDAO.getQuestionsByTestInfo(map);
 

@@ -1,6 +1,7 @@
 package com.easytutor.dao;
 
 import com.easytutor.models.Test;
+import org.hibernate.Session;
 
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,9 @@ public interface TestDAO {
     List<Test> getAllTests();
 
     Test getTest(UUID testId);
+
+    Test getTest(UUID testId, Session session);
+
 
     List<Test> getUniqueTests();
 
