@@ -1,20 +1,14 @@
 package com.easytutor.api.rest;
 
-import com.easytutor.api.rest.obj.QuestionInfo;
-import com.easytutor.api.rest.obj.TestInfo;
-import com.easytutor.api.rest.obj.TestScores;
+import com.easytutor.api.rest.obj.*;
 import com.easytutor.dao.*;
-import com.easytutor.dao.impl.TestDAOImpl;
 import com.easytutor.models.*;
 import com.easytutor.utils.ApplicationContextProvider;
 import com.easytutor.utils.TemporaryTestStorage;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -39,22 +33,6 @@ public class ATutorService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response storeObjects(TestInfo testInfo) {
 
-//        Logger
-
-//        for (QuestionInfo questionInfo : testInfo.getBody()) {
-//            try {
-//                Logger.getLogger(ATutorService.class.getName()).severe("Test id: " + testInfo.getTestId());
-//
-//        aTutorDAO.saveTest(testInfo);
-//
-//            } catch (UnsupportedEncodingException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//        Logger.getLogger(ATutorService.class.getName()).info("Count element in list: " + testInfo.getBody().size());
-        Logger.getLogger(ATutorService.class.getName()).info("Count element in list: " + testInfo.getTestId());
-//        System.out.println("Test id: " + testInfo.getTestId());
         UUID testId = UUID.fromString(testInfo.getTestId());
         Test test = new Test();
         test.setSubmissionTime(new Date());
@@ -80,15 +58,13 @@ public class ATutorService {
             questionDAO.saveOrUpdate(questionObj);
 
             List<QuestionsAnswers> answersList = new ArrayList<>();
-            for (String answer : answers) {
+            for (String answer : answers.stream().distinct().collect(Collectors.toList())) {
                 Answer answerObj = new Answer(answer);
-//                answerObj.getQuestions().add(questionObj);
                 answerDAO.saveOrUpdate(answerObj);
                 answersList.add(createQuestionsAnswers(questionObj, answerObj, testId));
             }
 
             questionObj.setQuestionsAnswers(answersList);
-//            questionObj.setQuestionsAnswers(answersList);
             questionDAO.saveOrUpdate(questionObj);
 
             TestsQuestions testsQuestions1 = createTestQuestions(test, questionObj, selectedAnswer);
@@ -96,8 +72,6 @@ public class ATutorService {
             questionObj.getTestsQuestions().add(testsQuestions1);
 
         }
-
-//        userATutor.getTests().add(test);
         test.setUserATutor(userATutor);
         test.setTestsQuestions(testsQuestions);
 
@@ -124,6 +98,23 @@ public class ATutorService {
         }
     }
 
+    public Optional<Integer> extractCourseOpt(String str) {
+        try {
+            String strNumber = str.split("-")[1];
+            return Optional.of(Integer.valueOf(strNumber.charAt(0) + ""));
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
+    public Optional<String> extractGroupOpt(String string) {
+        try {
+            return Optional.of(string.split("-")[0]);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
     public QuestionsAnswers createQuestionsAnswers(Question question, Answer answer, UUID testId) {
         QuestionsAnswers questionsAnswers = new QuestionsAnswers();
         questionsAnswers.setQuestion(question);
@@ -145,7 +136,6 @@ public class ATutorService {
     @Produces(MediaType.APPLICATION_JSON)
     public void storeTestResult(TestScores testScores) {
         TestResult testResult = new TestResult();
-        Logger.getLogger(ATutorService.class.getName()).info("Count element in list: " + testScores.getId());
 
         testResult.setTestId(UUID.fromString(testScores.getId()));
         testResult.setMax(testScores.getMaxScores());
@@ -158,10 +148,27 @@ public class ATutorService {
     @Path("test/temp-test")
     public Response generateTempTestId() {
         UUID testId = UUID.randomUUID();
-        tempTestIds.putTestId(testId);
-        Logger.getLogger(ATutorService.class.getName()).info("Generated id: " + testId);
+//        tempTestIds.putTestId(testId);
         return Response.ok(testId.toString()).build();
     }
+
+    @POST
+    @Path("answer-for-question")
+    @Produces(MediaType.APPLICATION_JSON)
+    public FoundAnswer getAnswerForQuestion(LookingAnswer question) {
+//    curl -XPOST http://localhost:8080/easytutor/rest/atutor/answer-for-question -d '{"testName" : "Модуль 1", "questionName":"Beб-caйт – цe", "discipline": "Програмування інтернет", "group": "СП-31"}' -H "Content-Type:application/json"
+
+
+        return answerDAO.getAnswerByInfo(
+                question.getTestName(),
+                question.getDiscipline(),
+                question.getQuestionName(),
+                extractCourseOpt(question.getGroup()),
+                extractGroupOpt(question.getGroup()));
+    }
+
+
+
 
     @OPTIONS
     @Path("/*")

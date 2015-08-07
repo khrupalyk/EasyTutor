@@ -1,5 +1,6 @@
 package com.easytutor.models;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -15,6 +16,7 @@ public class TestsQuestionsId implements Serializable {
     private Question question;
     private Test test;
     private Answer selectedAnswer;
+    private boolean isCorrect;
 
     @ManyToOne(fetch = FetchType.EAGER)
     public Question getQuestion() {
@@ -41,6 +43,16 @@ public class TestsQuestionsId implements Serializable {
 
     public void setSelectedAnswer(Answer selectedAnswer) {
         this.selectedAnswer = selectedAnswer;
+    }
+
+
+    public void setIsCorrect(boolean isCorrect) {
+        this.isCorrect = isCorrect;
+    }
+
+    @Column(name = "is_correct")
+    public boolean getIsCorrect() {
+        return this.isCorrect;
     }
 }
 

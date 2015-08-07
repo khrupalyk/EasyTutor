@@ -23,4 +23,5 @@ public interface QuestionDAO {
     List<Question> getQuestionsByTestInfo(Map<String, Object> params);
 
     List<Question> getQuestionsWithStatistic(List<Test> tests);
+
 }

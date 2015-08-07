@@ -44,6 +44,11 @@ public class TestsQuestions implements Serializable {
         return pk.getTest();
     }
 
+    @Transient
+    public boolean isCorrect() {
+        return pk.getIsCorrect();
+    }
+
     public void setSelectedAnswer(Answer answer) {
         pk.setSelectedAnswer(answer);
     }
@@ -55,4 +60,10 @@ public class TestsQuestions implements Serializable {
     public void setQuestion(Question question) {
         pk.setQuestion(question);
     }
+
+    public void setIsCorrect(boolean isCorrect) {
+        this.pk.setIsCorrect(isCorrect);
+    }
+
+
 }

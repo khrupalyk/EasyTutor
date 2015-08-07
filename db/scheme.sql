@@ -50,6 +50,7 @@ CREATE TABLE tests_questions (
   test_id        BINARY(16),
   question_name  VARCHAR(100),
   answer_content VARCHAR(200),
+  is_correct     BOOL DEFAULT false,
   PRIMARY KEY (test_id, question_name, answer_content),
   CONSTRAINT FK_TESTS_QUESTIONS_TEST_ID FOREIGN KEY (test_id) REFERENCES tests (test_id),
   CONSTRAINT FK_TESTS_QUESTIONS_ANSWER_ID FOREIGN KEY (answer_content) REFERENCES answers (content),
