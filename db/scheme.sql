@@ -16,7 +16,7 @@ CREATE TABLE users_atutor (
 
 CREATE TABLE tests (
   test_id BINARY(16),
-  name    VARCHAR(100),
+  name    VARCHAR(250),
   discipline_name VARCHAR(300),
   groups VARCHAR(10),
   course INT,
@@ -27,19 +27,19 @@ CREATE TABLE tests (
 );
 
 CREATE TABLE questions (
-  name   VARCHAR(100),
-  header VARCHAR(100),
+  name   VARCHAR(250),
+  header VARCHAR(250),
   PRIMARY KEY (name)
 );
 
 CREATE TABLE answers (
-  content VARCHAR(200),
+  content VARCHAR(250),
   PRIMARY KEY (content)
 );
 
 CREATE TABLE questions_answers (
-  question_name  VARCHAR(100),
-  answer_content VARCHAR(200),
+  question_name  VARCHAR(250),
+  answer_content VARCHAR(250),
   test_id BINARY(16),
   PRIMARY KEY (question_name, answer_content, test_id),
   CONSTRAINT FK_QUESTIONS_ANSWERS_QUESTION_ID FOREIGN KEY (question_name) REFERENCES questions (name),
@@ -48,8 +48,8 @@ CREATE TABLE questions_answers (
 
 CREATE TABLE tests_questions (
   test_id        BINARY(16),
-  question_name  VARCHAR(100),
-  answer_content VARCHAR(200),
+  question_name  VARCHAR(250),
+  answer_content VARCHAR(250),
   is_correct     BOOL DEFAULT false,
   PRIMARY KEY (test_id, question_name, answer_content),
   CONSTRAINT FK_TESTS_QUESTIONS_TEST_ID FOREIGN KEY (test_id) REFERENCES tests (test_id),

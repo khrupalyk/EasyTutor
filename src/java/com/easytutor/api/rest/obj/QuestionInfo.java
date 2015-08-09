@@ -56,6 +56,22 @@ public class QuestionInfo implements Serializable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        QuestionInfo that = (QuestionInfo) o;
+
+        return !(question != null ? !question.equals(that.question) : that.question != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return question != null ? question.hashCode() : 0;
+    }
+
+    @Override
     public String toString() {
         return "QuestionInfo{" +
                 "answer='" + answer + '\'' +
@@ -64,5 +80,7 @@ public class QuestionInfo implements Serializable {
                 ", question='" + question + '\'' +
                 ", answers=" + answers +
                 '}';
+
+
     }
 }

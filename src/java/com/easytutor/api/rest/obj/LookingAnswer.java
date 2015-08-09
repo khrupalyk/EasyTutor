@@ -9,7 +9,7 @@ public class LookingAnswer implements Serializable {
     private String testName;
     private String discipline;
     private String group;
-    private String questionName;
+    private String question;
 
     public String getTestName() {
         return testName;
@@ -35,11 +35,11 @@ public class LookingAnswer implements Serializable {
         this.group = group;
     }
 
-    public String getQuestionName() {
-        return questionName;
+    public String getQuestion() {
+        return question;
     }
 
-    public void setQuestionName(String questionName) {
-        this.questionName = questionName;
+    public void setQuestion(String question) {
+        this.question = question;
     }
 }

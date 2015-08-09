@@ -12,6 +12,7 @@ public class FoundAnswer implements Serializable {
     private boolean isCorrect = false;
     private String correctAnswer;
     private List<AnswerStatistic> answerStatistic = new ArrayList<>();
+    private boolean exist;
 
     public boolean isCorrect() {
         return isCorrect;
@@ -35,6 +36,14 @@ public class FoundAnswer implements Serializable {
 
     public void setAnswerStatistic(List<AnswerStatistic> answerStatistic) {
         this.answerStatistic = answerStatistic;
+    }
+
+    public boolean isExist() {
+        return exist;
+    }
+
+    public void setExist(boolean exist) {
+        this.exist = exist;
     }
 
     @Override

@@ -15,7 +15,15 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Subqueries;
 import com.easytutor.api.rest.*;
+import org.hibernate.engine.spi.LoadQueryInfluencers;
+import org.hibernate.engine.spi.SessionFactoryImplementor;
+import org.hibernate.internal.CriteriaImpl;
+import org.hibernate.internal.SessionImpl;
+import org.hibernate.loader.OuterJoinLoader;
+import org.hibernate.loader.criteria.CriteriaLoader;
+import org.hibernate.persister.entity.OuterJoinLoadable;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -92,19 +100,45 @@ public class AnswerDAOImpl implements AnswerDAO {
         courseOpt.map(course -> testIdsCriteria.add(Restrictions.eq("course", course)));
         groupOpt.map(group -> testIdsCriteria.add(Restrictions.eq("group", group)));
 
+        CriteriaImpl c = (CriteriaImpl) session.createCriteria(TestsQuestions.class).add(Restrictions.in("pk.test.testId", testIdsCriteria.list())).add(Restrictions.eq("pk.question.name", questionName));
+        SessionImpl s = (SessionImpl) c.getSession();
+        SessionFactoryImplementor factory = (SessionFactoryImplementor) s.getSessionFactory();
+        String[] implementors = factory.getImplementors(c.getEntityOrClassName());
+        LoadQueryInfluencers lqis = new LoadQueryInfluencers();
+        CriteriaLoader loader = new CriteriaLoader((OuterJoinLoadable) factory.getEntityPersister(implementors[0]), factory, c, implementors[0], lqis);
+        Field f = null;
+        try {
+            f = OuterJoinLoader.class.getDeclaredField("sql");
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+        f.setAccessible(true);
+        try {
+            String sql = (String) f.get(loader);
+            System.out.println("Sql: " + sql);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
         List<TestsQuestions> testsQuestions = session.createCriteria(TestsQuestions.class).add(Restrictions.in("pk.test.testId", testIdsCriteria.list())).add(Restrictions.eq("pk.question.name", questionName)).list();
 
+        FoundAnswer foundAnswer;
 
-        FoundAnswer foundAnswer = testsQuestions.stream().filter(e -> e.getPk().getIsCorrect()).findAny().map(testQuestions -> {
+        if (testsQuestions.isEmpty()) {
+            foundAnswer = new FoundAnswer();
+            foundAnswer.setExist(false);
+        } else {
+            foundAnswer = testsQuestions.stream().filter(e -> e.getPk().getIsCorrect()).findAny().map(testQuestions -> {
+                FoundAnswer foundAnswer2 = new FoundAnswer();
+                foundAnswer2.setIsCorrect(true);
+                foundAnswer2.setCorrectAnswer(testQuestions.getQuestion().getName());
 
-            FoundAnswer foundAnswer2 = new FoundAnswer();
-            foundAnswer2.setIsCorrect(true);
-            foundAnswer2.setCorrectAnswer(testQuestions.getQuestion().getName());
-
-            return foundAnswer2;
-        }).orElse(createStatisticForFoundAnswer(testsQuestions));
-
+                return foundAnswer2;
+            }).orElse(createStatisticForFoundAnswer(testsQuestions));
+            foundAnswer.setExist(true);
             System.out.println(foundAnswer);
+        }
+
 
         session.close();
 
@@ -112,7 +146,7 @@ public class AnswerDAOImpl implements AnswerDAO {
 
     }
 
-    private FoundAnswer createStatisticForFoundAnswer(List<TestsQuestions> testsQuestions){
+    private FoundAnswer createStatisticForFoundAnswer(List<TestsQuestions> testsQuestions) {
 
         FoundAnswer foundAnswer = new FoundAnswer();
         foundAnswer.setIsCorrect(false);

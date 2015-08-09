@@ -33,87 +33,61 @@ public class ATutorService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response storeObjects(TestInfo testInfo) {
 
-        UUID testId = UUID.fromString(testInfo.getTestId());
-        Test test = new Test();
-        test.setSubmissionTime(new Date());
-        test.setName(testInfo.getModuleName());
-        test.setTestId(testId);
-        test.setDiscipline(testInfo.getDiscipline());
-        test.setGroup(extractGroup(testInfo.getGroup()));
-        test.setCourse(getCourse(testInfo.getGroup()));
+        Runnable task2 = () -> {
 
-        List<QuestionInfo> questions = testInfo.getBody();
+            UUID testId = UUID.fromString(testInfo.getTestId());
+            Test test = new Test();
+            test.setSubmissionTime(new Date());
+            test.setName(testInfo.getModuleName());
+            test.setTestId(testId);
+            test.setDiscipline(testInfo.getDiscipline());
+            test.setGroup(extractGroup(testInfo.getGroup()));
+            test.setCourse(getCourse(testInfo.getGroup()));
 
-        UserATutor userATutor = new UserATutor();
-        userATutor.setName(testInfo.getUser());
-        userATutorDAO.saveOrUpdate(userATutor);
+            List<QuestionInfo> questions = testInfo.getBody();
 
-        List<TestsQuestions> testsQuestions = new ArrayList<>();
+            UserATutor userATutor = new UserATutor();
+            userATutor.setName(testInfo.getUser());
+            userATutorDAO.saveOrUpdate(userATutor);
 
-        for (QuestionInfo question : questions) {
-            Question questionObj = new Question(question.getQuestion(), question.getQuestionHeader());
-            Answer selectedAnswer = new Answer(question.getAnswer());
-            List<String> answers = question.getAnswers();
+            List<TestsQuestions> testsQuestions = new ArrayList<>();
 
-            questionDAO.saveOrUpdate(questionObj);
+            for (QuestionInfo question : questions.stream().distinct().collect(Collectors.toList())) {
+                Question questionObj = new Question(question.getQuestion(), question.getQuestionHeader());
+                Answer selectedAnswer = new Answer(question.getAnswer());
+                List<String> answers = question.getAnswers();
 
-            List<QuestionsAnswers> answersList = new ArrayList<>();
-            for (String answer : answers.stream().distinct().collect(Collectors.toList())) {
-                Answer answerObj = new Answer(answer);
-                answerDAO.saveOrUpdate(answerObj);
-                answersList.add(createQuestionsAnswers(questionObj, answerObj, testId));
+                questionDAO.saveOrUpdate(questionObj);
+
+                List<QuestionsAnswers> answersList = new ArrayList<>();
+                for (String answer : answers.stream().distinct().collect(Collectors.toList())) {
+                    Answer answerObj = new Answer(answer);
+                    answerDAO.saveOrUpdate(answerObj);
+                    answersList.add(createQuestionsAnswers(questionObj, answerObj, testId));
+                }
+
+                questionObj.setQuestionsAnswers(answersList);
+                questionDAO.saveOrUpdate(questionObj);
+
+                TestsQuestions testsQuestions1 = createTestQuestions(test, questionObj, selectedAnswer);
+                testsQuestions.add(testsQuestions1);
+                questionObj.getTestsQuestions().add(testsQuestions1);
+
             }
+            test.setUserATutor(userATutor);
+            test.setTestsQuestions(testsQuestions);
 
-            questionObj.setQuestionsAnswers(answersList);
-            questionDAO.saveOrUpdate(questionObj);
+            testDAO.saveOrUpdate(test);
 
-            TestsQuestions testsQuestions1 = createTestQuestions(test, questionObj, selectedAnswer);
-            testsQuestions.add(testsQuestions1);
-            questionObj.getTestsQuestions().add(testsQuestions1);
+        };
 
-        }
-        test.setUserATutor(userATutor);
-        test.setTestsQuestions(testsQuestions);
-
-        testDAO.saveOrUpdate(test);
+        new Thread(task2).start();
 
 
-        return Response.ok().build();
+        return Response.ok().header("Access-Control-Allow-Origin", "*").build();
     }
 
-    public int getCourse(String str) {
-        try {
-            String strNumber = str.split("-")[1];
-            return Integer.valueOf(strNumber.charAt(0) + "");
-        } catch (Exception e) {
-            return 0;
-        }
-    }
 
-    public String extractGroup(String string) {
-        try {
-            return string.split("-")[0];
-        } catch (Exception e) {
-            return "";
-        }
-    }
-
-    public Optional<Integer> extractCourseOpt(String str) {
-        try {
-            String strNumber = str.split("-")[1];
-            return Optional.of(Integer.valueOf(strNumber.charAt(0) + ""));
-        } catch (Exception e) {
-            return Optional.empty();
-        }
-    }
-
-    public Optional<String> extractGroupOpt(String string) {
-        try {
-            return Optional.of(string.split("-")[0]);
-        } catch (Exception e) {
-            return Optional.empty();
-        }
-    }
 
     public QuestionsAnswers createQuestionsAnswers(Question question, Answer answer, UUID testId) {
         QuestionsAnswers questionsAnswers = new QuestionsAnswers();
@@ -148,6 +122,7 @@ public class ATutorService {
     @Path("test/temp-test")
     public Response generateTempTestId() {
         UUID testId = UUID.randomUUID();
+        System.out.println("Generated test id: " + testId);
 //        tempTestIds.putTestId(testId);
         return Response.ok(testId.toString()).build();
     }
@@ -162,20 +137,55 @@ public class ATutorService {
         return answerDAO.getAnswerByInfo(
                 question.getTestName(),
                 question.getDiscipline(),
-                question.getQuestionName(),
+                question.getQuestion(),
                 extractCourseOpt(question.getGroup()),
                 extractGroupOpt(question.getGroup()));
     }
 
 
+//    @OPTIONS
+//    @Path("/*")
+//    public Response getOptions() {
+//        return Response.ok()
+//                .header("Access-Control-Allow-Origin", "*")
+//                .header("Access-Control-Allow-Headers", "Accept, Content-type, X-Json, X-Prototype-Version, X-Requested-With")
+//                .build();
+//    }
 
+    public int getCourse(String str) {
+        try {
+            String strNumber = str.split("-")[1];
+            return Integer.valueOf(strNumber.charAt(0) + "");
+        } catch (Exception e) {
+            return 0;
+        }
+    }
 
-    @OPTIONS
-    @Path("/*")
-    public Response getOptions() {
-        return Response.ok()
-                .header("Access-Control-Allow-Origin", "*")
-                .header("Access-Control-Allow-Headers", "Accept, Content-type, X-Json, X-Prototype-Version, X-Requested-With")
-                .build();
+    public String extractGroup(String string) {
+        try {
+            return string.split("-")[0];
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    public Optional<Integer> extractCourseOpt(String str) {
+        try {
+            String strNumber = str.split("-")[1];
+            return Optional.of(Integer.valueOf(strNumber.charAt(0) + ""));
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
+    public Optional<String> extractGroupOpt(String string) {
+        try {
+            if (string.split("-")[0].trim().isEmpty())
+                return Optional.empty();
+            else
+                return Optional.of(string.split("-")[0]);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 }
