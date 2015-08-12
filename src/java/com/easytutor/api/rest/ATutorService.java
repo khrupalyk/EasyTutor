@@ -133,24 +133,31 @@ public class ATutorService {
     public FoundAnswer getAnswerForQuestion(LookingAnswer question) {
 //    curl -XPOST http://localhost:8080/easytutor/rest/atutor/answer-for-question -d '{"testName" : "Модуль 1", "questionName":"Beб-caйт – цe", "discipline": "Програмування інтернет", "group": "СП-31"}' -H "Content-Type:application/json"
 
+        try{
+            FoundAnswer foundAnswer = answerDAO.getAnswerByInfo(
+                    question.getTestName(),
+                    question.getDiscipline(),
+                    question.getQuestion(),
+                    extractCourseOpt(question.getGroup()),
+                    extractGroupOpt(question.getGroup()));
 
-        return answerDAO.getAnswerByInfo(
-                question.getTestName(),
-                question.getDiscipline(),
-                question.getQuestion(),
-                extractCourseOpt(question.getGroup()),
-                extractGroupOpt(question.getGroup()));
+            return foundAnswer;
+        }catch (Exception e) {
+            return new FoundAnswer();
+        }
+
+
     }
 
 
-//    @OPTIONS
-//    @Path("/*")
-//    public Response getOptions() {
-//        return Response.ok()
-//                .header("Access-Control-Allow-Origin", "*")
-//                .header("Access-Control-Allow-Headers", "Accept, Content-type, X-Json, X-Prototype-Version, X-Requested-With")
-//                .build();
-//    }
+    @OPTIONS
+    @Path("/*")
+    public Response getOptions() {
+        return Response.ok()
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Headers", "Accept, Content-type, X-Json, X-Prototype-Version, X-Requested-With")
+                .build();
+    }
 
     public int getCourse(String str) {
         try {
