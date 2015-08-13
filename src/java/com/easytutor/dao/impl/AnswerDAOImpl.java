@@ -91,58 +91,62 @@ public class AnswerDAOImpl implements AnswerDAO {
     public FoundAnswer getAnswerByInfo(String testName, String discipline, String questionName, Optional<Integer> courseOpt, Optional<String> groupOpt) {
 
         Session session = sessionFactory.openSession();
-
-        Criteria testIdsCriteria = session.createCriteria(Test.class)
-                .add(Restrictions.eq("name", testName))
-                .add(Restrictions.eq("discipline", discipline))
-                .setProjection(Projections.property("testId"));
-
-        courseOpt.map(course -> testIdsCriteria.add(Restrictions.eq("course", course)));
-        groupOpt.map(group -> testIdsCriteria.add(Restrictions.eq("group", group)));
-
-        CriteriaImpl c = (CriteriaImpl) session.createCriteria(TestsQuestions.class).add(Restrictions.in("pk.test.testId", testIdsCriteria.list())).add(Restrictions.eq("pk.question.name", questionName));
-        SessionImpl s = (SessionImpl) c.getSession();
-        SessionFactoryImplementor factory = (SessionFactoryImplementor) s.getSessionFactory();
-        String[] implementors = factory.getImplementors(c.getEntityOrClassName());
-        LoadQueryInfluencers lqis = new LoadQueryInfluencers();
-        CriteriaLoader loader = new CriteriaLoader((OuterJoinLoadable) factory.getEntityPersister(implementors[0]), factory, c, implementors[0], lqis);
-        Field f = null;
         try {
-            f = OuterJoinLoader.class.getDeclaredField("sql");
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
+            Criteria testIdsCriteria = session.createCriteria(Test.class)
+                    .add(Restrictions.eq("name", testName))
+                    .add(Restrictions.eq("discipline", discipline))
+                    .setProjection(Projections.property("testId"));
+
+            courseOpt.map(course -> testIdsCriteria.add(Restrictions.eq("course", course)));
+            groupOpt.map(group -> testIdsCriteria.add(Restrictions.eq("group", group)));
+//
+//        CriteriaImpl c = (CriteriaImpl) session.createCriteria(TestsQuestions.class).add(Restrictions.in("pk.test.testId", testIdsCriteria.list())).add(Restrictions.eq("pk.question.name", questionName));
+//        SessionImpl s = (SessionImpl) c.getSession();
+//        SessionFactoryImplementor factory = (SessionFactoryImplementor) s.getSessionFactory();
+//        String[] implementors = factory.getImplementors(c.getEntityOrClassName());
+//        LoadQueryInfluencers lqis = new LoadQueryInfluencers();
+//        CriteriaLoader loader = new CriteriaLoader((OuterJoinLoadable) factory.getEntityPersister(implementors[0]), factory, c, implementors[0], lqis);
+//        Field f = null;
+//        try {
+//            f = OuterJoinLoader.class.getDeclaredField("sql");
+//        } catch (NoSuchFieldException e) {
+//            e.printStackTrace();
+//        }
+//        f.setAccessible(true);
+//        try {
+//            String sql = (String) f.get(loader);
+//            System.out.println("Sql: " + sql);
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        }
+
+            List<TestsQuestions> testsQuestions = session.createCriteria(TestsQuestions.class).add(Restrictions.in("pk.test.testId", testIdsCriteria.list())).add(Restrictions.eq("pk.question.name", questionName)).list();
+
+            FoundAnswer foundAnswer;
+
+            if (testsQuestions.isEmpty()) {
+                foundAnswer = new FoundAnswer();
+                foundAnswer.setExist(false);
+            } else {
+                foundAnswer = testsQuestions.stream().filter(e -> e.getPk().getIsCorrect()).findAny().map(testQuestions -> {
+                    FoundAnswer foundAnswer2 = new FoundAnswer();
+                    foundAnswer2.setIsCorrect(true);
+                    foundAnswer2.setCorrectAnswer(testQuestions.getQuestion().getName());
+
+                    return foundAnswer2;
+                }).orElse(createStatisticForFoundAnswer(testsQuestions));
+                foundAnswer.setExist(true);
+                System.out.println(foundAnswer);
+            }
+
+
+            session.close();
+
+            return foundAnswer;
+        } catch (Exception e) {
+            session.close();
+            return new FoundAnswer();
         }
-        f.setAccessible(true);
-        try {
-            String sql = (String) f.get(loader);
-            System.out.println("Sql: " + sql);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-        List<TestsQuestions> testsQuestions = session.createCriteria(TestsQuestions.class).add(Restrictions.in("pk.test.testId", testIdsCriteria.list())).add(Restrictions.eq("pk.question.name", questionName)).list();
-
-        FoundAnswer foundAnswer;
-
-        if (testsQuestions.isEmpty()) {
-            foundAnswer = new FoundAnswer();
-            foundAnswer.setExist(false);
-        } else {
-            foundAnswer = testsQuestions.stream().filter(e -> e.getPk().getIsCorrect()).findAny().map(testQuestions -> {
-                FoundAnswer foundAnswer2 = new FoundAnswer();
-                foundAnswer2.setIsCorrect(true);
-                foundAnswer2.setCorrectAnswer(testQuestions.getQuestion().getName());
-
-                return foundAnswer2;
-            }).orElse(createStatisticForFoundAnswer(testsQuestions));
-            foundAnswer.setExist(true);
-            System.out.println(foundAnswer);
-        }
-
-
-        session.close();
-
-        return foundAnswer;
 
     }
 

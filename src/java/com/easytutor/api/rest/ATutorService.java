@@ -8,6 +8,8 @@ import com.easytutor.utils.TemporaryTestStorage;
 
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.*;
@@ -28,6 +30,9 @@ public class ATutorService {
     private UserATutorDAO userATutorDAO = ApplicationContextProvider.getApplicationContext().getBean(UserATutorDAO.class);
     private TestResultDAO testResultDAO = ApplicationContextProvider.getApplicationContext().getBean(TestResultDAO.class);
 
+    private String checkNumberQuestionInTestName = ".+\\(.+[0-9]{1,1000}/[0-9]{1,1000}\\)";
+
+
     @POST
     @Path("test/questions")
     @Produces(MediaType.APPLICATION_JSON)
@@ -35,10 +40,18 @@ public class ATutorService {
 
         Runnable task2 = () -> {
 
+
             UUID testId = UUID.fromString(testInfo.getTestId());
             Test test = new Test();
             test.setSubmissionTime(new Date());
-            test.setName(testInfo.getModuleName());
+
+
+            Pattern p = Pattern.compile(checkNumberQuestionInTestName);
+            Matcher m = p.matcher(testInfo.getModuleName().trim());
+            if (m.matches())
+                test.setName(testInfo.getModuleName().substring(0, testInfo.getModuleName().indexOf("(")));
+            else
+                test.setName(testInfo.getModuleName());
             test.setTestId(testId);
             test.setDiscipline(testInfo.getDiscipline());
             test.setGroup(extractGroup(testInfo.getGroup()));
@@ -88,7 +101,6 @@ public class ATutorService {
     }
 
 
-
     public QuestionsAnswers createQuestionsAnswers(Question question, Answer answer, UUID testId) {
         QuestionsAnswers questionsAnswers = new QuestionsAnswers();
         questionsAnswers.setQuestion(question);
@@ -133,16 +145,25 @@ public class ATutorService {
     public FoundAnswer getAnswerForQuestion(LookingAnswer question) {
 //    curl -XPOST http://localhost:8080/easytutor/rest/atutor/answer-for-question -d '{"testName" : "Модуль 1", "questionName":"Beб-caйт – цe", "discipline": "Програмування інтернет", "group": "СП-31"}' -H "Content-Type:application/json"
 
-        try{
+
+        try {
+            Pattern p = Pattern.compile(checkNumberQuestionInTestName);
+            Matcher m = p.matcher(question.getTestName().trim());
+            String newTestName = "";
+            if (m.matches())
+                newTestName = question.getTestName().substring(0, question.getTestName().indexOf("("));
+            else
+                newTestName = question.getTestName();
             FoundAnswer foundAnswer = answerDAO.getAnswerByInfo(
-                    question.getTestName(),
+                    newTestName,
                     question.getDiscipline(),
                     question.getQuestion(),
                     extractCourseOpt(question.getGroup()),
                     extractGroupOpt(question.getGroup()));
 
             return foundAnswer;
-        }catch (Exception e) {
+        } catch (Exception e) {
+            System.out.println("Return ");
             return new FoundAnswer();
         }
 

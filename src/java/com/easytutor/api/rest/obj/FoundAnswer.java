@@ -12,7 +12,7 @@ public class FoundAnswer implements Serializable {
     private boolean isCorrect = false;
     private String correctAnswer;
     private List<AnswerStatistic> answerStatistic = new ArrayList<>();
-    private boolean exist;
+    private boolean exist = false;
 
     public boolean isCorrect() {
         return isCorrect;
