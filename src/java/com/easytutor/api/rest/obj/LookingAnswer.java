@@ -1,6 +1,7 @@
 package com.easytutor.api.rest.obj;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by root on 06.08.15.
@@ -9,7 +10,7 @@ public class LookingAnswer implements Serializable {
     private String testName;
     private String discipline;
     private String group;
-    private String question;
+    private List<String> questions;
 
     public String getTestName() {
         return testName;
@@ -35,11 +36,11 @@ public class LookingAnswer implements Serializable {
         this.group = group;
     }
 
-    public String getQuestion() {
-        return question;
+    public List<String> getQuestions() {
+        return questions;
     }
 
-    public void setQuestion(String question) {
-        this.question = question;
+    public void setQuestions(List<String> questions) {
+        this.questions = questions;
     }
 }

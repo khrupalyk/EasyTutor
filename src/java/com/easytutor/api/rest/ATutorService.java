@@ -49,31 +49,31 @@ public class ATutorService {
             Pattern p = Pattern.compile(checkNumberQuestionInTestName);
             Matcher m = p.matcher(testInfo.getModuleName().trim());
             if (m.matches())
-                test.setName(testInfo.getModuleName().substring(0, testInfo.getModuleName().indexOf("(")));
+                test.setName(testInfo.getModuleName().substring(0, testInfo.getModuleName().indexOf("(")).trim());
             else
-                test.setName(testInfo.getModuleName());
+                test.setName(testInfo.getModuleName().trim());
             test.setTestId(testId);
-            test.setDiscipline(testInfo.getDiscipline());
-            test.setGroup(extractGroup(testInfo.getGroup()));
+            test.setDiscipline(testInfo.getDiscipline().trim());
+            test.setGroup(extractGroup(testInfo.getGroup()).trim());
             test.setCourse(getCourse(testInfo.getGroup()));
 
             List<QuestionInfo> questions = testInfo.getBody();
 
             UserATutor userATutor = new UserATutor();
-            userATutor.setName(testInfo.getUser());
+            userATutor.setName(testInfo.getUser().trim());
             userATutorDAO.saveOrUpdate(userATutor);
 
             List<TestsQuestions> testsQuestions = new ArrayList<>();
 
             for (QuestionInfo question : questions.stream().distinct().collect(Collectors.toList())) {
-                Question questionObj = new Question(question.getQuestion(), question.getQuestionHeader());
-                Answer selectedAnswer = new Answer(question.getAnswer());
+                Question questionObj = new Question(question.getQuestion().trim(), question.getQuestionHeader());
+                Answer selectedAnswer = new Answer(question.getAnswer().trim());
                 List<String> answers = question.getAnswers();
 
                 questionDAO.saveOrUpdate(questionObj);
 
                 List<QuestionsAnswers> answersList = new ArrayList<>();
-                for (String answer : answers.stream().distinct().collect(Collectors.toList())) {
+                for (String answer : answers.stream().distinct().map(String::trim).collect(Collectors.toList())) {
                     Answer answerObj = new Answer(answer);
                     answerDAO.saveOrUpdate(answerObj);
                     answersList.add(createQuestionsAnswers(questionObj, answerObj, testId));
@@ -142,29 +142,29 @@ public class ATutorService {
     @POST
     @Path("answer-for-question")
     @Produces(MediaType.APPLICATION_JSON)
-    public FoundAnswer getAnswerForQuestion(LookingAnswer question) {
+    public List<FoundAnswer> getAnswerForQuestion(LookingAnswer question) {
 //    curl -XPOST http://localhost:8080/easytutor/rest/atutor/answer-for-question -d '{"testName" : "Модуль 1", "questionName":"Beб-caйт – цe", "discipline": "Програмування інтернет", "group": "СП-31"}' -H "Content-Type:application/json"
 
 
         try {
             Pattern p = Pattern.compile(checkNumberQuestionInTestName);
             Matcher m = p.matcher(question.getTestName().trim());
-            String newTestName = "";
+            String newTestName;
             if (m.matches())
                 newTestName = question.getTestName().substring(0, question.getTestName().indexOf("("));
             else
                 newTestName = question.getTestName();
-            FoundAnswer foundAnswer = answerDAO.getAnswerByInfo(
+
+            return answerDAO.getAnswersByInfo(
                     newTestName,
                     question.getDiscipline(),
-                    question.getQuestion(),
                     extractCourseOpt(question.getGroup()),
-                    extractGroupOpt(question.getGroup()));
+                    extractGroupOpt(question.getGroup()),
+                    question.getQuestions());
 
-            return foundAnswer;
         } catch (Exception e) {
             System.out.println("Return ");
-            return new FoundAnswer();
+            return new ArrayList<>();
         }
 
 

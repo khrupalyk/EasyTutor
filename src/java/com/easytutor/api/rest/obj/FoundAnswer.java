@@ -13,6 +13,7 @@ public class FoundAnswer implements Serializable {
     private String correctAnswer;
     private List<AnswerStatistic> answerStatistic = new ArrayList<>();
     private boolean exist = false;
+    private String question;
 
     public boolean isCorrect() {
         return isCorrect;
@@ -46,6 +47,14 @@ public class FoundAnswer implements Serializable {
         this.exist = exist;
     }
 
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
     @Override
     public String toString() {
         return "FoundAnswer{" +
@@ -53,5 +62,7 @@ public class FoundAnswer implements Serializable {
                 ", correctAnswer='" + correctAnswer + '\'' +
                 ", answerStatistic=" + answerStatistic +
                 '}';
+
+
     }
 }

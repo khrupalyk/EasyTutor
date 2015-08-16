@@ -24,4 +24,6 @@ public interface QuestionDAO {
 
     List<Question> getQuestionsWithStatistic(List<Test> tests);
 
+//    void setProposedAnswer
+
 }

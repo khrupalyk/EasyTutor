@@ -24,7 +24,7 @@
           <h3><c:out value="${question.name}"/></h3>
           <ul class="choices">
             <c:forEach items="${question.answers}" var="questionsAnswer">
-              <li class="active_choice active answer">
+              <li class="active_choice active answer" style="padding-bottom: 30px;">
                 <div class="lastUnit" style="position: absolute; width: 780px;" count="<c:out value="${questionsAnswer.selectedCount}"/>"><c:out value="${questionsAnswer.content}"/>
 
                 </div>
@@ -50,9 +50,9 @@
           var ddd = this;
           $(ddd).find(".qq").each(function(){
             var l = (parseInt($(ddd).find(".lastUnit").attr("count"))*100) /count;
-            $(this).css("width", "0px");
+            $(this).css("width", ((l * $(ddd).outerWidth())/100 ) + "px");
 
-            $(this).animate({ "width": "+=" + ((l * $(ddd).outerWidth())/100 ) + "px" }, 1000);
+//            $(this).animate({ "width": "+=" + ((l * $(ddd).outerWidth())/100 ) + "px" }, 1000);
             $(this).addClass("bnt btn-material-green-500");
           });
         });
@@ -69,8 +69,8 @@
           var ddd = this;
           var height = $(ddd).find(".lastUnit").outerHeight();
           $(ddd).find(".qq").each(function(){
-            $(ddd).attr("style", "height:" + (height + 15) + "px;");
-            $(this).css({"height" : ((height + 15) + "px")});
+            $(ddd).attr("style", "height:" + (height + 15 + 7) + "px;");
+            $(this).css({"height" : ((height + 15 + 7) + "px")});
 
           });
 

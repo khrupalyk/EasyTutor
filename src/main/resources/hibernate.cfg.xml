@@ -21,5 +21,8 @@
         <mapping class="com.easytutor.models.QuestionsAnswers"/>
         <mapping class="com.easytutor.models.QuestionsAnswersId"/>
         <mapping class="com.easytutor.models.TestResult"/>
+        <mapping class="com.easytutor.models.User"/>
+        <mapping class="com.easytutor.models.UserRole"/>
+        <mapping class="com.easytutor.models.ProposedAnswer"/>
     </session-factory>
 </hibernate-configuration>

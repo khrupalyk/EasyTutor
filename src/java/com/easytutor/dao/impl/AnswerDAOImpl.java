@@ -8,6 +8,7 @@ import com.easytutor.models.Question;
 import com.easytutor.models.Test;
 import com.easytutor.models.TestsQuestions;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
@@ -24,8 +25,11 @@ import org.hibernate.loader.criteria.CriteriaLoader;
 import org.hibernate.persister.entity.OuterJoinLoadable;
 
 import java.lang.reflect.Field;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -99,26 +103,6 @@ public class AnswerDAOImpl implements AnswerDAO {
 
             courseOpt.map(course -> testIdsCriteria.add(Restrictions.eq("course", course)));
             groupOpt.map(group -> testIdsCriteria.add(Restrictions.eq("group", group)));
-//
-//        CriteriaImpl c = (CriteriaImpl) session.createCriteria(TestsQuestions.class).add(Restrictions.in("pk.test.testId", testIdsCriteria.list())).add(Restrictions.eq("pk.question.name", questionName));
-//        SessionImpl s = (SessionImpl) c.getSession();
-//        SessionFactoryImplementor factory = (SessionFactoryImplementor) s.getSessionFactory();
-//        String[] implementors = factory.getImplementors(c.getEntityOrClassName());
-//        LoadQueryInfluencers lqis = new LoadQueryInfluencers();
-//        CriteriaLoader loader = new CriteriaLoader((OuterJoinLoadable) factory.getEntityPersister(implementors[0]), factory, c, implementors[0], lqis);
-//        Field f = null;
-//        try {
-//            f = OuterJoinLoader.class.getDeclaredField("sql");
-//        } catch (NoSuchFieldException e) {
-//            e.printStackTrace();
-//        }
-//        f.setAccessible(true);
-//        try {
-//            String sql = (String) f.get(loader);
-//            System.out.println("Sql: " + sql);
-//        } catch (IllegalAccessException e) {
-//            e.printStackTrace();
-//        }
 
             List<TestsQuestions> testsQuestions = session.createCriteria(TestsQuestions.class).add(Restrictions.in("pk.test.testId", testIdsCriteria.list())).add(Restrictions.eq("pk.question.name", questionName)).list();
 
@@ -150,6 +134,59 @@ public class AnswerDAOImpl implements AnswerDAO {
 
     }
 
+    @Override
+    public List<FoundAnswer> getAnswersByInfo(String testName, String discipline, Optional<Integer> courseOpt, Optional<String> groupOpt, List<String> questions) {
+
+        Session session = sessionFactory.openSession();
+        try {
+            Criteria testIdsCriteria = session.createCriteria(Test.class)
+                    .add(Restrictions.eq("name", testName))
+                    .add(Restrictions.eq("discipline", discipline))
+                    .setProjection(Projections.property("testId"));
+
+            courseOpt.map(course -> testIdsCriteria.add(Restrictions.eq("course", course)));
+            groupOpt.map(group -> testIdsCriteria.add(Restrictions.eq("group", group)));
+
+            List<FoundAnswer> foundAnswers = questions.stream().map(question -> {
+
+                List<TestsQuestions> testsQuestions = session.createCriteria(TestsQuestions.class).add(Restrictions.in("pk.test.testId", testIdsCriteria.list())).add(Restrictions.eq("pk.question.name", question)).list();
+
+                FoundAnswer foundAnswer;
+
+                if (testsQuestions.isEmpty()) {
+                    foundAnswer = new FoundAnswer();
+                    foundAnswer.setQuestion(question);
+                    foundAnswer.setExist(false);
+                } else {
+                    //TODO: Refactor to new logic with correctExist field
+                    foundAnswer = testsQuestions.stream().filter(e -> e.getPk().getIsCorrect() || e.getPk().getCorrectExist()).findAny().map(testQuestions -> {
+                        FoundAnswer foundAnswer2 = new FoundAnswer();
+                        foundAnswer2.setQuestion(question);
+                        foundAnswer2.setIsCorrect(true);
+                        if (testQuestions.isCorrect())
+                            foundAnswer2.setCorrectAnswer(testQuestions.getSelectedAnswer().getContent());
+                        else foundAnswer2.setCorrectAnswer(testQuestions.getPk().getNewCorrectAnswer());
+
+                        foundAnswer2.setAnswerStatistic(createStatisticForFoundAnswer(testsQuestions).getAnswerStatistic());
+                        return foundAnswer2;
+                    }).orElse(createStatisticForFoundAnswer(testsQuestions));
+                    foundAnswer.setExist(true);
+                    System.out.println(foundAnswer);
+                }
+                return foundAnswer;
+            }).collect(Collectors.toList());
+
+
+            session.close();
+
+            return foundAnswers;
+        } catch (Exception e) {
+            session.close();
+            return new ArrayList<>();
+        }
+
+    }
+
     private FoundAnswer createStatisticForFoundAnswer(List<TestsQuestions> testsQuestions) {
 
         FoundAnswer foundAnswer = new FoundAnswer();
@@ -164,4 +201,50 @@ public class AnswerDAOImpl implements AnswerDAO {
 
         return foundAnswer;
     }
+
+    public void setCorrectAnswer(UUID testId, String question, String answer) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        Query selectedCurrentQuery = session.createQuery("select tq.id.selectedAnswer.content from TestsQuestions as tq where tq.id.test.id = :testId and tq.id.question.name = :question ");
+        selectedCurrentQuery.setParameter("testId", testId);
+        selectedCurrentQuery.setParameter("question", question.trim());
+        String currentSelected = (String) selectedCurrentQuery.uniqueResult();
+
+        System.out.println("Current selected: " + currentSelected);
+
+        Test test = (Test) session.createQuery("from Test as test where test.id = :testId").setParameter("testId", testId).uniqueResult();
+
+        Query testsIdsQuery = session.createQuery("select test.id from Test as test where test.name = :test and test.discipline = :discipline and test.course = :course and test.group = :group");
+        testsIdsQuery.setParameter("discipline", test.getDiscipline());
+        testsIdsQuery.setParameter("test", test.getName());
+        testsIdsQuery.setParameter("group", test.getGroup());
+        testsIdsQuery.setParameter("course", test.getCourse());
+
+        List<UUID> testIds = testsIdsQuery.list();
+
+        Query query = session.createQuery("update TestsQuestions as tq set tq.id.correctExist = true, tq.id.newCorrectAnswer = :newCorrect where tq.id.test.id in (:testId) and tq.id.question.name = :question");
+        query.setParameter("question", question.trim());
+        query.setParameterList("testId", testIds);
+        query.setParameter("newCorrect", answer);
+        int countUpdateRow = query.executeUpdate();
+        System.out.println("Update row2: " + countUpdateRow + " question: " + question + ", answer = " + answer.trim() + " test id: " + testId);
+
+        Query setFalse = session.createQuery("update TestsQuestions as tq set tq.id.isCorrect = false where tq.id.test.id in (:testId) and tq.id.question.name = :question ");
+
+        setFalse.setParameter("question", question.trim());
+        setFalse.setParameterList("testId", testIds);
+        setFalse.executeUpdate();
+
+        Query setFalseExist = session.createQuery("update TestsQuestions as tq set tq.id.correctExist = false where tq.id.test.id in (:testId) and tq.id.question.name = :question and tq.id.newCorrectAnswer != :answer");
+
+        setFalseExist.setParameter("answer", answer.trim());
+        setFalseExist.setParameter("question", question.trim());
+        setFalseExist.setParameterList("testId", testIds);
+        setFalseExist.executeUpdate();
+
+        session.getTransaction().commit();
+        session.close();
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.easytutor.controllers;
 
+import com.easytutor.dao.AnswerDAO;
 import com.easytutor.dao.QuestionDAO;
 import com.easytutor.dao.TestDAO;
 import com.easytutor.models.Test;
@@ -26,8 +27,9 @@ import java.util.logging.Logger;
 @Controller
 public class TestsController {
 
-    TestDAO testDAO = (TestDAO) ApplicationContextProvider.getApplicationContext().getBean(TestDAO.class);
-    QuestionDAO questionDAO = (QuestionDAO) ApplicationContextProvider.getApplicationContext().getBean(QuestionDAO.class);
+    TestDAO testDAO =  ApplicationContextProvider.getApplicationContext().getBean(TestDAO.class);
+    QuestionDAO questionDAO = ApplicationContextProvider.getApplicationContext().getBean(QuestionDAO.class);
+    AnswerDAO answerDAO = ApplicationContextProvider.getApplicationContext().getBean(AnswerDAO.class);
 
 
     @Secured("hasRole('ROLE_USER')")
@@ -159,5 +161,15 @@ public class TestsController {
             modelAndView.addObject("questions", questionDAO.getQuestionsByTestInfo(par));
 
         return modelAndView;
+    }
+
+    @RequestMapping(value = "correct-answer", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    String setCorrectAnswer(@RequestParam("testId") String testId,
+                                 @RequestParam("question") String question,
+                                 @RequestParam("answer") String answer){
+        answerDAO.setCorrectAnswer(UUID.fromString(testId), question, answer);
+        return "ok";
     }
 }

@@ -17,6 +17,8 @@ public class TestsQuestionsId implements Serializable {
     private Test test;
     private Answer selectedAnswer;
     private boolean isCorrect;
+    private boolean correctExist = false;
+    private String newCorrectAnswer = "";
 
     @ManyToOne(fetch = FetchType.EAGER)
     public Question getQuestion() {
@@ -53,6 +55,24 @@ public class TestsQuestionsId implements Serializable {
     @Column(name = "is_correct")
     public boolean getIsCorrect() {
         return this.isCorrect;
+    }
+
+    @Column(name = "exist_correct")
+    public boolean getCorrectExist() {
+        return correctExist;
+    }
+
+    public void setCorrectExist(boolean correctExist) {
+        this.correctExist = correctExist;
+    }
+
+    @Column(name = "new_correct_answer")
+    public String getNewCorrectAnswer() {
+        return newCorrectAnswer;
+    }
+
+    public void setNewCorrectAnswer(String newCorrectAnswer) {
+        this.newCorrectAnswer = newCorrectAnswer;
     }
 }
 

@@ -6,6 +6,7 @@ import com.easytutor.models.UserATutor;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Created by Andrii on 6/25/15.
@@ -22,4 +23,8 @@ public interface AnswerDAO {
     List<Answer> getAllAnswers();
 
     FoundAnswer getAnswerByInfo(String testName, String discipline, String questionName, Optional<Integer> course, Optional<String> group);
+
+    void setCorrectAnswer(UUID testId, String qustion, String answer);
+
+    List<FoundAnswer> getAnswersByInfo(String testName, String discipline,  Optional<Integer> courseOpt, Optional<String> groupOpt, List<String> questions);
 }
