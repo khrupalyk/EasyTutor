@@ -27,6 +27,10 @@ public class Test implements java.io.Serializable {
     public Test() {
     }
 
+    public Test(UUID testId) {
+        this.testId = testId;
+    }
+
     public Test(UUID testId, String name) {
         this.testId = testId;
         this.name = name;

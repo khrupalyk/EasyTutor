@@ -158,7 +158,7 @@ public class AnswerDAOImpl implements AnswerDAO {
                     foundAnswer.setQuestion(question);
                     foundAnswer.setExist(false);
                 } else {
-                    //TODO: Refactor to new logic with correctExist field
+
                     foundAnswer = testsQuestions.stream().filter(e -> e.getPk().getIsCorrect() || e.getPk().getCorrectExist()).findAny().map(testQuestions -> {
                         FoundAnswer foundAnswer2 = new FoundAnswer();
                         foundAnswer2.setQuestion(question);

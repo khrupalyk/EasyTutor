@@ -63,15 +63,15 @@ public class ProposedAnswer implements Serializable {
         this.answer = answer;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "user_name")
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
+//    @ManyToOne
+//    @JoinColumn(name = "user_name")
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
 
     @Column(name = "submission_time")
     @Temporal(TemporalType.DATE)

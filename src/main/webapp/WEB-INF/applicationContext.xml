@@ -72,6 +72,7 @@
 
     <bean id="proposedAnswerDAO" class="com.easytutor.dao.impl.ProposedAnswerDAOImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="answerDAO" ref="answerDAO"/>
     </bean>
 
     <bean id="userService" class="com.easytutor.service.MyUserDetailsService"/>

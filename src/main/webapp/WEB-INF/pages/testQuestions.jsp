@@ -114,23 +114,30 @@
         console.log("Send object: " + JSON.stringify(obj));
         var parent = $(this).parent().parent();
 
-        $.post("<c:url value='/correct-answer'/>", obj).done(function () {
-            $(parent).find(".mdi-navigation-check").each(function () {
-                if ($(this).next().hasClass("selected") && $(this).next().text().trim() !== answer) {
-                    $(this).next().addClass("wrong_answer");
-                    $(this).next().find(".qq").addClass("hide");
-                }
-
-                if ($(this).next().text().trim() === answer) {
-                    $(this).css("display", "");
-                    if ($(this).next().hasClass("selected")){
-                        $(this).next().removeClass("wrong_answer");
-                        $(this).next().find(".qq").removeClass("hide");
+        $.post("<c:url value='/correct-answer'/>", obj).done(function (data) {
+            var responseObj = JSON.parse(data);
+            if(responseObj.status !== 0) {
+                alert("Error");
+            } else {
+                alert(responseObj.action)
+                $(parent).find(".mdi-navigation-check").each(function () {
+                    if ($(this).next().hasClass("selected") && $(this).next().text().trim() !== answer) {
+                        $(this).next().addClass("wrong_answer");
+                        $(this).next().find(".qq").addClass("hide");
                     }
-                } else {
-                    $(this).css("display", "none");
-                }
-            })
+
+                    if ($(this).next().text().trim() === answer) {
+                        $(this).css("display", "");
+                        if ($(this).next().hasClass("selected")){
+                            $(this).next().removeClass("wrong_answer");
+                            $(this).next().find(".qq").removeClass("hide");
+                        }
+                    } else {
+                        $(this).css("display", "none");
+                    }
+                })
+            }
+
         }).fail(function () {
             console.log("error");
         })

@@ -7,7 +7,7 @@ public enum UsersRoles {
     USER("ROLE_USER"),ADMIN("ROLE_ADMIN");
     private String role;
 
-    private UsersRoles(String s) {
+    UsersRoles(String s) {
         role = s;
     }
 

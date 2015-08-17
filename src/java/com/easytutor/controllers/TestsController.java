@@ -1,13 +1,20 @@
 package com.easytutor.controllers;
 
 import com.easytutor.dao.AnswerDAO;
+import com.easytutor.dao.ProposedAnswerDAO;
 import com.easytutor.dao.QuestionDAO;
 import com.easytutor.dao.TestDAO;
+import com.easytutor.models.Answer;
+import com.easytutor.models.ProposedAnswer;
+import com.easytutor.models.Question;
 import com.easytutor.models.Test;
 import com.easytutor.utils.ApplicationContextProvider;
+import com.easytutor.utils.UsersRoles;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.MultiValueMap;
@@ -19,6 +26,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * Created by root on 04.07.15.
@@ -27,9 +36,10 @@ import java.util.logging.Logger;
 @Controller
 public class TestsController {
 
-    TestDAO testDAO =  ApplicationContextProvider.getApplicationContext().getBean(TestDAO.class);
+    TestDAO testDAO = ApplicationContextProvider.getApplicationContext().getBean(TestDAO.class);
     QuestionDAO questionDAO = ApplicationContextProvider.getApplicationContext().getBean(QuestionDAO.class);
     AnswerDAO answerDAO = ApplicationContextProvider.getApplicationContext().getBean(AnswerDAO.class);
+    ProposedAnswerDAO proposedAnswerDAO = ApplicationContextProvider.getApplicationContext().getBean(ProposedAnswerDAO.class);
 
 
     @Secured("hasRole('ROLE_USER')")
@@ -167,9 +177,61 @@ public class TestsController {
     public
     @ResponseBody
     String setCorrectAnswer(@RequestParam("testId") String testId,
-                                 @RequestParam("question") String question,
-                                 @RequestParam("answer") String answer){
-        answerDAO.setCorrectAnswer(UUID.fromString(testId), question, answer);
-        return "ok";
+                            @RequestParam("question") String question,
+                            @RequestParam("answer") String answer) {
+
+        JSONObject jo = new JSONObject();
+        SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getAuthorities()
+                .stream()
+                .filter(e -> e.getAuthority().equals(UsersRoles.ADMIN.getRole()))
+                .findAny().map(ok -> {
+            answerDAO.setCorrectAnswer(UUID.fromString(testId), question, answer);
+            jo.put("status", 0).put("action", "set");
+            return "";
+        }).orElseGet(() -> {
+            ProposedAnswer proposedAnswer = new ProposedAnswer();
+            proposedAnswer.setQuestion(new Question(question, ""));
+            proposedAnswer.setTest(new Test(UUID.fromString(testId)));
+            proposedAnswer.setAnswer(new Answer(answer));
+            jo.put("status", 0).put("action", "proposed");
+            proposedAnswerDAO.addProposedAnswer(proposedAnswer);
+            return "";
+        });
+
+        return jo.toString();
+    }
+
+    @RequestMapping(value = "proposed-answers")
+    public ModelAndView getProposedAnswers() {
+        ModelAndView modelAndView = new ModelAndView("WEB-INF/pages/proposedAnswers");
+
+        Map<String, List<ProposedAnswer>> proposedAnswerMap = proposedAnswerDAO.getAllProposedAnswers().stream()
+                .collect(Collectors.groupingBy(e -> e.getTest().getName()/*,
+                        Collectors.groupingBy(e -> e.getTest().getDiscipline(),
+                                Collectors.groupingBy(e -> e.getTest().getGroup()))*/));
+        JSONArray jsonArray = new JSONArray();
+
+
+        proposedAnswerMap.forEach((name, list) -> {
+            JSONObject jo = new JSONObject();
+            jo.put("testName", name);
+            JSONArray subArray = new JSONArray();
+            list.forEach(e -> {
+                        JSONObject joSub = new JSONObject();
+                        joSub.put("answer", e.getAnswer().getContent());
+                        joSub.put("question", e.getQuestion().getName());
+                        subArray.put(joSub);
+                    }
+            );
+            jo.put("answers", subArray);
+            jsonArray.put(jo);
+        });
+
+        modelAndView.addObject("proposedAnswers", proposedAnswerDAO.getAllProposedAnswers());
+        modelAndView.addObject("json", jsonArray);
+
+        return modelAndView;
     }
 }

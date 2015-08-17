@@ -27,7 +27,7 @@
           <%--</ul>--%>
         <%--</li>--%>
         <li><a href="<%=request.getContextPath()%>/tests">Тести</a></li>
-        <li><a href="#">Page 3</a></li>
+        <li><a href="<c:url value='/proposed-answers'/>">Запропоновані відповіді</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <sec:authorize access="isAnonymous()">
