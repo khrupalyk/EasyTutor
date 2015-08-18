@@ -205,33 +205,46 @@ public class TestsController {
 
     @RequestMapping(value = "proposed-answers")
     public ModelAndView getProposedAnswers() {
-        ModelAndView modelAndView = new ModelAndView("WEB-INF/pages/proposedAnswers");
+        return new ModelAndView("WEB-INF/pages/proposedAnswers");
+    }
 
-        Map<String, List<ProposedAnswer>> proposedAnswerMap = proposedAnswerDAO.getAllProposedAnswers().stream()
-                .collect(Collectors.groupingBy(e -> e.getTest().getName()/*,
-                        Collectors.groupingBy(e -> e.getTest().getDiscipline(),
-                                Collectors.groupingBy(e -> e.getTest().getGroup()))*/));
+    @RequestMapping(value = "proposed-answers-json", produces = "application/json; charset=utf-8")
+    public
+    @ResponseBody
+    String getProposedAnswersJson() {
+
+
+        Map<String, Map<String, List<ProposedAnswer>>> proposedAnswerMap = proposedAnswerDAO.getAllProposedAnswers().stream()
+                .collect(Collectors.groupingBy(e -> e.getTest().getName(),
+                        Collectors.groupingBy(e -> e.getTest().getDiscipline()/*,
+                                Collectors.groupingBy(e -> e.getTest().getGroup()))*/)));
         JSONArray jsonArray = new JSONArray();
 
 
-        proposedAnswerMap.forEach((name, list) -> {
+        proposedAnswerMap.forEach((name, map) -> {
             JSONObject jo = new JSONObject();
             jo.put("testName", name);
             JSONArray subArray = new JSONArray();
-            list.forEach(e -> {
-                        JSONObject joSub = new JSONObject();
-                        joSub.put("answer", e.getAnswer().getContent());
-                        joSub.put("question", e.getQuestion().getName());
-                        subArray.put(joSub);
-                    }
-            );
+
+            StringBuilder sb = new StringBuilder("");
+
+            map.forEach((discipline, questions) -> {
+
+                questions.forEach(e -> {
+                    JSONObject joSub = new JSONObject();
+                    joSub.put("answer", e.getAnswer().getContent());
+                    joSub.put("question", e.getQuestion().getName());
+                    subArray.put(joSub);
+                });
+                sb.append(discipline).append(", ");
+            });
+
+            jo.put("discipline", sb.toString().trim().length() > 0 ? sb.toString().trim().substring(0, sb.toString().trim().length() - 1) : "");
             jo.put("answers", subArray);
             jsonArray.put(jo);
         });
+        System.out.println(jsonArray.toString());
 
-        modelAndView.addObject("proposedAnswers", proposedAnswerDAO.getAllProposedAnswers());
-        modelAndView.addObject("json", jsonArray);
-
-        return modelAndView;
+        return jsonArray.toString();
     }
 }
