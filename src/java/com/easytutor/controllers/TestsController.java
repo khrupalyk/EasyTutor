@@ -234,6 +234,8 @@ public class TestsController {
                     JSONObject joSub = new JSONObject();
                     joSub.put("answer", e.getAnswer().getContent());
                     joSub.put("question", e.getQuestion().getName());
+                    joSub.put("testId", e.getTest().getTestId());
+                    joSub.put("proposedAnswerId", e.getId());
                     subArray.put(joSub);
                 });
                 sb.append(discipline).append(", ");
@@ -246,5 +248,24 @@ public class TestsController {
         System.out.println(jsonArray.toString());
 
         return jsonArray.toString();
+    }
+
+    @RequestMapping(value = "accept-proposed-answer", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    String acceptProposedAnswer(@RequestParam("testId") String testid,
+                                @RequestParam("question") String question,
+                                @RequestParam("answer") String answer,
+                                @RequestParam("id") int id) {
+
+        ProposedAnswer proposedAnswer = new ProposedAnswer();
+        proposedAnswer.setTest(new Test(UUID.fromString(testid)));
+        proposedAnswer.setQuestion(new Question(question, ""));
+        proposedAnswer.setAnswer(new Answer(answer));
+        proposedAnswer.setId(id);
+
+        proposedAnswerDAO.acceptProposedAnswer(proposedAnswer);
+
+        return "";
     }
 }

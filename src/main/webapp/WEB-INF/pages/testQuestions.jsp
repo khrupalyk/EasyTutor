@@ -20,6 +20,8 @@
 <body>
 <%@include file="template/header.jsp" %>
 <link href="<%=request.getContextPath()%>/resources/css/header.css" rel="stylesheet"/>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.js" ></script>
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" />
 
 <c:set var="testId" value="${test.testId}" scope="page"/>
 
@@ -31,7 +33,7 @@
             <div>
                     <%--<div class="question_header choices active_choice selected"><c:out value="${testsQuestion.question.name}"/></div>--%>
                 <div class="jumbotron">
-                    <h3><c:out value="${testsQuestion.question.name}"/></h3>
+                    <h3><a name="<c:out value='${testsQuestion.question.name}'/>" class="question_anchor"><c:out value="${testsQuestion.question.name}"/></a></h3>
                     <ul class="choices">
                         <c:forEach items="${testsQuestion.question.answers}" var="answer">
                             <c:set var="isCorrect"
@@ -87,6 +89,32 @@
 
 <script>
 
+    toastr.options = {
+        "closeButton": false,
+        "debug": true,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "toast-top-center",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "2000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    };
+
+    function replaceStr(str){
+        return str.replace(" ", "_");
+    }
+
+    $(".question_anchor").each(function(){
+       $(this).attr("name", $(this).attr("name").replace(" ", "_"));
+    });
+
     function sturtup(){
         $(".choices").each(function(){
             var hasAnyCorrect = false;
@@ -119,23 +147,29 @@
             if(responseObj.status !== 0) {
                 alert("Error");
             } else {
-                alert(responseObj.action)
-                $(parent).find(".mdi-navigation-check").each(function () {
-                    if ($(this).next().hasClass("selected") && $(this).next().text().trim() !== answer) {
-                        $(this).next().addClass("wrong_answer");
-                        $(this).next().find(".qq").addClass("hide");
-                    }
-
-                    if ($(this).next().text().trim() === answer) {
-                        $(this).css("display", "");
-                        if ($(this).next().hasClass("selected")){
-                            $(this).next().removeClass("wrong_answer");
-                            $(this).next().find(".qq").removeClass("hide");
+                if(responseObj.action === "proposed") {
+                    toastr["success"]("Ваш варіант прийнято на обробку!")
+                }else {
+                    $(parent).find(".mdi-navigation-check").each(function () {
+                        if ($(this).next().hasClass("selected") && $(this).next().text().trim() !== answer) {
+                            $(this).next().addClass("wrong_answer");
+                            $(this).next().find(".qq").addClass("hide");
                         }
-                    } else {
-                        $(this).css("display", "none");
-                    }
-                })
+
+                        if ($(this).next().text().trim() === answer) {
+                            $(this).css("display", "");
+                            if ($(this).next().hasClass("selected")){
+                                $(this).next().removeClass("wrong_answer");
+                                $(this).next().find(".qq").removeClass("hide");
+                            }
+                        } else {
+                            $(this).css("display", "none");
+                        }
+                    })
+
+                    toastr["success"]("Ваш варіант прийнято! Оновлення відбулося!")
+                }
+
             }
 
         }).fail(function () {
@@ -271,6 +305,11 @@
     .hide {
         display: none;
     }
+
+    a {
+        text-decoration: none;
+    }
+
 </style>
 </body>
 </html>
