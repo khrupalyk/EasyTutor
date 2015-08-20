@@ -94,20 +94,21 @@
                     obj["testId"] = $(mainBlock).find(".testIdClass").attr("value").trim();
                     obj["id"] = $(mainBlock).find(".proposIdClass").attr("value").trim();
                     var posInObjects = $(mainBlock).find(".positionInArray").attr("value").trim().split("|");
-
-                    $.post("<c:url value="/accept-proposed-answer"/>", obj).done(function( ) {
-                        toastr["success"]("Відповідь прийтяно!!")
-                    });
-                    function isBigEnough(value, index) {
-                        if(posInObjects[1] >= objects[parseInt(posInObjects[0])].answers.length )
-                        return index !== objects[parseInt(posInObjects[0])].answers.length - 1;
+                   function isBigEnough(value, index) {
+                       if(posInObjects[1] >= objects[parseInt(posInObjects[0])].answers.length )
+                           return index !== objects[parseInt(posInObjects[0])].answers.length - 1;
                        return index !==parseInt( posInObjects[1]) ;
-                    }
+                   }
+                    $.post("<c:url value="/accept-proposed-answer"/>", obj).done(function( ) {
+                        toastr["success"]("Відповідь прийтяно!!");
 
-                    console.log(posInObjects + " " + parseInt(posInObjects[0]) + "  " + parseInt(posInObjects[1]));
-                    objects[parseInt(posInObjects[0])].answers = objects[parseInt(posInObjects[0])].answers.filter(isBigEnough);
-                    console.log(objects[parseInt(posInObjects[0])].answers);
-                    $(mainBlock).remove();
+                        console.log(posInObjects + " " + parseInt(posInObjects[0]) + "  " + parseInt(posInObjects[1]));
+                        objects[parseInt(posInObjects[0])].answers = objects[parseInt(posInObjects[0])].answers.filter(isBigEnough);
+                        console.log(objects[parseInt(posInObjects[0])].answers);
+                        $(mainBlock).remove();
+                    });
+
+
 
                 });
 
@@ -118,18 +119,19 @@
                     var posInObjects = $(mainBlock).find(".positionInArray").attr("value").trim().split("|");
 
                     $.post("<c:url value="/reject-proposed-answer"/>", obj).done(function( ) {
-                        toastr["success"]("Відповідь відхилено!")
-                    });
-                    function isBigEnough(value, index) {
-                        if(posInObjects[1] >= objects[parseInt(posInObjects[0])].answers.length )
-                            return index !== objects[parseInt(posInObjects[0])].answers.length - 1;
-                        return index !==parseInt( posInObjects[1]) ;
-                    }
+                        toastr["success"]("Відповідь відхилено!");
+                        function isBigEnough(value, index) {
+                            if(posInObjects[1] >= objects[parseInt(posInObjects[0])].answers.length )
+                                return index !== objects[parseInt(posInObjects[0])].answers.length - 1;
+                            return index !==parseInt( posInObjects[1]) ;
+                        }
 
-                    console.log(posInObjects + " " + parseInt(posInObjects[0]) + "  " + parseInt(posInObjects[1]));
-                    objects[parseInt(posInObjects[0])].answers = objects[parseInt(posInObjects[0])].answers.filter(isBigEnough);
-                    console.log(objects[parseInt(posInObjects[0])].answers);
-                    $(mainBlock).remove();
+                        console.log(posInObjects + " " + parseInt(posInObjects[0]) + "  " + parseInt(posInObjects[1]));
+                        objects[parseInt(posInObjects[0])].answers = objects[parseInt(posInObjects[0])].answers.filter(isBigEnough);
+                        console.log(objects[parseInt(posInObjects[0])].answers);
+                        $(mainBlock).remove();
+                    });
+
 
                 });
 
