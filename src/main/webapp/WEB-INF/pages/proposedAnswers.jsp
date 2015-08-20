@@ -36,7 +36,7 @@
     var answerTemplate = " <div class='panel panel-default'><div class='panel-body'>question</div><ul class='choices'><li class='active_choice active' ><div class='lastUnit' >answer</div></li><div style='width: 100%: position: relative;position: relative;'><button class='btn btn-success bnt-accept' style='left: 20px;'>Прийняти</button>" +
             "<a href='test_link' class='btn btn-primary' target='_blank'>Переглянути тест</a><button class='btn btn-danger btn-reject' " +
             "style='right: 0px; position: absolute;'>Відхиити</button> <input type=hidden' class='testIdClass' value='testIdUUID' " +
-            "style='display: none'/> <input type=hidden' class='proposIdClass' style='display: none' value='proposIdInt'/></div></ul></div>";
+            "style='display: none'/> <input type=hidden' class='proposIdClass' style='display: none' value='proposIdInt'/><input type=hidden' class='positionInArray' style='display: none' value='positionInArrayInt'/></div></ul></div>";
     toastr.options = {
         "closeButton": false,
         "debug": true,
@@ -78,29 +78,63 @@
                                     .replace("question", objects[i].answers[j].question)
                                     .replace("answer", objects[i].answers[j].answer)
                                     .replace("testIdUUID", objects[i].answers[j].testId)
+                                    .replace("positionInArrayInt", i + "|" + j)
                                     .replace("proposIdInt", objects[i].answers[j].proposedAnswerId)
                                     .replace("test_link", '/easytutor/test/' + objects[i].answers[j].testId + "/questions#" + objects[i].answers[j].question.replace(" ", "_"));
                         }
                         $("#proposed-answers-panel").html(sumTemplate);
                     }
                 }
-                $(".bnt-accept").click(function () {
+
+               $(".bnt-accept").click(function () {
                     var mainBlock = $(this).parent().parent().parent();
                     var obj = {};
                     obj["question"] = $(mainBlock).find(".panel-body").text().trim();
                     obj["answer"] = $(mainBlock).find(".lastUnit").text().trim();
                     obj["testId"] = $(mainBlock).find(".testIdClass").attr("value").trim();
                     obj["id"] = $(mainBlock).find(".proposIdClass").attr("value").trim();
+                    var posInObjects = $(mainBlock).find(".positionInArray").attr("value").trim().split("|");
 
-
-                    //TODO: Remove question from list when user accept it
                     $.post("<c:url value="/accept-proposed-answer"/>", obj).done(function( ) {
                         toastr["success"]("Відповідь прийтяно!!")
                     });
+                    function isBigEnough(value, index) {
+                        if(posInObjects[1] >= objects[parseInt(posInObjects[0])].answers.length )
+                        return index !== objects[parseInt(posInObjects[0])].answers.length - 1;
+                       return index !==parseInt( posInObjects[1]) ;
+                    }
 
-                    console.log(JSON.stringify(obj));
+                    console.log(posInObjects + " " + parseInt(posInObjects[0]) + "  " + parseInt(posInObjects[1]));
+                    objects[parseInt(posInObjects[0])].answers = objects[parseInt(posInObjects[0])].answers.filter(isBigEnough);
+                    console.log(objects[parseInt(posInObjects[0])].answers);
+                    $(mainBlock).remove();
 
                 });
+
+                $(".btn-reject").click(function () {
+                    var mainBlock = $(this).parent().parent().parent();
+                    var obj = {};
+                    obj["id"] = $(mainBlock).find(".proposIdClass").attr("value").trim();
+                    var posInObjects = $(mainBlock).find(".positionInArray").attr("value").trim().split("|");
+
+                    $.post("<c:url value="/reject-proposed-answer"/>", obj).done(function( ) {
+                        toastr["success"]("Відповідь відхилено!")
+                    });
+                    function isBigEnough(value, index) {
+                        if(posInObjects[1] >= objects[parseInt(posInObjects[0])].answers.length )
+                            return index !== objects[parseInt(posInObjects[0])].answers.length - 1;
+                        return index !==parseInt( posInObjects[1]) ;
+                    }
+
+                    console.log(posInObjects + " " + parseInt(posInObjects[0]) + "  " + parseInt(posInObjects[1]));
+                    objects[parseInt(posInObjects[0])].answers = objects[parseInt(posInObjects[0])].answers.filter(isBigEnough);
+                    console.log(objects[parseInt(posInObjects[0])].answers);
+                    $(mainBlock).remove();
+
+                });
+
+                $(".choices").css("margin-left","-20px");
+                $(".choices").css("margin-top","-20px");
             });
 
 
@@ -122,6 +156,11 @@
 
     .btn-primary {
         margin-left: 30px;
+    }
+
+    .choices {
+        margin-left: -20px;
+        margin-top: -20px;
     }
 
 </style>

@@ -27,7 +27,9 @@
           <%--</ul>--%>
         <%--</li>--%>
         <li><a href="<%=request.getContextPath()%>/tests">Тести</a></li>
+        <sec:authorize access="hasRole('ROLE_ADMIN')">
         <li><a href="<c:url value='/proposed-answers'/>">Запропоновані відповіді</a></li>
+        </sec:authorize>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <sec:authorize access="isAnonymous()">

@@ -268,4 +268,17 @@ public class TestsController {
 
         return "";
     }
+
+    @RequestMapping(value = "reject-proposed-answer", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    String rejectProposedAnswer(@RequestParam("id") int id) {
+
+        ProposedAnswer proposedAnswer = new ProposedAnswer();
+        proposedAnswer.setId(id);
+
+        proposedAnswerDAO.rejectProposedAnswer(proposedAnswer);
+
+        return "";
+    }
 }
