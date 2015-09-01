@@ -171,6 +171,7 @@ public class AnswerDAOImpl implements AnswerDAO {
                         return foundAnswer2;
                     }).orElse(createStatisticForFoundAnswer(testsQuestions));
                     foundAnswer.setExist(true);
+                    foundAnswer.setQuestion(question);
                     System.out.println(foundAnswer);
                 }
                 return foundAnswer;

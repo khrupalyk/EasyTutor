@@ -74,5 +74,33 @@ public class TestsQuestionsId implements Serializable {
     public void setNewCorrectAnswer(String newCorrectAnswer) {
         this.newCorrectAnswer = newCorrectAnswer;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TestsQuestionsId that = (TestsQuestionsId) o;
+
+        if (isCorrect != that.isCorrect) return false;
+        if (correctExist != that.correctExist) return false;
+        if (question != null ? !question.equals(that.question) : that.question != null) return false;
+        if (test != null ? !test.equals(that.test) : that.test != null) return false;
+        if (selectedAnswer != null ? !selectedAnswer.equals(that.selectedAnswer) : that.selectedAnswer != null)
+            return false;
+        return !(newCorrectAnswer != null ? !newCorrectAnswer.equals(that.newCorrectAnswer) : that.newCorrectAnswer != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = question != null ? question.hashCode() : 0;
+        result = 31 * result + (test != null ? test.hashCode() : 0);
+        result = 31 * result + (selectedAnswer != null ? selectedAnswer.hashCode() : 0);
+        result = 31 * result + (isCorrect ? 1 : 0);
+        result = 31 * result + (correctExist ? 1 : 0);
+        result = 31 * result + (newCorrectAnswer != null ? newCorrectAnswer.hashCode() : 0);
+        return result;
+    }
 }
 

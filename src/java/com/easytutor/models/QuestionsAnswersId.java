@@ -42,4 +42,25 @@ public class QuestionsAnswersId implements Serializable {
     public void setAnswer(Answer answer) {
         this.answer = answer;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        QuestionsAnswersId that = (QuestionsAnswersId) o;
+
+        if (answer != null ? !answer.equals(that.answer) : that.answer != null) return false;
+        if (question != null ? !question.equals(that.question) : that.question != null) return false;
+        return !(testId != null ? !testId.equals(that.testId) : that.testId != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = answer != null ? answer.hashCode() : 0;
+        result = 31 * result + (question != null ? question.hashCode() : 0);
+        result = 31 * result + (testId != null ? testId.hashCode() : 0);
+        return result;
+    }
 }
