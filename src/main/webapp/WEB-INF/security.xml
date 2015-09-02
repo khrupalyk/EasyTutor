@@ -7,9 +7,12 @@
 	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
     <http auto-config="true" >
-        <!--<intercept-url pattern="/tests" access="ROLE_USER" />-->
-        <!--<intercept-url pattern="/search" access="ROLE_USER" />-->
-        <intercept-url pattern="/awdawd/**" access="ROLE_USER"/>
+        <intercept-url pattern="/tests" access="ROLE_USER, ROLE_ADMIN" />
+        <intercept-url pattern="/search" access="ROLE_USER, ROLE_ADMIN" />
+        <intercept-url pattern="/test/*" access="ROLE_USER, ROLE_ADMIN" />
+        <intercept-url pattern="/questions/*" access="ROLE_USER, ROLE_ADMIN" />
+        <intercept-url pattern="/proposed-answers" access="ROLE_ADMIN" />
+
         <form-login
                 login-page="/login"
                 default-target-url="/"

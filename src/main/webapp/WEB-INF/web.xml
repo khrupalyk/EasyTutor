@@ -114,6 +114,28 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <error-page>
+        <!-- Define error page to react on Java exception -->
+        <exception-type>java.lang.Throwable</exception-type>
+        <!-- The location of the resource to display in response to the error will point to the Spring MVC handler method -->
+        <location>/error</location>
+    </error-page>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error</location>
+    </error-page>
+
+    <error-page>
+        <error-code>403</error-code>
+        <location>/error</location>
+    </error-page>
+
+    <!-- With Servlet 3.0 and above general error page is possible -->
+    <!--<error-page>-->
+        <!--<location>/error</location>-->
+    <!--</error-page>-->
+
     <!--<servlet-mapping>-->
     <!--<servlet-name>Faces Servlet</servlet-name>-->
     <!--<url-pattern>/faces/*</url-pattern>-->

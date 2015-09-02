@@ -38,7 +38,7 @@ public class RegisteredUser implements Serializable {
         this.email = email;
     }
 
-    @Length(min = 6, max = 12)
+//    @Length(min = 6, max = 12)
     public String getConfirmPassword() {
         return confirmPassword;
     }

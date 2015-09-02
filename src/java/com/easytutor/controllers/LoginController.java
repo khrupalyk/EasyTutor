@@ -3,6 +3,7 @@ package com.easytutor.controllers;
 import com.easytutor.dao.UserDAO;
 import com.easytutor.models.RegisteredUser;
 import com.easytutor.models.User;
+import com.easytutor.models.UserMessage;
 import com.easytutor.utils.ApplicationContextProvider;
 import com.easytutor.validators.UserFormValidator;
 import org.springframework.stereotype.Controller;
@@ -37,7 +38,9 @@ public class LoginController {
         return modelAndView;
     }
 
-    @InitBinder
+    //TODO This validator must check only signup request
+
+    @InitBinder(value = "user")
     protected void initBinder(WebDataBinder binder) {
         binder.setValidator(userFormValidator);
     }
@@ -61,8 +64,19 @@ public class LoginController {
     }
 
     @RequestMapping(value = "contact")
-    public String goToContactView() {
-        return "WEB-INF/pages/contact";
+    public ModelAndView goToContactView() {
+        ModelAndView modelAndView = new ModelAndView("WEB-INF/pages/contact");
+        modelAndView.addObject("userMessage", new UserMessage());
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "contact-with-admin", method = RequestMethod.POST)
+    public String registerNewMessage(@ModelAttribute("user") @Validated  UserMessage userMessage){
+
+        System.out.println(userMessage);
+        //TODO Send message to my email
+
+        return "/WEB-INF/pages/sendMessageComplete";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -83,4 +97,16 @@ public class LoginController {
         return model;
 
     }
+    @RequestMapping(value = "error")
+    public String error(){
+
+        return "/WEB-INF/pages/internalServerError";
+    }
+
+    @RequestMapping(value = "access-denied")
+    public String accessDenied(){
+
+        return "/WEB-INF/pages/accessDenied";
+    }
+
 }
