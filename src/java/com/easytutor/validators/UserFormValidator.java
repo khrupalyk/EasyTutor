@@ -6,6 +6,8 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import java.util.regex.Pattern;
+
 /**
  * Created by root on 24.07.15.
  */
@@ -43,6 +45,29 @@ public class UserFormValidator implements Validator {
         } else if (userDAO.isUserExistWithSuchName(user.getUsername())) {
             errors.rejectValue("username", "user.username");
         }
+
+        if(!validate(user.getEmail())) {
+            errors.rejectValue("email", "wrong.user.email");
+        }
+
+        if(user.getFirstName().trim().isEmpty()) {
+            errors.rejectValue("firstName", "empty.user.firstName");
+        }
+
+        if(user.getLastName().trim().isEmpty()) {
+            errors.rejectValue("lastName", "empty.user.lastName");
+        }
+
+    }
+
+    private static final String EMAIL_PATTERN =
+            "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+    Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+
+    public boolean validate(final String hex) {
+        return pattern.matcher(hex).matches();
 
     }
 

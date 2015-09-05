@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by root on 22.06.15.
@@ -19,6 +20,7 @@ public class Answer implements Serializable {
     private String content;
     private int selectedCount = 0;
     private List<QuestionsAnswers> questionsAnswers = new ArrayList<>();
+    private UUID id;
 
     public Answer() {
     }
@@ -42,6 +44,15 @@ public class Answer implements Serializable {
 
 
     @Id
+    @Column(name = "id", columnDefinition = "BINARY(16)", unique = true, nullable = false)
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
     @Column(name = "content")
     public String getContent() {
         return content;
@@ -78,5 +89,21 @@ public class Answer implements Serializable {
     }
     public void incrementSelectedCount() {
         this.selectedCount ++;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Answer answer = (Answer) o;
+
+        return !(content != null ? !content.equals(answer.content) : answer.content != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return content != null ? content.hashCode() : 0;
     }
 }

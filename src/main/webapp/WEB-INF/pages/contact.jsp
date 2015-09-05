@@ -15,47 +15,39 @@
 <body>
 <%@include file="template/header.jsp" %>
 
-<div style="margin: 0 auto; width: 500px;">
-    <%--<form style="width: 500px; position: relative;">--%>
-        <%--<h1>Contact with administration</h1>--%>
-        <%--<br>--%>
-        <%--<div class="form-group">--%>
-            <%--<input class="form-control floating-label" type="text" placeholder="Name" required>--%>
-        <%--</div>--%>
-        <%--<br>--%>
-        <%--<div class="form-group">--%>
-            <%--<input class="form-control floating-label" type="email" placeholder="Email" required>--%>
-        <%--</div>--%>
-        <%--<br>--%>
-        <%--<div class="form-group">--%>
-            <%--<input class="form-control floating-label" type="text" placeholder="Message" required>--%>
-        <%--</div>--%>
+<div style="margin: 0 auto; width: 600px; position: relative">
+    <div class="jumbotron" style="width: 540px;
+    position: relative;
+    height: 270px;">
 
-    <%--</form>--%>
 
-    <form:form action="contact-with-admin" method="post" commandName="userMessage" cssStyle="width: 500px; position: relative;">
-        <h1>Contact with administration</h1>
-        <br>
-        <div class="form-group">
-            <form:input path="name" cssClass="form-control floating-label"
-                        placeholder="Name" />
-        </div>
-        <br>
-        <div class="form-group">
-            <%--<input class="form-control floating-label" type="email" placeholder="Email" required>--%>
-            <form:input path="email"  class="form-control floating-label"
-                           placeholder="Email" />
-        </div>
-        <br>
-        <div class="form-group">
-            <%--<input class="form-control floating-label" type="text" placeholder="Message" required>--%>
-            <form:input path="message" cssClass="form-control floating-label "
-            placeholder="Message"/>
-        </div>
-        <div class="form-group">
-            <button class="btn btn-primary" style="position: absolute;right: 0px;">SEND</button>
-        </div>
-    </form:form>
+        <form:form action="contact-with-admin" method="post" commandName="userMessage"
+                   cssStyle="width: 500px; position: relative;">
+            <br>
+
+            <div class="form-group">
+                <form:input path="name" cssClass="form-control floating-label"
+                            placeholder="Name"/>
+            </div>
+            <br>
+
+            <div class="form-group">
+                    <%--<input class="form-control floating-label" type="email" placeholder="Email" required>--%>
+                <form:input path="email" class="form-control floating-label"
+                            placeholder="Email"/>
+            </div>
+            <br>
+
+            <div class="form-group">
+                    <%--<input class="form-control floating-label" type="text" placeholder="Message" required>--%>
+                <form:input path="message" cssClass="form-control floating-label "
+                            placeholder="Message"/>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" style="position: absolute;right: 0px;">SEND</button>
+            </div>
+        </form:form>
+    </div>
 </div>
 </body>
 </html>

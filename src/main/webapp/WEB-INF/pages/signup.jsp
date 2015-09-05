@@ -29,7 +29,19 @@
 
                 <form:password path="confirmPassword" cssClass="form-control floating-label size-form-control"
                                placeholder="Confirm password"/>
-                <form:errors path="confirmPassword" cssClass="text-danger"/><br/>
+                <form:errors path="confirmPassword" cssClass="text-danger"/>
+
+                <form:input path="firstName" cssClass="form-control floating-label size-form-control"
+                               placeholder="First name"/>
+                <form:errors path="firstName" cssClass="text-danger"/>
+
+                <form:input path="lastName" cssClass="form-control floating-label size-form-control"
+                               placeholder="Last name"/>
+                <form:errors path="lastName" cssClass="text-danger"/>
+
+                <form:input path="email" cssClass="form-control floating-label size-form-control"
+                               placeholder="Email"/>
+                <form:errors path="email" cssClass="text-danger"/><br/>
                 <input type="submit" name="login-submit" id="login-submit" class="btn btn-primary" tabindex="4"/>
             </div>
         </form:form>

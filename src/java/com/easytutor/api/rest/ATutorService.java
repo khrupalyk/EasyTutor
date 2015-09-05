@@ -65,24 +65,62 @@ public class ATutorService {
 
             List<TestsQuestions> testsQuestions = new ArrayList<>();
 
+
+            List<Answer> currentAnswers = new ArrayList<>();
+
             for (QuestionInfo question : questions.stream().distinct().collect(Collectors.toList())) {
                 Question questionObj = new Question(question.getQuestion().trim(), question.getQuestionHeader());
                 Answer selectedAnswer = new Answer(question.getAnswer().trim());
+                selectedAnswer.setId(UUID.randomUUID());
                 List<String> answers = question.getAnswers();
 
                 questionDAO.saveOrUpdate(questionObj);
+                TestsQuestions testsQuestions1 = null;
+
+                if(currentAnswers.contains(selectedAnswer)) {
+
+                    for (Answer currentAnswer : currentAnswers) {
+                        if (currentAnswer.getContent().equals(selectedAnswer.getContent())) {
+                            testsQuestions1 = createTestQuestions(test, questionObj, currentAnswer);
+                            break;
+                        }
+                    }
+
+                } else {
+                    answerDAO.storeAnswer(selectedAnswer);
+                    currentAnswers.add(selectedAnswer);
+                    testsQuestions1 = createTestQuestions(test, questionObj, selectedAnswer);
+
+                }
+
+
 
                 List<QuestionsAnswers> answersList = new ArrayList<>();
+
                 for (String answer : answers.stream().distinct().map(String::trim).collect(Collectors.toList())) {
                     Answer answerObj = new Answer(answer);
-                    answerDAO.saveOrUpdate(answerObj);
-                    answersList.add(createQuestionsAnswers(questionObj, answerObj, testId));
+                    answerObj.setId(UUID.randomUUID());
+
+                    if(currentAnswers.contains(answerObj)) {
+
+                        for (Answer currentAnswer : currentAnswers) {
+                            if (currentAnswer.getContent().equals(answerObj.getContent())) {
+                                answersList.add(createQuestionsAnswers(questionObj, currentAnswer, testId));
+                            }
+                        }
+
+                    } else {
+                        answerDAO.storeAnswer(answerObj);
+                        currentAnswers.add(answerObj);
+                        answersList.add(createQuestionsAnswers(questionObj, answerObj, testId));
+                    }
+
                 }
 
                 questionObj.setQuestionsAnswers(answersList);
                 questionDAO.saveOrUpdate(questionObj);
 
-                TestsQuestions testsQuestions1 = createTestQuestions(test, questionObj, selectedAnswer);
+
                 testsQuestions.add(testsQuestions1);
                 questionObj.getTestsQuestions().add(testsQuestions1);
 
@@ -97,7 +135,7 @@ public class ATutorService {
         new Thread(task2).start();
 
 
-        return Response.ok().header("Access-Control-Allow-Origin", "*").build();
+        return Response.ok().build();
     }
 
 
@@ -172,7 +210,7 @@ public class ATutorService {
 
 
     @OPTIONS
-    @Path("/*")
+    @Path("/")
     public Response getOptions() {
         return Response.ok()
                 .header("Access-Control-Allow-Origin", "*")

@@ -27,4 +27,6 @@ public interface AnswerDAO {
     void setCorrectAnswer(UUID testId, String qustion, String answer);
 
     List<FoundAnswer> getAnswersByInfo(String testName, String discipline,  Optional<Integer> courseOpt, Optional<String> groupOpt, List<String> questions);
+
+    Answer checkIfObjectExist(String answer);
 }

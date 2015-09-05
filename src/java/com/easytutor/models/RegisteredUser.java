@@ -13,6 +13,8 @@ public class RegisteredUser implements Serializable {
     private String password;
     private String email;
     private String confirmPassword;
+    private String firstName;
+    private String lastName;
 
     public String getUsername() {
         return username;
@@ -22,6 +24,7 @@ public class RegisteredUser implements Serializable {
         this.username = username;
     }
 
+    @Length(min = 6, max = 20)
     public String getPassword() {
         return password;
     }
@@ -38,12 +41,28 @@ public class RegisteredUser implements Serializable {
         this.email = email;
     }
 
-//    @Length(min = 6, max = 12)
+    @Length(min = 6, max = 20)
     public String getConfirmPassword() {
         return confirmPassword;
     }
 
     public void setConfirmPassword(String confirmedPassword) {
         this.confirmPassword = confirmedPassword;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

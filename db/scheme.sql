@@ -34,29 +34,30 @@ CREATE TABLE questions (
 );
 
 CREATE TABLE answers (
-  content VARCHAR(250),
-  PRIMARY KEY (content)
+  id BINARY(16),
+  content TEXT,
+  PRIMARY KEY (id)
 );
 
 CREATE TABLE questions_answers (
   question_name  VARCHAR(250),
-  answer_content VARCHAR(250),
+  answer_content BINARY(16),
   test_id        BINARY(16),
   PRIMARY KEY (question_name, answer_content, test_id),
   CONSTRAINT FK_QUESTIONS_ANSWERS_QUESTION_ID FOREIGN KEY (question_name) REFERENCES questions (name),
-  CONSTRAINT FK_QUESTIONS_ANSWERS_ANSWER_ID FOREIGN KEY (answer_content) REFERENCES answers (content)
+  CONSTRAINT FK_QUESTIONS_ANSWERS_ANSWER_ID FOREIGN KEY (answer_content) REFERENCES answers (id)
 );
 
 CREATE TABLE tests_questions (
   test_id           BINARY(16),
   question_name     VARCHAR(250),
-  answer_content    VARCHAR(250),
+  answer_content    BINARY(16),
   is_correct        BOOL    DEFAULT FALSE,
   exist_correct     BOOLEAN DEFAULT FALSE,
   new_correct_answer VARCHAR(250),
   PRIMARY KEY (test_id, question_name, answer_content),
   CONSTRAINT FK_TESTS_QUESTIONS_TEST_ID FOREIGN KEY (test_id) REFERENCES tests (test_id),
-  CONSTRAINT FK_TESTS_QUESTIONS_ANSWER_ID FOREIGN KEY (answer_content) REFERENCES answers (content),
+  CONSTRAINT FK_TESTS_QUESTIONS_ANSWER_ID FOREIGN KEY (answer_content) REFERENCES answers (id),
   CONSTRAINT FK_TESTS_QUESTIONS_QUESTION_ID FOREIGN KEY (question_name) REFERENCES questions (name)
 );
 
@@ -71,7 +72,10 @@ CREATE TABLE tests_results (
 CREATE TABLE users (
   name     VARCHAR(30) PRIMARY KEY,
   password TEXT,
-  enabled  BOOL
+  enabled  BOOL,
+  email TEXT,
+  first_name TEXT,
+  last_name TEXT
 );
 
 CREATE TABLE users_roles (
@@ -85,12 +89,12 @@ CREATE TABLE proposed_answers(
   proposed_answer_id INT AUTO_INCREMENT PRIMARY KEY,
   test_id BINARY(16),
   question VARCHAR(250),
-  answer VARCHAR(250),
+  answer BINARY(16),
   user_name VARCHAR(30),
   submission_time TIMESTAMP,
   CONSTRAINT FK_PROPOSED_ANSWER_TEST_ID FOREIGN KEY (test_id) REFERENCES tests(test_id),
   CONSTRAINT FK_PROPOSED_ANSWER_QUESTION FOREIGN KEY (question) REFERENCES questions(name),
-  CONSTRAINT FK_PROPOSED_ANSWER_ANSWER FOREIGN KEY (answer) REFERENCES answers(content),
+  CONSTRAINT FK_PROPOSED_ANSWER_ANSWER FOREIGN KEY (answer) REFERENCES answers(id),
   CONSTRAINT FK_PROPOSED_ANSWER_USER_NAME FOREIGN KEY (user_name) REFERENCES users(name)
 );
 

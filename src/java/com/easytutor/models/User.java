@@ -14,6 +14,9 @@ import java.util.List;
 public class User implements Serializable {
     private String username;
     private String password;
+    private String firstName;
+    private String lastName;
+    private String email;
     private boolean enabled;
     private List<UserRole> roles = new ArrayList<>();
 
@@ -62,5 +65,32 @@ public class User implements Serializable {
                 ", enabled=" + enabled +
                 ", roles=" + roles +
                 '}';
+    }
+
+    @Column(name = "first_name")
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    @Column(name = "last_name")
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    @Column(name = "email")
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

@@ -89,15 +89,15 @@
             <param-value>true</param-value>
         </init-param>
     </filter>
-    <filter>
-        <filter-name>cors</filter-name>
-        <filter-class>com.easytutor.utils.CORSFilter</filter-class>
-    </filter>
+    <!--<filter>-->
+        <!--<filter-name>cors</filter-name>-->
+        <!--<filter-class>com.easytutor.utils.CORSFilter</filter-class>-->
+    <!--</filter>-->
 
-    <filter-mapping>
-        <filter-name>cors</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
+    <!--<filter-mapping>-->
+        <!--<filter-name>cors</filter-name>-->
+        <!--<url-pattern>/*</url-pattern>-->
+    <!--</filter-mapping>-->
 
     <filter-mapping>
         <filter-name>characterEncodingFilter</filter-name>
@@ -131,36 +131,9 @@
         <location>/error</location>
     </error-page>
 
-    <error-page>
-        <error-code>404</error-code>
-        <location>/error</location>
-    </error-page>
-
-
-    <!-- With Servlet 3.0 and above general error page is possible -->
     <!--<error-page>-->
+        <!--<error-code>404</error-code>-->
         <!--<location>/error</location>-->
     <!--</error-page>-->
 
-    <!--<servlet-mapping>-->
-    <!--<servlet-name>Faces Servlet</servlet-name>-->
-    <!--<url-pattern>/faces/*</url-pattern>-->
-    <!--</servlet-mapping>-->
-    <!--<servlet-mapping>-->
-    <!--<servlet-name>Faces Servlet</servlet-name>-->
-    <!--<url-pattern>*.jsf</url-pattern>-->
-    <!--</servlet-mapping>-->
-    <!--<servlet-mapping>-->
-    <!--<servlet-name>Faces Servlet</servlet-name>-->
-    <!--<url-pattern>*.faces</url-pattern>-->
-    <!--</servlet-mapping>-->
-    <!--<servlet-mapping>-->
-    <!--<servlet-name>Faces Servlet</servlet-name>-->
-    <!--<url-pattern>*.xhtml</url-pattern>-->
-    <!--</servlet-mapping>-->
-
-
-    <!--<welcome-file-list>-->
-    <!--<welcome-file>faces/index.jsp</welcome-file>-->
-    <!--</welcome-file-list>-->
 </web-app>

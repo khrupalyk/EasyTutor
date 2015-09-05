@@ -57,6 +57,9 @@ public class LoginController {
         newUSer.setEnabled(true);
         newUSer.setPassword(user.getPassword());
         newUSer.setUsername(user.getUsername());
+        newUSer.setFirstName(user.getFirstName());
+        newUSer.setLastName(user.getLastName());
+        newUSer.setEmail(user.getEmail());
 
         userDAO.addUser(newUSer);
         return new ModelAndView("WEB-INF/pages/signupComplete");

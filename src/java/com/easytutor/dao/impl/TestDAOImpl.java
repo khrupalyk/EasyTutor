@@ -12,6 +12,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.StandardBasicTypes;
 import org.hibernate.type.Type;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -21,6 +22,8 @@ import java.util.stream.Stream;
 /**
  * Created by root on 26.06.15.
  */
+
+@Repository
 public class TestDAOImpl implements TestDAO {
 
     private SessionFactory sessionFactory;

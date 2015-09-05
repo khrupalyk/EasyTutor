@@ -188,6 +188,14 @@ public class AnswerDAOImpl implements AnswerDAO {
 
     }
 
+    @Override
+    public Answer checkIfObjectExist(String answer) {
+        Session session = sessionFactory.openSession();
+        Answer ans = (Answer)session.createQuery("from Answer a where a.content = :content").setParameter("content", answer).uniqueResult();
+        session.close();
+        return ans;
+    }
+
     private FoundAnswer createStatisticForFoundAnswer(List<TestsQuestions> testsQuestions) {
 
         FoundAnswer foundAnswer = new FoundAnswer();
