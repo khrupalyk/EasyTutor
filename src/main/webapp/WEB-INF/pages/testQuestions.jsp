@@ -63,8 +63,10 @@
             <div class="panel-body">
                 ${test.name} <br/>
                 ${test.discipline}<br/>
-                ${test.group}-${test.course}<br/>
-                ${test.submissionTime}<br/>
+                <c:if test="${not (empty test.group.trim() or test.course == 0)}">
+                    ${test.group}-${test.course}<br/>
+                </c:if>
+                Submission time ${test.submissionTime}<br/>
                 <c:if test="${test.testResult != null}">
                     ${test.testResult}<br/>
                 </c:if>
