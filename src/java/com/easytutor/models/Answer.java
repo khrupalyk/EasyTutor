@@ -25,6 +25,11 @@ public class Answer implements Serializable {
     public Answer() {
     }
 
+    public Answer(UUID id, String content) {
+        this.id = id;
+        this.content = content;
+    }
+
     public Answer(String content) {
         this.content = content;
     }

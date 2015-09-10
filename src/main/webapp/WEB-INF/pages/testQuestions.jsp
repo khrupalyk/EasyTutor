@@ -46,8 +46,11 @@
                             <li class="${answer.content.equals(testsQuestion.selectedAnswer.content) ? "active_choice selected" : "active_choice active"}" style="padding-bottom:  30px;">
 
                                 <div class="lastUnit" style="position: absolute; width: 580px;"
-                                     count="${answer.selectedCount}" questionName="${testsQuestion.question.name}">
-                                    <c:out value="${answer.content}"/></div>
+                                     count="${answer.selectedCount}">
+                                    <%--<div style="display: none" class="question_name_">${testsQuestion.question.name}</div>--%>
+                                    <%--<div class="answer_"><c:out value="${answer.content}"/></div>--%>
+                                    <c:out value="${answer.content}"/>
+                                </div>
                                 <div class="qq"></div>
                             </li>
                         </c:forEach>
@@ -138,9 +141,10 @@
 
     sturtup();
     $(".lastUnit").click(function () {
-        var question = $(this).attr("questionName");
-        var answer = $(this).text().trim();
-        var obj = {question: question, testId: "${testId}", answer: $(this).text().trim()};
+        console.log("Questionin div: " +  $(this).find(".answer_").html().trim() ) ;
+        var question = $(this).find(".question_name_").html().trim();
+        var answer = $(this).find(".answer_").html().trim();
+        var obj = {question: question, testId: "${testId}", answer: answer};
         console.log("Send object: " + JSON.stringify(obj));
         var parent = $(this).parent().parent();
 

@@ -56,7 +56,7 @@ public class Question implements java.io.Serializable {
     }
 
     @Id
-    @Column(name = "name", unique = true, nullable = false, length = 20)
+    @Column(name = "name", unique = true, nullable = false)
     public String getName() {
         return this.name;
     }

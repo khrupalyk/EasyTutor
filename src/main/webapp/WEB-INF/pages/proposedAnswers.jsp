@@ -80,7 +80,7 @@
                                     .replace("testIdUUID", objects[i].answers[j].testId)
                                     .replace("positionInArrayInt", i + "|" + j)
                                     .replace("proposIdInt", objects[i].answers[j].proposedAnswerId)
-                                    .replace("test_link", '/easytutor/test/' + objects[i].answers[j].testId + "/questions#" + objects[i].answers[j].question.replace(" ", "_"));
+                                    .replace("test_link", '/test/' + objects[i].answers[j].testId + "/questions#" + objects[i].answers[j].question.replace(" ", "_"));
                         }
                         $("#proposed-answers-panel").html(sumTemplate);
                     }

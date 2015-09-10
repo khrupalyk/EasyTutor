@@ -48,6 +48,17 @@ public class AnswerDAOImpl implements AnswerDAO {
     }
 
     @Override
+    public Answer getAnswer(String content) {
+        Answer answer;
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        answer = (Answer)session.createQuery("from Answer where content = :content").setParameter("content", content).uniqueResult();
+        session.getTransaction().commit();
+        session.close();
+        return answer;
+    }
+
+    @Override
     public void saveOrUpdate(Answer answer) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();

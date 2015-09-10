@@ -192,9 +192,11 @@ public class TestsController {
             return "";
         }).orElseGet(() -> {
             ProposedAnswer proposedAnswer = new ProposedAnswer();
-            proposedAnswer.setQuestion(new Question(question, ""));
+            System.out.println(question);
+            proposedAnswer.setQuestion(new Question(question.trim(), ""));
             proposedAnswer.setTest(new Test(UUID.fromString(testId)));
-            proposedAnswer.setAnswer(new Answer(answer));
+            System.out.println("Answer:------------------------------------------- " + answerDAO.getAnswer(answer));
+            proposedAnswer.setAnswer(answerDAO.getAnswer(answer));
             jo.put("status", 0).put("action", "proposed");
             proposedAnswerDAO.addProposedAnswer(proposedAnswer);
             return "";
@@ -231,12 +233,17 @@ public class TestsController {
             map.forEach((discipline, questions) -> {
 
                 questions.forEach(e -> {
-                    JSONObject joSub = new JSONObject();
-                    joSub.put("answer", e.getAnswer().getContent());
-                    joSub.put("question", e.getQuestion().getName());
-                    joSub.put("testId", e.getTest().getTestId());
-                    joSub.put("proposedAnswerId", e.getId());
-                    subArray.put(joSub);
+                    try{
+
+                        JSONObject joSub = new JSONObject();
+                        joSub.put("answer", e.getAnswer().getContent());
+                        joSub.put("question", e.getQuestion().getName());
+                        joSub.put("testId", e.getTest().getTestId());
+                        joSub.put("proposedAnswerId", e.getId());
+                        subArray.put(joSub);
+                    } catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                 });
                 sb.append(discipline).append(", ");
             });
@@ -261,7 +268,7 @@ public class TestsController {
         ProposedAnswer proposedAnswer = new ProposedAnswer();
         proposedAnswer.setTest(new Test(UUID.fromString(testid)));
         proposedAnswer.setQuestion(new Question(question, ""));
-        proposedAnswer.setAnswer(new Answer(answer));
+        proposedAnswer.setAnswer(answerDAO.getAnswer(answer));
         proposedAnswer.setId(id);
 
         proposedAnswerDAO.acceptProposedAnswer(proposedAnswer);

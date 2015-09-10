@@ -12,6 +12,9 @@ import java.util.UUID;
  * Created by Andrii on 6/25/15.
  */
 public interface AnswerDAO {
+
+    Answer getAnswer(String content);
+
     void saveOrUpdate(Answer answer);
 
     void storeAnswer(Answer answer);

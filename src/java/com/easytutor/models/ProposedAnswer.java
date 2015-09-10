@@ -18,7 +18,6 @@ public class ProposedAnswer implements Serializable {
     private Test test;
     private Question question;
     private Answer answer;
-    private User user;
     private Date submissionTime;
 
     @Id
@@ -53,7 +52,7 @@ public class ProposedAnswer implements Serializable {
         this.question = question;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "answer")
     public Answer getAnswer() {
         return answer;

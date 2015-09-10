@@ -99,3 +99,9 @@ CREATE TABLE proposed_answers(
 );
 
 
+INSERT INTO users(name, password, enabled) VALUES ("user", "user", true);
+INSERT INTO users(name, password, enabled) VALUES ("admin", "admin", true);
+INSERT INTO users_roles(role, user_name)  VALUES ("ROLE_USER", "admin");
+INSERT INTO users_roles(role, user_name)  VALUES ("ROLE_ADMIN", "admin");
+INSERT INTO users_roles(role, user_name)  VALUES ("ROLE_USER", "user");
+
