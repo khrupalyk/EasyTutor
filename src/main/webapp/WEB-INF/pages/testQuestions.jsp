@@ -47,9 +47,9 @@
 
                                 <div class="lastUnit" style="position: absolute; width: 580px;"
                                      count="${answer.selectedCount}">
-                                    <%--<div style="display: none" class="question_name_">${testsQuestion.question.name}</div>--%>
-                                    <%--<div class="answer_"><c:out value="${answer.content}"/></div>--%>
-                                    <c:out value="${answer.content}"/>
+                                    <div style="display: none" class="question_name_">${testsQuestion.question.name}</div>
+                                    <div class="answer_"><c:out value="${answer.content}"/></div>
+                                    <%--<c:out value="${answer.content}"/>--%>
                                 </div>
                                 <div class="qq"></div>
                             </li>
@@ -134,6 +134,8 @@
                 if($(this).attr("is-correct") === "false" && $(this).next().hasClass("selected") && hasAnyCorrect) {
                     $(this).next().addClass("wrong_answer");
                     $(this).next().find(".qq").addClass("hide");
+                } else if(hasAnyCorrect && $(this).attr("is-correct") === "true") {
+                    $(this).next().addClass("btn-material-green-500");
                 }
             })
         })
@@ -162,7 +164,7 @@
                             $(this).next().find(".qq").addClass("hide");
                         }
 
-                        if ($(this).next().text().trim() === answer) {
+                        if ($(this).next().find(".answer_").text().trim() === answer) {
                             $(this).css("display", "");
                             if ($(this).next().hasClass("selected")){
                                 $(this).next().removeClass("wrong_answer");
@@ -191,7 +193,7 @@
             } else {
                 cleanStatistic();
             }
-        },500)
+        },100)
 
     });
 
