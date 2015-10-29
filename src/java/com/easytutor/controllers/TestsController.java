@@ -4,7 +4,6 @@ import com.easytutor.dao.AnswerDAO;
 import com.easytutor.dao.ProposedAnswerDAO;
 import com.easytutor.dao.QuestionDAO;
 import com.easytutor.dao.TestDAO;
-import com.easytutor.models.Answer;
 import com.easytutor.models.ProposedAnswer;
 import com.easytutor.models.Question;
 import com.easytutor.models.Test;
@@ -12,21 +11,17 @@ import com.easytutor.utils.ApplicationContextProvider;
 import com.easytutor.utils.UsersRoles;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.*;
-import java.util.logging.Logger;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -280,12 +275,25 @@ public class TestsController {
     public
     @ResponseBody
     String rejectProposedAnswer(@RequestParam("id") int id) {
-
         ProposedAnswer proposedAnswer = new ProposedAnswer();
         proposedAnswer.setId(id);
 
         proposedAnswerDAO.rejectProposedAnswer(proposedAnswer);
 
         return "";
+    }
+
+    @RequestMapping(value = "chrome-extension-info")
+    public String getChromeExtensionInfo() {
+        return "WEB-INF/pages/chrome-extension";
+    }
+
+    @RequestMapping(value = "chrome-extension.crx", produces = "application/anknown")
+    @ResponseBody
+    public FileSystemResource getChromeExtension() {
+
+
+        System.out.println( getClass().getClassLoader().getResource("Extension-ATutor.crx").getPath());
+        return new FileSystemResource(new File(getClass().getClassLoader().getResource("Extension-ATutor.crx").getPath()));
     }
 }

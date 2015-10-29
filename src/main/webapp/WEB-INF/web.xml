@@ -90,13 +90,13 @@
         </init-param>
     </filter>
     <!--<filter>-->
-        <!--<filter-name>cors</filter-name>-->
-        <!--<filter-class>com.easytutor.utils.CORSFilter</filter-class>-->
+    <!--<filter-name>cors</filter-name>-->
+    <!--<filter-class>com.easytutor.utils.CORSFilter</filter-class>-->
     <!--</filter>-->
 
     <!--<filter-mapping>-->
-        <!--<filter-name>cors</filter-name>-->
-        <!--<url-pattern>/*</url-pattern>-->
+    <!--<filter-name>cors</filter-name>-->
+    <!--<url-pattern>/*</url-pattern>-->
     <!--</filter-mapping>-->
 
     <filter-mapping>
@@ -130,10 +130,14 @@
         <error-code>403</error-code>
         <location>/error</location>
     </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/not-found</location>
+    </error-page>
 
     <!--<error-page>-->
-        <!--<error-code>404</error-code>-->
-        <!--<location>/error</location>-->
+    <!--<error-code>404</error-code>-->
+    <!--<location>/error</location>-->
     <!--</error-page>-->
 
 </web-app>

@@ -12,7 +12,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
+import java.util.*;
+import javax.mail.*;
+import javax.mail.internet.*;
+import javax.activation.*;
 /**
  * Created by root on 17.06.15.
  */
@@ -74,9 +77,44 @@ public class LoginController {
     }
 
     @RequestMapping(value = "contact-with-admin", method = RequestMethod.POST)
-    public String registerNewMessage(@ModelAttribute("user") @Validated  UserMessage userMessage){
+    public String registerNewMessage(@ModelAttribute("userMessage") @Validated  UserMessage userMessage){
 
         System.out.println(userMessage);
+
+        final String username = "easyturor@gmail.com";
+        final String password = "moskit22212";
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
+
+        try {
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("easytutor@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse("khrupalik@gmail.com"));
+            message.setSubject("EasyTutor");
+            message.setText("User " + userMessage.getName() + ", with email " + userMessage.getEmail() + " Send message: " + userMessage.getMessage());
+
+            Transport.send(message);
+
+            System.out.println("Done");
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+
+
         //TODO Send message to my email
 
         return "/WEB-INF/pages/sendMessageComplete";
@@ -110,6 +148,12 @@ public class LoginController {
     public String accessDenied(){
 
         return "/WEB-INF/pages/accessDenied";
+    }
+
+    @RequestMapping(value = "not-found")
+    public String notFound(){
+
+        return "/WEB-INF/pages/notFound";
     }
 
 }
