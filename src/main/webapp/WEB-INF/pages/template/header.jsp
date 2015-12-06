@@ -28,8 +28,10 @@
         <%--</li>--%>
         <li><a href="<%=request.getContextPath()%>/tests">Тести</a></li>
         <li><a href="<c:url value='/contact'/>">Звязатися із адміністрацією</a></li>
+        <li><a href="<c:url value='/chrome-extension-info'/>">Завантажити розширення</a></li>
         <sec:authorize access="hasRole('ROLE_ADMIN')">
           <li><a href="<c:url value='/proposed-answers'/>">Запропоновані відповіді</a></li>
+          <li><a href="<c:url value='/users'/>">Користувачі</a></li>
         </sec:authorize>
       </ul>
       <ul class="nav navbar-nav navbar-right">

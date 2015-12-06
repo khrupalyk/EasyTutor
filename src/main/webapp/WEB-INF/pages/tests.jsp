@@ -39,7 +39,8 @@
                data-query-params="queryParams"
                data-pagination="true"
                data-search="true"
-               data-height="600"
+               data-height="800"
+               data-page-size="25"
                data-page-list="[50, 100, 200]">
             <thead>
             <tr>

@@ -85,7 +85,7 @@ public class TestDAOImpl implements TestDAO {
     @Override
     public List<Test> getAllTests() {
         Session session = sessionFactory.openSession();
-        List<Test> testList = session.createQuery("from Test").list();
+        List<Test> testList = session.createQuery("from Test t where t.visible = true").list();
         session.close();
         return testList;
     }
@@ -127,6 +127,7 @@ public class TestDAOImpl implements TestDAO {
     public List<Test> getUniqueTests() {
         Session session = sessionFactory.openSession();
         List results = session.createCriteria(Test.class)
+                .add(Restrictions.eq("visible", true))
                 .setProjection(Projections.projectionList()
                                 .add(Projections.groupProperty("course"), "course")
                                 .add(Projections.groupProperty("group"), "group")

@@ -126,14 +126,14 @@
         <location>/error</location>
     </error-page>
 
-    <error-page>
-        <error-code>403</error-code>
-        <location>/error</location>
-    </error-page>
-    <error-page>
-        <error-code>404</error-code>
-        <location>/not-found</location>
-    </error-page>
+    <!--<error-page>-->
+        <!--<error-code>403</error-code>-->
+        <!--<location>/error</location>-->
+    <!--</error-page>-->
+    <!--<error-page>-->
+        <!--<error-code>404</error-code>-->
+        <!--<location>/not-found</location>-->
+    <!--</error-page>-->
 
     <!--<error-page>-->
     <!--<error-code>404</error-code>-->

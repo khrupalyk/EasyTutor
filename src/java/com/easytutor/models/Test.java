@@ -23,6 +23,7 @@ public class Test implements java.io.Serializable {
     private TestResult testResult;
     private UserATutor userATutor;
     private Integer testCount;
+    private boolean visible = true;
 
     public Test() {
     }
@@ -149,5 +150,13 @@ public class Test implements java.io.Serializable {
                 ", userATutor=" + userATutor +
                 ", testCount=" + testCount +
                 '}';
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 }

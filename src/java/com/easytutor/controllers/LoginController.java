@@ -6,16 +6,19 @@ import com.easytutor.models.User;
 import com.easytutor.models.UserMessage;
 import com.easytutor.utils.ApplicationContextProvider;
 import com.easytutor.validators.UserFormValidator;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
 import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
 import javax.activation.*;
+
 /**
  * Created by root on 17.06.15.
  */
@@ -31,9 +34,14 @@ public class LoginController {
         return "WEB-INF/pages/index";
     }
 
+    @RequestMapping({"/not-found"})
+    public String goToNofFound() {
+        return "WEB-INF/pages/notFound";
+    }
+
 
     @RequestMapping("/signup")
-    public ModelAndView signupTO(){
+    public ModelAndView signupTO() {
 
         ModelAndView modelAndView = new ModelAndView("WEB-INF/pages/signup");
 
@@ -50,9 +58,9 @@ public class LoginController {
 
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public ModelAndView signup(@ModelAttribute("user")  @Validated RegisteredUser user, BindingResult bindingResult){
+    public ModelAndView signup(@ModelAttribute("user") @Validated RegisteredUser user, BindingResult bindingResult) {
 
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return new ModelAndView("WEB-INF/pages/signup");
         }
 
@@ -77,7 +85,7 @@ public class LoginController {
     }
 
     @RequestMapping(value = "contact-with-admin", method = RequestMethod.POST)
-    public String registerNewMessage(@ModelAttribute("userMessage") @Validated  UserMessage userMessage){
+    public String registerNewMessage(@ModelAttribute("userMessage") @Validated UserMessage userMessage) {
 
         System.out.println(userMessage);
 
@@ -138,22 +146,27 @@ public class LoginController {
         return model;
 
     }
+
     @RequestMapping(value = "error")
-    public String error(){
+    public String error() {
 
         return "/WEB-INF/pages/internalServerError";
     }
 
     @RequestMapping(value = "access-denied")
-    public String accessDenied(){
+    public String accessDenied() {
 
         return "/WEB-INF/pages/accessDenied";
     }
 
-    @RequestMapping(value = "not-found")
-    public String notFound(){
+    @Secured("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value = "users")
+    public ModelAndView getAllUsers() {
+        ModelAndView modelAndView = new ModelAndView("WEB-INF/pages/users");
 
-        return "/WEB-INF/pages/notFound";
+        modelAndView.addObject("users", userDAO.getAllUsers());
+        return modelAndView;
     }
+
 
 }

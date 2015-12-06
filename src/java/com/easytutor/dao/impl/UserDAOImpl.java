@@ -9,6 +9,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
+import java.util.Collection;
+import java.util.List;
+
 /**
  * Created by root on 23.07.15.
  */
@@ -54,5 +57,13 @@ public class UserDAOImpl implements UserDAO {
                 .uniqueResult() != null;
         session.close();
         return exist;
+    }
+
+    @Override
+    public Collection<User> getAllUsers() {
+        Session session = sessionFactory.openSession();
+        List<User> list = session.createCriteria(User.class).list();
+        session.close();
+        return list;
     }
 }

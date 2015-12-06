@@ -16,8 +16,7 @@
 <%@include file="template/header.jsp" %>
 
   <div class="jumbotron" style="margin: 0 auto; width: 60%;">
-    <span style="font-size: 21px">Щоб використовувати систему EasyTutor під час здачі тесту потрібно встановити <a href="/chrome-extension.crx">це розширення (для Google Chrome).</a> <br/>
-      Щоб встановити це розширення просто перетягніть його на сторінку із розширеннями в налаштуваннях браузера.<br/>
+    <span style="font-size: 21px">Щоб використовувати систему EasyTutor під час здачі тесту потрібно встановити <a href="https://chrome.google.com/webstore/detail/easytutor/dfamdglnaaaafifecgimadpdohiklgnk?hl=uk">це розширення (для Google Chrome).</a> <br/>
     Після встановлення плагіна можете сміло користувася ним! <br/>Для цього просто натистніть на питання яке вас цікавить, і ви отримаєте одне із декількох повідомлень.<br/>
     Якщо питання є у системі ви отримаєте коротку статистику по вибраних відповідях.</span> <br/><br/>
     <img src="../../resources/image/ExistInDatabase.PNG" style="max-width: 700px; margin: 0 auto" /><br/><br/>

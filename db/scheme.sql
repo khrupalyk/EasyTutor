@@ -23,6 +23,7 @@ CREATE TABLE tests (
   course          INT,
   submission_time DATETIME,
   atutor_user_id  VARCHAR(100),
+  visible         BOOL DEFAULT true,
   PRIMARY KEY (test_id),
   CONSTRAINT FK_TESTS_ATUTOR_USER_ID FOREIGN KEY (atutor_user_id) REFERENCES users_atutor (name)
 );

@@ -4,10 +4,10 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="connection.url">jdbc:mysql://localhost:3306/easytutor?useUnicode=true&amp;characterEncoding=utf8</property>
+        <property name="connection.url">jdbc:mysql://52.11.29.44:3306/easytutor?useUnicode=true&amp;characterEncoding=utf8</property>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.username">root</property>
-        <property name="connection.password">111111</property>
+        <property name="connection.username">eusername</property>
+        <property name="connection.password">password</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="show_sql">false</property>
         <!-- DB schema will be updated if needed -->
